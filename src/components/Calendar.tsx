@@ -52,8 +52,21 @@ export default function Calendar() {
 		<div>
 			<div className="flex space-x-6">
 				{days.map((day, index) =>
-					<div key={index}>
+					<div key={index} className="w-6 h-6 text-center">
 						{day}
+					</div>
+				)}
+			</div>
+			<div>
+				{makeMonthArr(nowDate).map((week, index) =>
+					<div key={index} className="flex space-x-6" onScroll={(e) => {
+						console.log(e);
+					}}>
+						{week.map((day, index) =>
+							<div key={index} className="w-6 h-6 text-center">
+								{day}
+							</div>
+						)}
 					</div>
 				)}
 			</div>
