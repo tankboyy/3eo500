@@ -1,10 +1,17 @@
-export const weightList = {
-	"등": ["데드리프트",
+export type WeightListType = {
+	[key: string]: string[];
+}
+
+
+export const weightList: WeightListType = {
+	"등": [
+		"데드리프트",
 		"랫 풀 다운",
 		"턱걸이",
 		"바벨 로우",
 		"케이블 로우",
-		"바벨 풀오버"],
+		"바벨 풀오버"
+	],
 	"가슴": [
 		"벤치 프레스",
 		"딥스",
