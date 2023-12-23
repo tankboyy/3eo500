@@ -10,7 +10,6 @@ export default function Calendar() {
 	const [nowDate, setNowDate] = useState(new Date());
 	const [nowMonth, setNowMonth] = useState(nowDate.getMonth());
 	const [selectDay, setSelectDay] = useState(dayjs(new Date()).format('YYYY-MM-DD'));
-
 	const [monthArr, setMonthArr] = useState<string[][]>();
 
 	useEffect(() => {
@@ -19,7 +18,7 @@ export default function Calendar() {
 
 
 	return (
-		<div className="flex flex-col justify-center">
+		<div className="flex flex-col justify-center border-b-4 pb-[10px] w-full px-[10px]">
 			<div className="flex justify-between">
 				<button className="" onClick={() => {
 					setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate()));
@@ -33,7 +32,7 @@ export default function Calendar() {
 				}}> next
 				</button>
 			</div>
-			<div className="flex space-x-6">
+			<div className="flex justify-between py-[4px]">
 				{days.map((day, index) =>
 					<div key={index}
 							 className={`w-6 h-6 text-center ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"}`}>
@@ -43,7 +42,7 @@ export default function Calendar() {
 			</div>
 			<div>
 				{makeMonthArr(nowDate).map((week, index) =>
-					<div key={index} className="flex space-x-6">
+					<div key={index} className="flex justify-between">
 						{week.map((day, index) =>
 							<div key={index}
 									 className={`w-6 h-6 text-center cursor-pointer rounded-full hover:bg-gray-200 ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"} ${day === selectDay && "bg-gray-400"}`}

@@ -22,7 +22,6 @@ export const makeMonthArr = (date: Date) => {
 		chunks.push(monthArr.slice(i, i + 7));
 	}
 
-	console.log(chunks);
 
 	// 첫 주 시작이 일요일이 아닐 경우
 	if (chunks[0].indexOf("") === 0) {
