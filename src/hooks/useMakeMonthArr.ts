@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 
-export const makeMonthArr = (date: Date) => {
-	console.log(date);
+export const useMakeMonthArr = (date: Date) => {
 	const monthArr: string[] = [];
 	const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 	const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);

@@ -73,3 +73,5 @@ export const weightList: WeightListType = {
 		"탁구",
 	]
 };
+
+export const partNames = Object.keys(weightList);

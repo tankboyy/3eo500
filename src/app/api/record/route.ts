@@ -1,12 +1,29 @@
-export async function GET() {
+import {app, db} from "@/firebase";
+import {collection, doc, getDoc, getFirestore, setDoc} from "@firebase/firestore";
 
+export async function POST(request: Request) {
+	const uid = await request.json().then((data: { uid: string }) => data.uid);
+	console.log(uid);
 
-	return {
-		"2023-12-23": {
-			"데드리프트": {
-				weight: 100,
-				reps: 5,
-			},
-		}
+	let res: { data: {}; message: any } = {
+		message: "",
+		data: {}
 	};
+
+	const recordRef = collection(db, "record");
+	const docRef = doc(db, "record", uid);
+	await getDoc(docRef)
+		.then(async (data) => {
+			if (data.exists()) {
+				console.log("Document data:", data.data());
+				res.data = data.data();
+				res.message = "success";
+			} else {
+				// doc 생성
+				await setDoc(doc(recordRef, uid), {});
+				res.message = "초기값 생성";
+			}
+		});
+	return Response.json(res);
+
 }

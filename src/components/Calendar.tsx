@@ -2,9 +2,10 @@
 
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
-import {makeMonthArr} from "@/utils/makeMonthArr";
+import {useMakeMonthArr} from "@/hooks/useMakeMonthArr";
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
+
 
 export default function Calendar() {
 	const [nowDate, setNowDate] = useState(new Date());
@@ -12,13 +13,35 @@ export default function Calendar() {
 	const [selectDay, setSelectDay] = useState(dayjs(new Date()).format('YYYY-MM-DD'));
 	const [monthArr, setMonthArr] = useState<string[][]>();
 
+
 	useEffect(() => {
-		setMonthArr(makeMonthArr(nowDate));
+		setMonthArr(useMakeMonthArr(nowDate));
+
+		const uid = window.localStorage.getItem('uid');
+
+		async function getData() {
+			const data = await fetch("/api/record", {
+				method: 'POST',
+				body: JSON.stringify({
+					uid: uid
+				})
+			});
+			if (!data.ok) {
+				// This will activate the closest `error.js` Error Boundary
+				throw new Error('Failed to fetch data');
+			}
+			return data;
+		}
+
+
+		getData().then(async (data) => {
+			console.log(await data.json());
+		});
 	}, []);
 
 
 	return (
-		<div className="flex flex-col justify-center border-b-4 pb-[10px] w-full px-[10px]">
+		<div className="flex flex-col justify-center border-b-4 pb-[10px] w-full px-[10px] mb-[20px]">
 			<div className="flex justify-between">
 				<button className="" onClick={() => {
 					setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate()));
@@ -41,7 +64,7 @@ export default function Calendar() {
 				)}
 			</div>
 			<div>
-				{makeMonthArr(nowDate).map((week, index) =>
+				{useMakeMonthArr(nowDate).map((week, index) =>
 					<div key={index} className="flex justify-between">
 						{week.map((day, index) =>
 							<div key={index}
