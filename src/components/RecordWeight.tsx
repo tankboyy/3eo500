@@ -2,6 +2,9 @@
 
 import {useState} from "react";
 import {partNames, weightList} from "@/utils/weightList";
+import {app, db} from "@/firebase";
+import dayjs from "dayjs";
+import {doc, getDoc, updateDoc} from "@firebase/firestore";
 
 
 export type recordDataType = { reps: number; sets: number; weight: number; status: boolean };
@@ -20,6 +23,38 @@ export default function RecordWeight() {
 		weight: 0,
 		status: false
 	}]);
+
+	const onChangePart = (name: string) => {
+		setSelectPart(name);
+		setRecordName("");
+	};
+
+	async function setRecord() {
+		const uid = window.localStorage.getItem('uid');
+		if (!uid) return;
+		const Ref = doc(db, "record", uid);
+		const docSnap = await getDoc(Ref);
+
+		if (docSnap.exists()) {
+			const data = docSnap.data();
+			const nowDate = dayjs().format('YYYY-MM-DD');
+			console.log(nowDate);
+			if (data[nowDate]) {
+				await updateDoc(Ref, {
+					[nowDate]: {
+						...data[nowDate],
+						[recordName]: recordDatas
+					}
+				});
+			} else {
+				await updateDoc(Ref, {
+					[nowDate]: {
+						[recordName]: recordDatas
+					}
+				});
+			}
+		}
+	}
 
 	function removeSelection() {
 		setRecordName("");
@@ -59,7 +94,7 @@ export default function RecordWeight() {
 								{partNames.map(item => {
 									return (
 										<button key={item}
-														onClick={() => setSelectPart(item)}
+														onClick={() => onChangePart(item)}
 														className={`rounded-[10px] text-white text-[11px] h-[24px] w-[50px] bg-blue-100 ${item === selectPart && "bg-blue-400"}`}>
 											{item}
 										</button>
@@ -84,9 +119,12 @@ export default function RecordWeight() {
                         <div>
                           <div className="flex justify-between border-b-2 w-full pb-2 mb-6">
                             <span>{`${selectPart} | ${recordName}`}</span>
-                            <button className="hover:bg-red-300 w-[24px] h-[24px] rounded-full"
-                                    onClick={removeSelection}>X
-                            </button>
+                            <div>
+                              <button onClick={setRecord}>저장하기</button>
+                              <button className="hover:bg-red-300 w-[24px] h-[24px] rounded-full"
+                                      onClick={removeSelection}>X
+                              </button>
+                            </div>
                           </div>
                           <div className="px-[20px]">
                             <div className="flex justify-between">
