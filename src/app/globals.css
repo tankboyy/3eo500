@@ -27,6 +27,6 @@
 
 @layer base {
     main {
-        @apply max-w-[420px] min-h-[100dvh] bg-white flex flex-col w-[100vw] mx-auto h-screen items-center
+        @apply max-w-[420px] min-h-[100dvh] bg-white flex flex-col w-[100dvw] mx-auto h-screen items-center
     }
 }
