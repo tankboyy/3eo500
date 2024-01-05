@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import {app} from "@/firebase";
+import Provider from "@/components/Provider";
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -12,11 +12,12 @@ export default function RootLayout({
 																	 }: {
 	children: React.ReactNode
 }) {
-	const a = app;
 	return (
 		<html lang="en">
 		<body className="flex justify-center">
-		{children}
+		<Provider>
+			{children}
+		</Provider>
 		</body>
 		</html>
 	);
