@@ -5,8 +5,7 @@ export async function POST(request: Request) {
 	const uid = await request.json().then((data: { uid: string }) => data.uid);
 	console.log(uid);
 
-	let res: { data: {}; message: any } = {
-		message: "",
+	let res: { data: {}; } = {
 		data: {}
 	};
 
@@ -17,13 +16,11 @@ export async function POST(request: Request) {
 			if (data.exists()) {
 				console.log("Document data:", data.data());
 				res.data = data.data();
-				res.message = "success";
 			} else {
 				// doc 생성
 				await setDoc(doc(recordRef, uid), {});
-				res.message = "초기값 생성";
 			}
 		});
-	return Response.json(res);
+	return Response.json(res.data);
 
 }
