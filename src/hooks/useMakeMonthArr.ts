@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
-export const useMakeMonthArr = (date: Date) => {
+
+export const useMakeMonthArr = (date: Date): { day: string; isTrue: false }[][] => {
 	const monthArr: string[] = [];
 	const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 	const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -40,5 +41,6 @@ export const useMakeMonthArr = (date: Date) => {
 		}
 	}
 
-	return chunks;
+	return chunks.map((week) => week.map((day) => ({day: day, isTrue: false})));
+
 };
