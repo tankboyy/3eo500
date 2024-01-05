@@ -3,6 +3,9 @@
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import {useMakeMonthArr} from "@/hooks/useMakeMonthArr";
+import {useGetRecord} from "@/hooks/record.hooks";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {recordDataState, selectDateState} from "@/recoil/atoms";
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -10,34 +13,25 @@ const days = ['일', '월', '화', '수', '목', '금', '토'];
 export default function Calendar() {
 	const [nowDate, setNowDate] = useState(new Date());
 	const [nowMonth, setNowMonth] = useState(nowDate.getMonth());
-	const [selectDay, setSelectDay] = useState(dayjs(new Date()).format('YYYY-MM-DD'));
-	const [monthArr, setMonthArr] = useState<string[][]>();
-
+	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
+	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
+	const recordData = useRecoilValue(recordDataState);
+	useGetRecord();
 
 	useEffect(() => {
-		setMonthArr(useMakeMonthArr(nowDate));
-
-		const uid = window.localStorage.getItem('uid');
-
-		async function getData() {
-			const data = await fetch("/api/record", {
-				method: 'POST',
-				body: JSON.stringify({
-					uid: uid
-				})
+		const keys = Object.keys(recordData);
+		if (keys.length === 0) return;
+		const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
+			if (keys.includes(day.day)) {
+				return ({
+					day: day.day, isTrue: true
+				});
+			} else return ({
+				day: day.day, isTrue: false
 			});
-			if (!data.ok) {
-				// This will activate the closest `error.js` Error Boundary
-				throw new Error('Failed to fetch data');
-			}
-			return data;
-		}
-
-
-		getData().then(async (data) => {
-			console.log(await data.json());
-		});
-	}, []);
+		}));
+		setMonthArr(newMonthArr);
+	}, [recordData]);
 
 
 	return (
@@ -64,13 +58,13 @@ export default function Calendar() {
 				)}
 			</div>
 			<div>
-				{useMakeMonthArr(nowDate).map((week, index) =>
+				{monthArr?.map((week, index) =>
 					<div key={index} className="flex justify-between">
 						{week.map((day, index) =>
 							<div key={index}
-									 className={`w-6 h-6 text-center cursor-pointer rounded-full hover:bg-gray-200 ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"} ${day === selectDay && "bg-gray-400"}`}
-									 onClick={() => setSelectDay(day)}>
-								{dayjs(day).format('D')}
+									 className={`w-6 h-6 text-center cursor-pointer rounded-full hover:bg-gray-200 ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"} ${day.day === selectDate && "bg-gray-400"} ${day.isTrue && "bg-blue-300"} `}
+									 onClick={() => setSelectDate(day.day)}>
+								{dayjs(day.day).format('D')}
 							</div>
 						)}
 					</div>

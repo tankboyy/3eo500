@@ -1,13 +1,13 @@
-import Image from 'next/image';
 import Calendar from "@/components/Calendar";
-import RecordWeight from "@/components/RecordWeight";
+import Main from "@/components/Main";
 
 
-export default function Home() {
+export default async function Home() {
+
 	return (
 		<main>
 			<Calendar/>
-			<RecordWeight/>
+			<Main/>
 		</main>
 	);
 }

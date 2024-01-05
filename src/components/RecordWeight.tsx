@@ -1,28 +1,25 @@
 'use client';
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {partNames, weightList} from "@/utils/weightList";
-import {app, db} from "@/firebase";
+import {db} from "@/firebase";
 import dayjs from "dayjs";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
 
 
-export type recordDataType = { reps: number; sets: number; weight: number; status: boolean };
+export type recordDataType = { reps: number; weight: number; status: boolean };
 
 
 export default function RecordWeight() {
-	const [weightData, setWeightData] = useState();
 	const [open, setOpen] = useState(false);
-
 	const [selectPart, setSelectPart] = useState("");
 	const [recordName, setRecordName] = useState("");
-
 	const [recordDatas, setRecordDatas] = useState<recordDataType[]>([{
 		reps: 0,
-		sets: 0,
 		weight: 0,
 		status: false
 	}]);
+
 
 	const onChangePart = (name: string) => {
 		setSelectPart(name);
@@ -38,7 +35,6 @@ export default function RecordWeight() {
 		if (docSnap.exists()) {
 			const data = docSnap.data();
 			const nowDate = dayjs().format('YYYY-MM-DD');
-			console.log(nowDate);
 			if (data[nowDate]) {
 				await updateDoc(Ref, {
 					[nowDate]: {
@@ -56,6 +52,7 @@ export default function RecordWeight() {
 		}
 	}
 
+
 	function removeSelection() {
 		setRecordName("");
 	}
@@ -65,7 +62,6 @@ export default function RecordWeight() {
 			setRecordDatas(prev => {
 				return [...prev, {
 					reps: 0,
-					sets: 0,
 					weight: 0,
 					status: false
 				}];
@@ -77,20 +73,17 @@ export default function RecordWeight() {
 		}
 	};
 
+
 	return (
 		<div>
-			{!weightData && !open && <div className="flex flex-col text-[13px]">
-        <button className="bg-blue-400 rounded-[5px] text-white text-[11px] h-[24px] w-[100px]"
-                onClick={() => setOpen(true)}>
-          기록 추가하기
-        </button>
-      </div>}
 			{
-				open &&
-        <div>
-          <div className="flex space-x-[10px] justify-center items-center">
-            <div>
-              <div className="pb-[24px] space-x-1">
+				!open ? <button className="bg-blue-400 rounded-[5px] text-white text-[11px] h-[24px] w-[100px]"
+												onClick={() => setOpen(true)}>
+						기록 추가하기
+					</button> :
+					<div className="flex space-x-[10px] justify-center items-center">
+						<div>
+							<div className="pb-[24px] space-x-1">
 								{partNames.map(item => {
 									return (
 										<button key={item}
@@ -100,11 +93,11 @@ export default function RecordWeight() {
 										</button>
 									);
 								})}
-              </div>
-              <div className="flex flex-col">
+							</div>
+							<div className="flex flex-col">
 								{selectPart && !recordName ? weightList[selectPart].map(item => {
 										return (
-											<div className="flex">
+											<div className="flex" key={item}>
 												<button key={item}
 																onClick={() => setRecordName(item)}
 																className={`rounded-[10px] text-left text-[18px] h-[32px] w-[200px] ${item === recordName && "bg-indigo-200"}`}>
@@ -117,7 +110,7 @@ export default function RecordWeight() {
 										{selectPart && recordName &&
                       <div className="w-full flex flex-col justify-between">
                         <div>
-                          <div className="flex justify-between border-b-2 w-full pb-2 mb-6">
+                          <div className="flex justify-between border-b-2 w-full pb-2 mb-6 px-[6px]">
                             <span>{`${selectPart} | ${recordName}`}</span>
                             <div>
                               <button onClick={setRecord}>저장하기</button>
@@ -138,7 +131,7 @@ export default function RecordWeight() {
 												{
 													<div className="pb-[20px]">{
 														recordDatas?.map((item, index) => (
-															<div className="flex justify-between px-[20px] h-[30px]">
+															<div className="flex justify-between px-[20px] h-[30px]" key={index}>
 																<button className="w-[28px]">{index + 1}</button>
 																<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
 																<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
@@ -159,11 +152,12 @@ export default function RecordWeight() {
 										}
 									</div>
 								}
-              </div>
-            </div>
-          </div>
-        </div>
+							</div>
+						</div>
+					</div>
+
 			}
+
 		</div>
 	);
 }
