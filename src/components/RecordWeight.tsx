@@ -2,9 +2,9 @@
 
 import {useEffect, useState} from "react";
 import {partNames, weightList} from "@/utils/weightList";
-import {db} from "@/firebase";
-import dayjs from "dayjs";
-import {doc, getDoc, updateDoc} from "@firebase/firestore";
+import {AddRecordType, useAddRecord} from "@/hooks/useAddRecord";
+import {useRecoilValue} from "recoil";
+import {selectDateState} from "@/recoil/atoms";
 
 
 export type recordDataType = { reps: number; weight: number; status: boolean };
@@ -26,31 +26,29 @@ export default function RecordWeight() {
 		setRecordName("");
 	};
 
-	async function setRecord() {
-		const uid = window.localStorage.getItem('uid');
-		if (!uid) return;
-		const Ref = doc(db, "record", uid);
-		const docSnap = await getDoc(Ref);
+	const onChangeWeight = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		setRecordDatas(prev => {
+			const data = [...prev];
+			data[index].weight = Number(e.target.value);
+			return data;
+		});
+	};
 
-		if (docSnap.exists()) {
-			const data = docSnap.data();
-			const nowDate = dayjs().format('YYYY-MM-DD');
-			if (data[nowDate]) {
-				await updateDoc(Ref, {
-					[nowDate]: {
-						...data[nowDate],
-						[recordName]: recordDatas
-					}
-				});
-			} else {
-				await updateDoc(Ref, {
-					[nowDate]: {
-						[recordName]: recordDatas
-					}
-				});
-			}
-		}
-	}
+	const onChangeReps = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		setRecordDatas(prev => {
+			const data = [...prev];
+			data[index].reps = Number(e.target.value);
+			return data;
+		});
+	};
+
+	const onChangeStatus = (index: number) => {
+		setRecordDatas(prev => {
+			const data = [...prev];
+			data[index].status = !data[index].status;
+			return data;
+		});
+	};
 
 
 	function removeSelection() {
@@ -73,7 +71,17 @@ export default function RecordWeight() {
 		}
 	};
 
+	const {mutation: addRecord} = useAddRecord();
+	const nowDate = useRecoilValue(selectDateState);
 
+
+	function onSaveRecord() {
+		const uid = localStorage.getItem("uid");
+		if (!uid) return;
+		addRecord.mutate({uid, recordName, selectDate: nowDate, data: recordDatas});
+	}
+
+	// ;
 	return (
 		<div>
 			{
@@ -113,7 +121,9 @@ export default function RecordWeight() {
                           <div className="flex justify-between border-b-2 w-full pb-2 mb-6 px-[6px]">
                             <span>{`${selectPart} | ${recordName}`}</span>
                             <div>
-                              <button onClick={setRecord}>저장하기</button>
+                              <button onClick={onSaveRecord
+															}>저장하기
+                              </button>
                               <button className="hover:bg-red-300 w-[24px] h-[24px] rounded-full"
                                       onClick={removeSelection}>X
                               </button>
@@ -133,9 +143,12 @@ export default function RecordWeight() {
 														recordDatas?.map((item, index) => (
 															<div className="flex justify-between px-[20px] h-[30px]" key={index}>
 																<button className="w-[28px]">{index + 1}</button>
-																<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
-																<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
-																<button className="w-[28px]">{item.status ? "O" : "X"}</button>
+																<input className="w-[40px] text-center" type="text"
+																			 onChange={(e) => onChangeWeight(e, index)} defaultValue={0} maxLength={3}/>
+																<input className="w-[40px] text-center" type="text"
+																			 onChange={(e) => onChangeReps(e, index)} defaultValue={0} maxLength={3}/>
+																<button className="w-[28px]"
+																				onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
 															</div>
 														))}
 													</div>

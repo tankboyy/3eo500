@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {recordDataType} from "@/components/RecordWeight";
 import RecordView from "@/components/RecordView";
 
 interface Props {
@@ -15,11 +14,6 @@ interface Props {
 export default function AlreadyRecord({recordData}: Props) {
 	const [selectName, setSelectName] = useState("");
 	const [open, setOpen] = useState(false);
-	const [selectRecordData, setSelectRecordData] = useState<recordDataType[]>([{
-		reps: 0,
-		weight: 0,
-		status: false
-	}]);
 
 
 	const onReset = () => {
@@ -30,19 +24,6 @@ export default function AlreadyRecord({recordData}: Props) {
 	useEffect(() => {
 		onReset();
 	}, [recordData]);
-
-	useEffect(() => {
-		if (selectName !== "") {
-			const data = recordData[selectName];
-			if (!data) return;
-			setSelectRecordData(data);
-		} else setSelectRecordData([{
-			reps: 0,
-			weight: 0,
-			status: false
-		}]);
-
-	}, [selectName]);
 
 
 	return (
@@ -68,7 +49,7 @@ export default function AlreadyRecord({recordData}: Props) {
 						}
 					)}
 				</div> :
-				<RecordView selectRecordData={selectRecordData} selectName={selectName}/>
+				<RecordView selectName={selectName}/>
 			}
 		</main>
 	);

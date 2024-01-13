@@ -8,6 +8,7 @@ export default function Main() {
 
 	const todayRecordData = useGetTodayRecord();
 
+
 	return (
 		<div>
 			{

@@ -1,10 +1,10 @@
 import {recordDataType} from "@/components/RecordWeight";
 import {useEffect, useState} from "react";
 import useGetTodayRecord from "@/hooks/useGetTodayRecord";
+import {Button} from "@/components/ui/button";
 
 type Props = {
 	selectName: string;
-	selectRecordData: recordDataType[];
 	recordData?: {
 		[key: string]: {
 			reps: number
@@ -14,7 +14,7 @@ type Props = {
 	};
 }
 
-export default function RecordView({selectName, selectRecordData, recordData = useGetTodayRecord()}: Props) {
+export default function RecordView({selectName, recordData = useGetTodayRecord()}: Props) {
 
 	const [newRecordData, setNewRecordData] = useState(!recordData ? [{
 		reps: 0,
@@ -22,14 +22,23 @@ export default function RecordView({selectName, selectRecordData, recordData = u
 		status: false
 	}] : recordData[selectName]);
 
+	const [prevData, setPrevData] = useState<{
+		reps: number
+		weight: number
+		status: boolean
+	}[] | undefined>(undefined);
+
 	useEffect(() => {
-		console.log("hihi");
+		console.log("hihi", prevData);
+		if (!prevData) setPrevData(newRecordData);
 		return () => {
-			if (selectRecordData !== newRecordData) alert("변경사항이 있습니다.");
-			console.log("byebye");
+
+			if (prevData && prevData !== newRecordData) alert("변경사항이 있습니다.");
+			console.log("byebye", prevData !== newRecordData, prevData, newRecordData);
 
 		};
 	}, []);
+
 
 	const changeRecords = (action: string) => {
 		if (action === "add") {
@@ -54,7 +63,7 @@ export default function RecordView({selectName, selectRecordData, recordData = u
 						<span>
 							{selectName}
 							{/*//TODO: 수정중 이미지로 변경하기.*/}
-							{selectRecordData !== newRecordData && "(수정중)"}
+							{prevData !== newRecordData && "(수정중)"}
 						</span>
 				<div>
 					<button
@@ -78,8 +87,8 @@ export default function RecordView({selectName, selectRecordData, recordData = u
 						newRecordData?.map((item, index) => (
 							<div className="flex justify-between px-[20px] h-[30px]">
 								<button className="w-[28px]">{index + 1}</button>
-								<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
-								<input className="w-[40px] text-center" type="text" defaultValue={0} maxLength={3}/>
+								<input className="w-[40px] text-center" type="text" defaultValue={item.weight} maxLength={3}/>
+								<input className="w-[40px] text-center" type="text" defaultValue={item.reps} maxLength={3}/>
 								<button className="w-[28px]">{item.status ? "O" : "X"}</button>
 							</div>
 						))
@@ -92,6 +101,11 @@ export default function RecordView({selectName, selectRecordData, recordData = u
 					<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
 									onClick={() => changeRecords("remove")}>세트삭제
 					</button>
+				</div>
+				<div>
+					<Button variant="secondary">
+						hi
+					</Button>
 				</div>
 			</div>
 

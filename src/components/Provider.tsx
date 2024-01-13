@@ -3,6 +3,7 @@
 import {RecoilRoot} from "recoil";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools";
+import {Toaster} from "@/components/ui/sonner";
 
 export default function Provider({
 																	 children,
@@ -24,6 +25,7 @@ export default function Provider({
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={false} position="bottom-right"/>
 				{children}
+				<Toaster/>
 			</QueryClientProvider>
 		</RecoilRoot>
 	);
