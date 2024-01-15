@@ -58,6 +58,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
+
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },

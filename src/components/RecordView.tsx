@@ -85,7 +85,7 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 				<div className="pb-[20px]">
 					{
 						newRecordData?.map((item, index) => (
-							<div className="flex justify-between px-[20px] h-[30px]">
+							<div className="flex justify-between px-[20px] h-[30px]" key={index}>
 								<button className="w-[28px]">{index + 1}</button>
 								<input className="w-[40px] text-center" type="text" defaultValue={item.weight} maxLength={3}/>
 								<input className="w-[40px] text-center" type="text" defaultValue={item.reps} maxLength={3}/>

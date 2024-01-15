@@ -1,5 +1,12 @@
 import {useEffect, useState} from "react";
 import RecordView from "@/components/RecordView";
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "@/components/ui/accordion";
+
 
 interface Props {
 	recordData: {
@@ -28,29 +35,35 @@ export default function AlreadyRecord({recordData}: Props) {
 
 	return (
 		<main>
-			{!open ?
-				<div>
-					{Object.keys(recordData).map((key, index) => {
-							const data: {
-								weight: number;
-								reps: number;
-								status: boolean
-							}[] = recordData[key];
+			<Accordion type="single" collapsible className="w-full">
+				{Object.keys(recordData).map((key, index) => {
+						const data: {
+							weight: number;
+							reps: number;
+							status: boolean
+						}[] = recordData[key];
 
-							return (
-								<div key={index} onClick={() => {
-									setSelectName(key);
-									setOpen(true);
-								}}>
-									{key}
-									{data.length}
-								</div>
-							);
-						}
-					)}
-				</div> :
-				<RecordView selectName={selectName}/>
-			}
+						return (
+							<div key={index} onClick={() => {
+								// setSelectName(key);
+								// setOpen(true);
+							}}>
+								<AccordionItem value={`item-${index}`}>
+									<AccordionTrigger>
+										{key}
+										{data.length}
+									</AccordionTrigger>
+									<AccordionContent>
+										<RecordView selectName={key}/>
+									</AccordionContent>
+								</AccordionItem>
+
+							</div>
+						);
+					}
+				)}
+			</Accordion>
+
 		</main>
 	);
 }
