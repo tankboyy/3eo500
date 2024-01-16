@@ -31,7 +31,8 @@ export default function Calendar() {
 			});
 		}));
 		setMonthArr(newMonthArr);
-	}, [recordData]);
+		setSelectDate(dayjs(nowDate).format('YYYY-MM-DD'));
+	}, [nowDate, recordData]);
 
 
 	return (
