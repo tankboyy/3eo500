@@ -2,6 +2,7 @@ import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db} from "@/firebase";
 import {useMutation, useQueryClient} from "react-query";
 import {recordDataType} from "@/components/RecordWeight";
+import {toast} from "sonner";
 
 export type AddRecordType = { uid: string, recordName: string, selectDate: string, data: recordDataType[] }
 
@@ -10,8 +11,10 @@ export function useAddRecord() {
 	const mutation = useMutation(updateRecord, {
 		onSuccess: async () => {
 			await queryClient.invalidateQueries("record");
+			toast("저장되었습니다.");
 		},
 		onError: () => {
+			toast("저장에 실패했습니다.");
 		}
 	});
 	return {mutation};

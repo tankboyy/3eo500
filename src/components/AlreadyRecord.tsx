@@ -37,7 +37,7 @@ export default function AlreadyRecord({recordData}: Props) {
 
 	return (
 		<main>
-			<Accordion type="single" collapsible className="w-full">
+			<Accordion type="multiple" className="w-full">
 				{Object.keys(recordData).map((key, index) => {
 						const data: {
 							weight: number;
