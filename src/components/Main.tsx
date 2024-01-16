@@ -6,14 +6,14 @@ import useGetTodayRecord from "@/hooks/useGetTodayRecord";
 import {useEffect} from "react";
 import {useRecoilValue} from "recoil";
 import {recordDataState} from "@/recoil/atoms";
+import {useQueryClient} from "react-query";
 
 export default function Main() {
 
 	const todayRecordData = useGetTodayRecord();
 
-
 	return (
-		<div>
+		<div id="component">
 			{
 				!todayRecordData ?
 					<RecordWeight/> :

@@ -29,8 +29,11 @@
     main {
         @apply max-w-[420px] min-h-[100dvh] bg-white flex flex-col w-[100dvw] mx-auto h-screen items-center
     }
-}
 
+    div #component {
+        @apply max-w-[calc(100vw-40px)] w-screen flex justify-center
+    }
+}
 
 @layer base {
     :root {

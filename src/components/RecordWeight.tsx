@@ -101,7 +101,7 @@ export default function RecordWeight() {
 
 	// ;
 	return (
-		<main>
+		<div id="component">
 			<Drawer>
 				<DrawerTrigger>
 					<Button className="text-[11px] bg-blue-500">기록 추가하기</Button>
@@ -113,7 +113,7 @@ export default function RecordWeight() {
 						}}>
 							{partNames.map(item => {
 								return (
-									<ToggleGroupItem value={item}>
+									<ToggleGroupItem className="text-[12px]" value={item}>
 										{item}
 									</ToggleGroupItem>);
 							})}
@@ -187,6 +187,6 @@ export default function RecordWeight() {
 					</div>
 				</DrawerContent>
 			</Drawer>
-		</main>
+		</div>
 	);
 }
