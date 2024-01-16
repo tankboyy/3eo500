@@ -36,7 +36,7 @@ export default function AlreadyRecord({recordData}: Props) {
 
 	return (
 		<div id="component">
-			<Card className={cn("max-w-[380px] w-full")}>
+			<Card className={cn("max-w-[380px] w-full mb-[20px]")}>
 				<CardHeader>
 					<CardTitle>운동 일지</CardTitle>
 					<CardDescription>{selectDate}</CardDescription>

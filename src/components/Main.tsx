@@ -12,6 +12,9 @@ export default function Main() {
 
 	const todayRecordData = useGetTodayRecord();
 
+	const queryClient = useQueryClient();
+	queryClient.getQueryData("record");
+
 	return (
 		<div id="component">
 			{
