@@ -6,6 +6,8 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from "@/components/ui/accordion";
+import {useRecoilValue} from "recoil";
+import {recordDataState} from "@/recoil/atoms";
 
 
 interface Props {
@@ -27,7 +29,7 @@ export default function AlreadyRecord({recordData}: Props) {
 		setOpen(false);
 		setSelectName("");
 	};
-
+	//
 	useEffect(() => {
 		onReset();
 	}, [recordData]);
@@ -51,13 +53,11 @@ export default function AlreadyRecord({recordData}: Props) {
 								<AccordionItem value={`item-${index}`}>
 									<AccordionTrigger>
 										{key}
-										{data.length}
 									</AccordionTrigger>
 									<AccordionContent>
 										<RecordView selectName={key}/>
 									</AccordionContent>
 								</AccordionItem>
-
 							</div>
 						);
 					}

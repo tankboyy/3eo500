@@ -1,7 +1,9 @@
 import {recordDataType} from "@/components/RecordWeight";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import useGetTodayRecord from "@/hooks/useGetTodayRecord";
-import {Button} from "@/components/ui/button";
+import {useAddRecord} from "@/hooks/useAddRecord";
+import {useRecoilValue} from "recoil";
+import {selectDateState} from "@/recoil/atoms";
 
 type Props = {
 	selectName: string;
@@ -16,33 +18,32 @@ type Props = {
 
 export default function RecordView({selectName, recordData = useGetTodayRecord()}: Props) {
 
-	const [newRecordData, setNewRecordData] = useState(!recordData ? [{
+	const [newRecordData, setNewRecordData] = useState<recordDataType[]>(!recordData ? [{
 		reps: 0,
 		weight: 0,
 		status: false
 	}] : recordData[selectName]);
-
-	const [prevData, setPrevData] = useState<{
-		reps: number
-		weight: number
-		status: boolean
-	}[] | undefined>(undefined);
+	const recordDatas = useRef(newRecordData);
+	const [recordingState, setRecordingState] = useState(false);
+	const {mutation: addRecord} = useAddRecord();
+	const nowDate = useRecoilValue(selectDateState);
+	const uid = localStorage.getItem("uid")!;
 
 	useEffect(() => {
-		console.log("hihi", prevData);
-		if (!prevData) setPrevData(newRecordData);
+		recordDatas.current = newRecordData;
+	}, [newRecordData]);
+
+	useEffect(() => {
 		return () => {
-
-			if (prevData && prevData !== newRecordData) alert("변경사항이 있습니다.");
-			console.log("byebye", prevData !== newRecordData, prevData, newRecordData);
-
+			if (recordDatas.current === newRecordData) return;
+			addRecord.mutate({uid, recordName: selectName, selectDate: nowDate, data: recordDatas.current});
 		};
 	}, []);
 
 
 	const changeRecords = (action: string) => {
+		if (!recordingState) setRecordingState(true);
 		if (action === "add") {
-			console.log("changeRecords");
 			setNewRecordData(prev => {
 				return [...prev, {
 					reps: 0,
@@ -57,22 +58,48 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 		}
 	};
 
+	const onChangeWeight = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		if (!recordingState) setRecordingState(true);
+
+		setNewRecordData(prev => {
+			const data = [...prev];
+			data[index] = {
+				...data[index],
+				weight: Number(e.target.value)
+			};
+			return data;
+		});
+	};
+
+	const onChangeReps = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+		if (!recordingState) setRecordingState(true);
+
+		setNewRecordData(prev => {
+			const data = [...prev];
+			data[index] = {
+				...data[index],
+				reps: Number(e.target.value)
+			};
+			return data;
+		});
+	};
+
+	const onChangeStatus = (index: number) => {
+		if (!recordingState) setRecordingState(true);
+
+		setNewRecordData(prev => {
+			const data = [...prev];
+			console.log(data, index, data[index].status);
+			data[index] = {
+				...data[index],
+				status: !data[index].status
+			};
+			return data;
+		});
+	};
+
 	return (
 		<div className="pb-[20px] flex flex-col p-[20px] w-full">
-			<div className=" flex justify-between border-b-2 w-full pb-2 mb-6 px-[6px]">
-						<span>
-							{selectName}
-							{/*//TODO: 수정중 이미지로 변경하기.*/}
-							{prevData !== newRecordData && "(수정중)"}
-						</span>
-				<div>
-					<button
-						// onClick={onReset}
-					>
-						X
-					</button>
-				</div>
-			</div>
 			<div className="px-[20px]">
 				<div className="flex justify-between">
 					<span>세트</span>
@@ -87,9 +114,11 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 						newRecordData?.map((item, index) => (
 							<div className="flex justify-between px-[20px] h-[30px]" key={index}>
 								<button className="w-[28px]">{index + 1}</button>
-								<input className="w-[40px] text-center" type="text" defaultValue={item.weight} maxLength={3}/>
-								<input className="w-[40px] text-center" type="text" defaultValue={item.reps} maxLength={3}/>
-								<button className="w-[28px]">{item.status ? "O" : "X"}</button>
+								<input className="w-[40px] text-center" onChange={(e) => onChangeWeight(e, index)} type="text"
+											 defaultValue={item.weight} maxLength={3}/>
+								<input className="w-[40px] text-center" onChange={(e) => onChangeReps(e, index)} type="text"
+											 defaultValue={item.reps} maxLength={3}/>
+								<button className="w-[28px]" onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
 							</div>
 						))
 					}
@@ -101,11 +130,6 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 					<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
 									onClick={() => changeRecords("remove")}>세트삭제
 					</button>
-				</div>
-				<div>
-					<Button variant="secondary">
-						hi
-					</Button>
 				</div>
 			</div>
 
