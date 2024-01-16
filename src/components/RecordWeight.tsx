@@ -119,16 +119,16 @@ export default function RecordWeight() {
 							})}
 						</ToggleGroup>
 					</DrawerHeader>
-					<div className="flex justify-center h-auto">
+					<div className="flex justify-center h-auto px-[18px]">
 						{selectPart && !recordName ?
 							<ScrollArea className="w-96 rounded-md max-h-[150px] h-auto border mb-[40px]">
 								<div>
 									{weightList[selectPart].map(item => {
 										return (
-											<div className="flex" key={item}>
+											<div className="flex items-center" key={item}>
 												<button key={item}
 																onClick={() => setRecordName(item)}
-																className={`rounded-[10px] text-left text-[18px] h-[32px] w-[200px] ${item === recordName && "bg-indigo-200"}`}>
+																className={`rounded-[10px] text-center text-[16px] h-[28px] w-full ${item === recordName && "bg-indigo-200"}`}>
 													{item}
 												</button>
 											</div>

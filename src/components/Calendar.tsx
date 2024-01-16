@@ -12,7 +12,6 @@ const days = ['일', '월', '화', '수', '목', '금', '토'];
 
 export default function Calendar() {
 	const [nowDate, setNowDate] = useState(new Date());
-	const [nowMonth, setNowMonth] = useState(nowDate.getMonth());
 	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
 	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
 	const recordData = useRecoilValue(recordDataState);
