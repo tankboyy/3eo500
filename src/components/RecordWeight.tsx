@@ -14,6 +14,8 @@ import {
 import {Button} from "@/components/ui/button";
 import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
+import {useGetRecord} from "@/hooks/record.hooks";
+import {useQueryClient} from "react-query";
 
 const _ = require("lodash");
 
@@ -30,6 +32,10 @@ export default function RecordWeight() {
 		status: false
 	}]);
 
+
+	const queryClient = useQueryClient();
+	const selectDate = useRecoilValue(selectDateState);
+
 	useEffect(() => {
 		setRecordDatas([{
 			reps: 0,
@@ -37,6 +43,18 @@ export default function RecordWeight() {
 			status: false
 		}]);
 	}, [selectPart, recordName]);
+
+	useEffect(() => {
+		if (recordName) {
+			const data = queryClient.getQueryData<any>('record');
+			if (data[selectDate]) {
+				const recordData = data[selectDate][recordName];
+				if (recordData) {
+					setRecordDatas(recordData);
+				}
+			}
+		}
+	}, [recordName]);
 
 
 	const onChangePart = (name: string) => {
