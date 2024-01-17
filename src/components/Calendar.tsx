@@ -6,6 +6,8 @@ import {useMakeMonthArr} from "@/hooks/useMakeMonthArr";
 import {useGetRecord} from "@/hooks/record.hooks";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {recordDataState, selectDateState} from "@/recoil/atoms";
+import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -15,7 +17,17 @@ export default function Calendar() {
 	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
 	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
 	const recordData = useRecoilValue(recordDataState);
+	const router = useRouter();
+
+	useEffect(() => {
+		if (!window.localStorage.getItem('uid')) {
+			toast.error('로그인이 필요합니다.');
+			router.push('/login');
+		}
+	}, []);
+
 	useGetRecord();
+
 
 	useEffect(() => {
 		const keys = Object.keys(recordData);
