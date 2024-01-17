@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
 export default function Login() {
 	const [id, setId] = useState("");
@@ -31,9 +32,10 @@ export default function Login() {
 		})
 			.then((response) => {
 				response.json().then((data) => {
-					console.log(data);
 					window.localStorage.setItem('refreshToken', data.refreshToken);
 					window.localStorage.setItem('uid', data.uid);
+					router.replace('/');
+					toast.success('로그인 성공');
 				});
 			});
 	}
