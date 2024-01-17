@@ -92,9 +92,8 @@ export default function RecordWeight() {
 	}
 
 	const changeRecords = (action: string) => {
-		if (recordDatas.length === 0) return;
-		if (recordDatas.length === 12 && action === "add") return;
 		if (action === "add") {
+			if (recordDatas.length === 12) return;
 			setRecordDatas(prev => {
 				return [...prev, {
 					reps: 0,
@@ -103,6 +102,7 @@ export default function RecordWeight() {
 				}];
 			});
 		} else if (action === "remove") {
+			if (recordDatas.length === 0) return;
 			setRecordDatas(prev => {
 				return prev.slice(0, prev.length - 1);
 			});
