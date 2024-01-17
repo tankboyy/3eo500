@@ -14,7 +14,6 @@ export async function POST(request: Request) {
 	await getDoc(docRef)
 		.then(async (data) => {
 			if (data.exists()) {
-				// console.log("Document data:", data.data());
 				res.data = data.data();
 			} else {
 				// doc 생성

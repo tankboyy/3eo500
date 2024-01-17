@@ -19,7 +19,6 @@ export default function Calendar() {
 
 	useEffect(() => {
 		const keys = Object.keys(recordData);
-		if (keys.length === 0) return;
 		const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
 			if (keys.includes(day.day)) {
 				return ({

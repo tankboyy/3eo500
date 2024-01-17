@@ -111,9 +111,9 @@ export default function RecordWeight() {
 						<ToggleGroup className="border w-auto" type="single" onValueChange={(value) => {
 							if (value) onChangePart(value);
 						}}>
-							{partNames.map(item => {
+							{partNames.map((item, index) => {
 								return (
-									<ToggleGroupItem className="text-[12px]" value={item}>
+									<ToggleGroupItem className="text-[12px]" value={item} key={index}>
 										{item}
 									</ToggleGroupItem>);
 							})}

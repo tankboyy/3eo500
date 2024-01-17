@@ -7,7 +7,7 @@ export default async function Home() {
 	return (
 		<main>
 			<Calendar/>
-			<Main/>
+			{/*<Main/>*/}
 		</main>
 	);
 }
