@@ -8,11 +8,6 @@ export default function Login() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
 	const router = useRouter();
-	useEffect(() => {
-		if (window.localStorage.getItem('uid')) {
-			router.replace('/');
-		}
-	}, []);
 
 	function onChangeId(event: React.ChangeEvent<HTMLInputElement>) {
 		setId(event.target.value);
@@ -34,7 +29,7 @@ export default function Login() {
 				response.json().then((data) => {
 					window.localStorage.setItem('refreshToken', data.refreshToken);
 					window.localStorage.setItem('uid', data.uid);
-					router.replace('/');
+					router.replace('/main');
 					toast.success('로그인 성공');
 				});
 			});
