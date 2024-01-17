@@ -15,6 +15,8 @@ import {Button} from "@/components/ui/button";
 import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 
+const _ = require("lodash");
+
 
 export type recordDataType = { reps: number; weight: number; status: boolean };
 
@@ -99,14 +101,23 @@ export default function RecordWeight() {
 		addRecord.mutate({uid, recordName, selectDate: nowDate, data: recordDatas});
 	}
 
+	function onClosed() {
+		const compareArr = [{
+			reps: 0,
+			weight: 0,
+			status: false
+		}];
+		if (recordName && selectPart && !(_.isEqual(recordDatas, compareArr))) onSaveRecord();
+	}
+
 	// ;
 	return (
 		<div id="component">
-			<Drawer>
+			<Drawer onClose={onClosed}>
 				<DrawerTrigger>
 					<Button className="text-[11px] bg-blue-500">기록 추가하기</Button>
 				</DrawerTrigger>
-				<DrawerContent className="max-h-[620px]">
+				<DrawerContent className="max-h-[620px] min-h-[276px]">
 					<DrawerHeader>
 						<ToggleGroup className="border w-auto" type="single" onValueChange={(value) => {
 							if (value) onChangePart(value);
@@ -137,51 +148,50 @@ export default function RecordWeight() {
 								</div>
 								<ScrollBar orientation="vertical"/>
 							</ScrollArea> :
-							<div className="w-full flex flex-col justify-between p-[20px]">
-								<div>
-									<div className="flex justify-between border-b-2 w-full pb-2 mb-6 px-[6px]">
-										<span>{`${selectPart} | ${recordName}`}</span>
-										<div>
-											<button onClick={onSaveRecord
-											}>저장하기
-											</button>
-											<button className="hover:bg-red-300 w-[24px] h-[24px] rounded-full"
-															onClick={removeSelection}>X
-											</button>
-										</div>
-									</div>
-									<div className="px-[20px]">
-										<div className="flex justify-between">
-											<span>세트</span>
-											<span>Kg</span>
-											<span>횟수</span>
-											<button>완료</button>
-										</div>
-									</div>
-								</div>
-								{
-									<div className="pb-[20px]">{
-										recordDatas?.map((item, index) => (
-											<div className="flex justify-between px-[20px] h-[30px]" key={index}>
-												<button className="w-[28px]">{index + 1}</button>
-												<input className="w-[40px] text-center" type="text"
-															 onChange={(e) => onChangeWeight(e, index)} defaultValue={0} maxLength={3}/>
-												<input className="w-[40px] text-center" type="text"
-															 onChange={(e) => onChangeReps(e, index)} defaultValue={0} maxLength={3}/>
-												<button className="w-[28px]"
-																onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
-											</div>
-										))}
-									</div>
+							<div className="w-full">
+								{recordName &&
+                  <div className="w-full flex flex-col justify-between p-[20px]">
+                    <div>
+                      <div className="flex justify-between border-b-2 w-full pb-2 mb-6 px-[6px]">
+                        <span>{`${selectPart} | ${recordName}`}</span>
+                        <div>
+                          <button className="hover:bg-red-300 w-[24px] h-[24px] rounded-full"
+                                  onClick={removeSelection}>X
+                          </button>
+                        </div>
+                      </div>
+                      <div className="px-[20px]">
+                        <div className="flex justify-between">
+                          <span>세트</span>
+                          <span>Kg</span>
+                          <span>횟수</span>
+                          <button>완료</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="pb-[20px]">{
+											recordDatas?.map((item, index) => (
+												<div className="flex justify-between px-[20px] h-[30px]" key={index}>
+													<button className="w-[28px]">{index + 1}</button>
+													<input className="w-[40px] text-center" type="text"
+																 onChange={(e) => onChangeWeight(e, index)} defaultValue={0} maxLength={3}/>
+													<input className="w-[40px] text-center" type="text"
+																 onChange={(e) => onChangeReps(e, index)} defaultValue={0} maxLength={3}/>
+													<button className="w-[28px]"
+																	onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
+												</div>
+											))}
+                    </div>
+                    <div className="flex space-x-2">
+                      <button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+                              onClick={() => changeRecords("add")}>세트추가
+                      </button>
+                      <button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+                              onClick={() => changeRecords("remove")}>세트삭제
+                      </button>
+                    </div>
+                  </div>
 								}
-								<div className="flex space-x-2">
-									<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
-													onClick={() => changeRecords("add")}>세트추가
-									</button>
-									<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
-													onClick={() => changeRecords("remove")}>세트삭제
-									</button>
-								</div>
 							</div>
 						}
 					</div>
