@@ -1,12 +1,9 @@
-import Calendar from "@/components/Calendar";
-import Main from "@/components/Main";
+import Sign from "@/components/Sign";
 
-
-export default async function Home() {
+export default function Page() {
 	return (
 		<main>
-			<Calendar/>
-			<Main/>
+			<Sign/>
 		</main>
 	);
 }
