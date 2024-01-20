@@ -4,6 +4,7 @@ import {RecoilRoot} from "recoil";
 import {QueryClient, QueryClientProvider} from "react-query";
 import {ReactQueryDevtools} from "react-query/devtools";
 import {Toaster} from "@/components/ui/sonner";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export default function Provider({
 																	 children,
@@ -24,7 +25,14 @@ export default function Provider({
 		<RecoilRoot>
 			<QueryClientProvider client={queryClient}>
 				<ReactQueryDevtools initialIsOpen={false} position="bottom-right"/>
-				{children}
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					{children}
+				</ThemeProvider>
 				<Toaster/>
 			</QueryClientProvider>
 		</RecoilRoot>

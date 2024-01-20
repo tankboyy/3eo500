@@ -16,8 +16,6 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-		<link rel="manifest" href="/manifest.json"/>
-		<meta name="theme-color" content="#3D39F1"/>
 
 		<body className="flex justify-center">
 		<Provider>
