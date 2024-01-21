@@ -1,9 +1,7 @@
 'use client';
 
-import {Separator} from "@/components/ui/separator";
 import {Button} from "@/components/ui/button";
-import {MoonIcon, SunIcon} from "@radix-ui/react-icons";
-import {useState} from "react";
+import {MoonIcon, SunIcon, HamburgerMenuIcon} from "@radix-ui/react-icons";
 import {useTheme} from "next-themes";
 
 export default function TopLayout() {
@@ -14,7 +12,10 @@ export default function TopLayout() {
 	};
 
 	return (
-		<div className="h-[50px] border-b dark:border-border">
+		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
+			<Button size="icon" className="bg-transparent">
+				<HamburgerMenuIcon className="h-[1.2rem] w-[1.2rem] stroke-foreground"/>
+			</Button>
 			<Button size="icon">
 				{resolvedTheme !== 'dark' ?
 					<SunIcon onClick={onChangeTheme}
