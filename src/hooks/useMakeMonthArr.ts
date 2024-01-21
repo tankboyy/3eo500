@@ -26,9 +26,11 @@ export const useMakeMonthArr = (date: Date): { day: string; isTrue: false }[][] 
 	// 첫 주 시작이 일요일이 아닐 경우
 	if (chunks[0].indexOf("") === 0) {
 		const firstWeek = chunks[0];
-		const prevMonthEndDay = new Date(date.getFullYear(), date.getMonth() - 1, 0).getDate();
-		for (let i = 0; i <= firstWeek.lastIndexOf(""); i++) {
-			firstWeek[i] = dayjs(`${nowYear}-${nowMonth}-${prevMonthEndDay - (firstWeek.lastIndexOf("") + 1 - i)}`).format('YYYY-MM-DD');
+		const prevMonthEndDay = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+		let p = 0;
+		for (let i = firstWeek.lastIndexOf(""); i >= 0; i--) {
+			firstWeek[i] = dayjs(`${nowYear}-${nowMonth}-${prevMonthEndDay - p}`).format('YYYY-MM-DD');
+			p++;
 		}
 	}
 
