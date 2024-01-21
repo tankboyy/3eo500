@@ -4,6 +4,8 @@ import useGetTodayRecord from "@/hooks/useGetTodayRecord";
 import {useAddRecord} from "@/hooks/useAddRecord";
 import {useRecoilValue} from "recoil";
 import {selectDateState} from "@/recoil/atoms";
+import {Input} from "@/components/ui/input";
+import RecordLine from "@/components/RecordLine";
 
 type Props = {
 	selectName: string;
@@ -60,7 +62,6 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 
 	const onChangeWeight = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		if (!recordingState) setRecordingState(true);
-
 		setNewRecordData(prev => {
 			const data = [...prev];
 			data[index] = {
@@ -112,22 +113,17 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 				<div className="pb-[20px]">
 					{
 						newRecordData?.map((item, index) => (
-							<div className="flex justify-between px-[20px] h-[30px]" key={index}>
-								<button className="w-[28px]">{index + 1}</button>
-								<input className="w-[40px] text-center" onChange={(e) => onChangeWeight(e, index)} type="text"
-											 defaultValue={item.weight} maxLength={3}/>
-								<input className="w-[40px] text-center" onChange={(e) => onChangeReps(e, index)} type="text"
-											 defaultValue={item.reps} maxLength={3}/>
-								<button className="w-[28px]" onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
-							</div>
+							<RecordLine item={item} index={index} onChangeReps={onChangeReps} onChangeStatus={onChangeStatus}
+													key={index}
+													onChangeWeight={onChangeWeight}/>
 						))
 					}
 				</div>
 				<div className="flex space-x-2">
-					<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+					<button className="w-1/2 h-8 rounded-[8px] hover:bg-blue-500"
 									onClick={() => changeRecords("add")}>세트추가
 					</button>
-					<button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+					<button className="w-1/2 h-8 rounded-[8px] hover:bg-blue-500"
 									onClick={() => changeRecords("remove")}>세트삭제
 					</button>
 				</div>

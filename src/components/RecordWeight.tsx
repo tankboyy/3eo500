@@ -16,6 +16,7 @@ import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 import {useGetRecord} from "@/hooks/record.hooks";
 import {useQueryClient} from "react-query";
+import {Input} from "@/components/ui/input";
 
 const _ = require("lodash");
 
@@ -62,7 +63,7 @@ export default function RecordWeight() {
 		setRecordName("");
 	};
 
-	const onChangeWeight = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+	const onChangeWeight: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		setRecordDatas(prev => {
 			const data = [...prev];
 			data[index].weight = Number(e.target.value);
@@ -70,7 +71,7 @@ export default function RecordWeight() {
 		});
 	};
 
-	const onChangeReps = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+	const onChangeReps: (e: React.ChangeEvent<HTMLInputElement>, index: number) => void = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
 		setRecordDatas(prev => {
 			const data = [...prev];
 			data[index].reps = Number(e.target.value);
@@ -78,7 +79,7 @@ export default function RecordWeight() {
 		});
 	};
 
-	const onChangeStatus = (index: number) => {
+	const onChangeStatus: (index: number) => void = (index: number) => {
 		setRecordDatas(prev => {
 			const data = [...prev];
 			data[index].status = !data[index].status;
@@ -133,7 +134,7 @@ export default function RecordWeight() {
 		<div id="component">
 			<Drawer onClose={onClosed}>
 				<DrawerTrigger>
-					<Button className="text-[11px] bg-blue-500">기록 추가하기</Button>
+					<Button className="text-[11px]">기록 추가하기</Button>
 				</DrawerTrigger>
 				<DrawerContent className="max-h-[620px] min-h-[276px]">
 					<DrawerHeader>
@@ -188,23 +189,23 @@ export default function RecordWeight() {
                       </div>
                     </div>
                     <div className="pb-[20px]">{
-											recordDatas?.map((item, index) => (
+											recordDatas?.map((item: recordDataType, index) => (
 												<div className="flex justify-between px-[20px] h-[30px]" key={index}>
 													<button className="w-[28px]">{index + 1}</button>
-													<input className="w-[40px] text-center" type="text"
-																 onChange={(e) => onChangeWeight(e, index)} defaultValue={0} maxLength={3}/>
-													<input className="w-[40px] text-center" type="text"
-																 onChange={(e) => onChangeReps(e, index)} defaultValue={0} maxLength={3}/>
+													<Input className="w-[40px] px-[4px] text-center" type="text"
+																 onChange={(e) => onChangeWeight(e, index)} defaultValue={item.weight} maxLength={3}/>
+													<Input className="w-[40px] px-[4px] text-center" type="text"
+																 onChange={(e) => onChangeReps(e, index)} defaultValue={item.reps} maxLength={3}/>
 													<button className="w-[28px]"
 																	onClick={() => onChangeStatus(index)}>{item.status ? "O" : "X"}</button>
 												</div>
 											))}
                     </div>
                     <div className="flex space-x-2">
-                      <button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+                      <button className="w-1/2 h-8 bg-primary rounded-[8px]"
                               onClick={() => changeRecords("add")}>세트추가
                       </button>
-                      <button className="w-1/2 bg-blue-300 h-8 rounded-[8px] hover:bg-blue-500"
+                      <button className="w-1/2 h-8 bg-primary rounded-[8px]"
                               onClick={() => changeRecords("remove")}>세트삭제
                       </button>
                     </div>

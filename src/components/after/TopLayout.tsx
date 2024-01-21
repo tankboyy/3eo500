@@ -14,7 +14,7 @@ export default function TopLayout() {
 	};
 
 	return (
-		<div>
+		<div className="h-[50px] border-b dark:border-border">
 			<Button size="icon">
 				{resolvedTheme !== 'dark' ?
 					<SunIcon onClick={onChangeTheme}
@@ -25,7 +25,6 @@ export default function TopLayout() {
 						className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"/>
 				}
 			</Button>
-			<Separator/>
 		</div>
 	);
 }
