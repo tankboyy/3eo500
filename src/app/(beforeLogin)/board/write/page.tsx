@@ -24,9 +24,7 @@ export default function Page() {
 					accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY,
 					secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY
 				};
-				console.log(a.files, name, config);
 				AWS.config.update(config);
-
 				const upload = new AWS.S3.ManagedUpload({
 					params: {
 						ACL: 'public-read',
@@ -35,10 +33,11 @@ export default function Page() {
 						Body: file,
 					}
 				});
-				const IMG_URL = await upload.promise().then((res) => res.Location);
+				const url_key = await upload.promise().then((res) => res.Key);
+				console.log(process.env.NEXT_PUBLIC_CF_URL, url_key);
 				const editor = quillRef.current?.getEditor();
 				const range = editor.getSelection();
-				// editor.insertEmbed(range.index, "image")
+				editor.insertEmbed(range.index, 'image', process.env.NEXT_PUBLIC_CF_URL + url_key);
 				console.log(editor);
 			} catch (error) {
 				console.log(error);
