@@ -14,7 +14,7 @@ body {
 
 @layer base {
     main {
-        @apply max-w-[420px] min-h-[100dvh] flex flex-col w-[100dvw] mx-auto h-screen items-center
+        @apply max-w-[420px] min-h-[100dvh] flex flex-col w-[100dvw] mx-auto items-center
     }
 
     div #component {

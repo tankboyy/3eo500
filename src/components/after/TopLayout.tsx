@@ -29,12 +29,46 @@ export default function TopLayout() {
 					</SheetTrigger>
 					<SheetContent side="left">
 						<SheetHeader>
-							<SheetTitle>Are you absolutely sure?</SheetTitle>
+							<SheetTitle>안녕하세요 !</SheetTitle>
 							<SheetDescription>
-								This action cannot be undone. This will permanently delete your account
-								and remove your data from our servers.
 							</SheetDescription>
 						</SheetHeader>
+						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
+							<div>
+								hi
+							</div>
+							<Button className="w-full">
+								로그아웃
+							</Button>
+						</div>
+						{/*
+					<SheetContent side={side}>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>
+                Make changes to your profile here. Click save when you're done.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Username
+                </Label>
+                <Input id="username" value="@peduarte" className="col-span-3" />
+              </div>
+            </div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Save changes</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>*/}
 					</SheetContent>
 				</Sheet>
 
