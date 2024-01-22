@@ -1,13 +1,14 @@
 'use client';
 
 import ReactQuill from "react-quill";
-import {useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Button} from "@/components/ui/button";
 import AWS from "aws-sdk";
 
 export default function Page() {
 	const [value, setValue] = useState("");
+	const quillRef = useRef(null);
 
 	const ImageHandler = async () => {
 		const a = document.createElement("input");
@@ -35,25 +36,30 @@ export default function Page() {
 					}
 				});
 				const IMG_URL = await upload.promise().then((res) => res.Location);
-				console.log(IMG_URL);
+				const editor = quillRef.current?.getEditor();
+				const range = editor.getSelection();
+				// editor.insertEmbed(range.index, "image")
+				console.log(editor);
 			} catch (error) {
 				console.log(error);
 			}
 		});
 	};
 
-	const modules = {
-		toolbar: {
-			container: [
-				["image"],
-				[{header: [1, 2, 3, 4, 5, false]}],
-				["bold", "underline"],
-			],
-			handlers: {
-				image: ImageHandler
-			}
-		},
-	};
+	const modules = useMemo(() => {
+		return {
+			toolbar: {
+				container: [
+					["image"],
+					[{header: [1, 2, 3, 4, 5, false]}],
+					["bold", "underline"],
+				],
+				handlers: {
+					image: ImageHandler
+				}
+			},
+		};
+	}, []);
 	return (
 		<main>
 			<div>
@@ -61,7 +67,7 @@ export default function Page() {
 					작성완료
 				</Button>
 			</div>
-			<ReactQuill theme="snow" value={value} onChange={setValue} className="h-[400px] w-full"
+			<ReactQuill ref={quillRef} theme="snow" value={value} onChange={setValue} className="h-[400px] w-full"
 									modules={modules}/>
 		</main>
 	);
