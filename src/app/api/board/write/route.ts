@@ -1,6 +1,7 @@
 import {addDoc, collection, doc, getDocs, Timestamp} from "@firebase/firestore";
 import {db} from "@/firebase";
 import {NextResponse} from "next/server";
+import {apiBoardType, BoardType} from "@/utils/types";
 
 
 export async function POST(request: Request) {
@@ -22,20 +23,28 @@ export async function GET() {
 
 	const boardRef = collection(db, "board");
 	const boardSnapshot = await getDocs(boardRef);
-	const boardList = Array();
-	boardSnapshot.docs.map(doc => {
-		const data = doc.data();
-		console.log(data);
-		if (data["createAt"] && data['title'] && data['data'] && data['uid']) {
+	const boardList: apiBoardType[] = Array();
+	boardSnapshot.docs.map((doc) => {
+		const docData = doc.data();
+		if (Object.keys(docData).length === 4) {
+			const {title, data, createAt, uid} = docData;
+			if (data.includes("<img")) {
+				const imgTags = data.match(/<img[^>]*>/g);
+				boardList.push({
+					id: doc.id,
+					title, data, createAt, uid,
+					isImage: imgTags
+				});
+				return;
+			}
+			// @ts-ignore
 			boardList.push({
 				id: doc.id,
-				...doc.data()
+				title, data, createAt, uid,
 			});
 		}
 	});
-
 	return NextResponse.json({
-		data: "hellozzz",
 		boardList: boardList,
 	});
 }
