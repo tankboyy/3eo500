@@ -1,4 +1,17 @@
+'use client';
+
+import {useEffect, useState} from "react";
+
 export default function BoardList() {
+	const [boardList, setBoardList] = useState<any[]>();
+	useEffect(() => {
+		fetch("/api/board/write")
+			.then(async (res) => {
+				const data = await res.json();
+				console.log(data);
+				setBoardList(data.boardList);
+			});
+	}, []);
 	return (
 		<div className="dark h-full bg-gray-900 text-white">
 			<header className="flex items-center justify-between px-6 py-4">
@@ -16,30 +29,15 @@ export default function BoardList() {
 				</button>
 			</header>
 			<main className="px-6 py-4 space-y-4">
-				<article className="border rounded-lg p-4 bg-gray-800">
-					<h2 className="text-xl font-bold">Post Title 1</h2>
-					<p className="text-gray-400">Posted by User1</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis,
-						auctor consequat urna.
-					</p>
-				</article>
-				<article className="border rounded-lg p-4 bg-gray-800">
-					<h2 className="text-xl font-bold">Post Title 2</h2>
-					<p className="text-gray-400">Posted by User2</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis,
-						auctor consequat urna.
-					</p>
-				</article>
-				<article className="border rounded-lg p-4 bg-gray-800">
-					<h2 className="text-xl font-bold">Post Title 3</h2>
-					<p className="text-gray-400">Posted by User3</p>
-					<p>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl eros, pulvinar facilisis justo mollis,
-						auctor consequat urna.
-					</p>
-				</article>
+				{boardList?.map((board) => (
+					<article className="border rounded-lg p-4 bg-gray-800 w-full" key={board}>
+						<h2 className="text-xl font-bold">{board.title}</h2>
+						<p className="text-gray-400">Posted by User1</p>
+						<p className="line-clamp-3 ...">
+							{board.data}
+						</p>
+					</article>
+				))}
 			</main>
 		</div>
 	);

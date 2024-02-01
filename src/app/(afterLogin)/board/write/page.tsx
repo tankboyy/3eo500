@@ -5,10 +5,13 @@ import {useMemo, useRef, useState} from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Button} from "@/components/ui/button";
 import AWS from "aws-sdk";
+import {Input} from "@/components/ui/input";
 
 export default function Page() {
-	const [value, setValue] = useState("");
+	const [data, setData] = useState("");
+	const [title, setTitle] = useState("");
 	const quillRef = useRef(null);
+
 
 	const ImageHandler = async () => {
 		const a = document.createElement("input");
@@ -34,11 +37,10 @@ export default function Page() {
 					}
 				});
 				const url_key = await upload.promise().then((res) => res.Key);
-				console.log(process.env.NEXT_PUBLIC_CF_URL, url_key);
+				// @ts-ignore
 				const editor = quillRef.current?.getEditor();
 				const range = editor.getSelection();
 				editor.insertEmbed(range.index, 'image', process.env.NEXT_PUBLIC_CF_URL + url_key);
-				console.log(editor);
 			} catch (error) {
 				console.log(error);
 			}
@@ -59,14 +61,39 @@ export default function Page() {
 			},
 		};
 	}, []);
+
+	async function handleSubmit() {
+		console.log(title, data);
+		const uid = localStorage.getItem("uid");
+		fetch('/api/board/write', {
+			method: "POST",
+			body: JSON.stringify({
+				title,
+				data,
+				uid
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(async (res) => {
+				console.log(await res.json());
+			});
+	}
+
+	const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setTitle(e.target.value);
+	};
+
 	return (
-		<main>
-			<div>
-				<Button onClick={() => console.log(value)}>
+		<main className="py-[20px]">
+			<div className="flex w-full space-x-2 pb-[10px]">
+				<Input placeholder="제목" onChange={onChangeTitle}/>
+				<Button onClick={handleSubmit}>
 					작성완료
 				</Button>
 			</div>
-			<ReactQuill ref={quillRef} theme="snow" value={value} onChange={setValue} className="h-[400px] w-full"
+			<ReactQuill ref={quillRef} theme="snow" value={data} onChange={setData} className="h-[400px] w-full"
 									modules={modules}/>
 		</main>
 	);
