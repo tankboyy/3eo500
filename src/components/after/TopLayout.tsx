@@ -12,10 +12,12 @@ import {
 	SheetTrigger,
 } from "@/components/ui/sheet";
 import {useEffect} from "react";
+import {useRouter} from "next/navigation";
 
 
 export default function TopLayout() {
 	const {theme, resolvedTheme, setTheme} = useTheme();
+	const router = useRouter();
 
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
@@ -32,7 +34,12 @@ export default function TopLayout() {
 				body: JSON.stringify({
 					uid
 				})
-			}).then(async (res) => console.log(await res.json()));
+			}).then(async (res) => {
+				const result = await res.json();
+				if (result.status === 'error') {
+					router.push('/user/info');
+				}
+			});
 		};
 		fetchFn();
 	}, []);

@@ -7,7 +7,6 @@ export async function POST(request: Request) {
 	return await getDoc(usersRef)
 		.then((doc) => {
 			const data = doc.data();
-			console.log("success", data);
 			return data ? Response.json({
 				status: "success",
 			}) : Response.json({
