@@ -50,7 +50,7 @@ export default function BoardList() {
 							{board.isImage &&
                 <div className="w-1/3">
 									{/*<Image src={board.isImage} alt="image1" fill/>*/}
-                  <Image src={'https://d3hlzyv4ta72d6.cloudfront.net/upload/1706774193219'} alt={'asdff'}
+                  <Image src={board.isImage[1]} alt={'asdff'}
 										// width={40} height={40}
                          width={40} height={40}
                          layout="responsive"

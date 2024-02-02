@@ -31,7 +31,7 @@ export async function GET() {
 			if (Object.keys(docData).length === 4) {
 				const {title, data, createAt, uid} = docData;
 				if (data.includes("<img")) {
-					const imgTags = data.match(/<img[^>]*>/g);
+					const imgTags = data.match(/src="([^"]*)"/);
 					boardList.push({
 						id: doc.id,
 						title, data, createAt: createAt.toDate(), uid,

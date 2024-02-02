@@ -13,5 +13,5 @@ export type BoardType = {
 
 export type apiBoardType = BoardType & {
 	id: string;
-	isImage?: string;
+	isImage?: string[];
 }
