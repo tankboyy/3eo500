@@ -11,6 +11,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import {useEffect} from "react";
 
 
 export default function TopLayout() {
@@ -19,6 +20,22 @@ export default function TopLayout() {
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
+
+	useEffect(() => {
+		const uid = window.localStorage.getItem('uid');
+		const fetchFn = async () => {
+			return await fetch("/api/auth", {
+				method: "POST",
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					uid
+				})
+			}).then(async (res) => console.log(await res.json()));
+		};
+		fetchFn();
+	}, []);
 
 	return (
 		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
