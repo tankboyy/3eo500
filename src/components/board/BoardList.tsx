@@ -2,6 +2,9 @@
 
 import {useEffect, useState} from "react";
 import Image from "next/image";
+import 'moment/locale/ko';
+import moment from "moment";
+
 
 export default function BoardList() {
 	const [boardList, setBoardList] = useState<any[]>();
@@ -36,7 +39,8 @@ export default function BoardList() {
 						<div className="flex space-x-4">
 							<div className={`${board.isImage ? "w-2/3" : "w-full"}`}>
 								<h2 className="text-xl font-bold">{board.title}</h2>
-								<p className="text-gray-400">Posted by User1</p>
+
+								<p className="text-gray-400">Posted by User1 | {moment(new Date(board.createAt)).fromNow()}</p>
 								<div className="flex">
 									<p className={`line-clamp-3 ...`}>
 										{board.data}
