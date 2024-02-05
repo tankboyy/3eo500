@@ -12,15 +12,32 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {h, randomName} from "@/utils/names";
 
 export default function Page() {
-	const [nick, setNick] = useState("");
+	const [nick, setNick] = useState<string>();
+	const [prevNick, setPrevNick] = useState<string>();
+
+	useEffect(() => {
+		const uid = window.localStorage.getItem('uid');
+		fetch("/api/user/info/nick", {
+			method: "POST",
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				uid
+			})
+		}).then(async (res) => {
+			const result = await res.json();
+			setNick(result.nick);
+			setPrevNick(result.nick);
+		});
+	}, []);
 
 	async function onSubmit() {
-
-		if (nick.length >= 2 && nick.length <= 8) {
+		if (nick?.length >= 2 && nick?.length <= 8) {
 			await fetch("/api/user/info", {
 				method: "POST",
 				headers: {
@@ -80,7 +97,7 @@ export default function Page() {
 							</div>
 						</div>
 						<div className="flex justify-center">
-							<Button size="sm" onClick={onSubmit}>저장하기</Button>
+							<Button size="sm" disabled={!nick || prevNick === nick} onClick={onSubmit}>저장하기</Button>
 						</div>
 					</CardContent>
 				</Card>
