@@ -1,8 +1,6 @@
 'use client';
 
 import {Input} from "@/components/ui/input";
-import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
-import {Label} from "@/components/ui/label";
 import {
 	Card,
 	CardContent,
@@ -13,30 +11,26 @@ import {
 } from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {useEffect, useState} from "react";
-import {h, randomName} from "@/utils/names";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {userDataState} from "@/recoil/atoms";
+import {useRouter} from "next/navigation";
 
 export default function Page() {
 	const [nick, setNick] = useState<string>();
 	const [prevNick, setPrevNick] = useState<string>();
+	const [userData, setUserData] = useRecoilState(userDataState);
+	const router = useRouter();
+
 
 	useEffect(() => {
-		const uid = window.localStorage.getItem('uid');
-		fetch("/api/user/info/nick", {
-			method: "POST",
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify({
-				uid
-			})
-		}).then(async (res) => {
-			const result = await res.json();
-			setNick(result.nick);
-			setPrevNick(result.nick);
-		});
-	}, []);
+		if (userData) {
+			setNick(userData.nick);
+			setPrevNick(userData.nick);
+		}
+	}, [userData]);
 
 	async function onSubmit() {
+		if (!nick) return;
 		if (nick?.length >= 2 && nick?.length <= 8) {
 			await fetch("/api/user/info", {
 				method: "POST",
@@ -51,8 +45,15 @@ export default function Page() {
 				const result = await res.json();
 				if (result.status === 'success') {
 					alert("저장되었습니다.");
+					setUserData((prev) => ({
+						...prev,
+						nick
+					}));
+					router.replace("/main");
 				}
 			});
+		} else {
+			alert("닉네임은 2자 이상 8자 이하로 입력해주세요.");
 		}
 	}
 

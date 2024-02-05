@@ -13,11 +13,14 @@ import {
 } from "@/components/ui/sheet";
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {userDataState} from "@/recoil/atoms";
 
 
 export default function TopLayout() {
 	const {theme, resolvedTheme, setTheme} = useTheme();
 	const router = useRouter();
+	const [userData, setUserData] = useRecoilState(userDataState);
 
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
@@ -26,7 +29,7 @@ export default function TopLayout() {
 	useEffect(() => {
 		const uid = window.localStorage.getItem('uid');
 		const fetchFn = async () => {
-			return await fetch("/api/auth", {
+			return await fetch("/api/user/info/nick", {
 				method: "POST",
 				headers: {
 					'Content-Type': 'application/json',
@@ -36,9 +39,11 @@ export default function TopLayout() {
 				})
 			}).then(async (res) => {
 				const result = await res.json();
-				if (result.status === 'error') {
-					router.push('/user/info');
-				}
+				setUserData((prev) => ({
+						...prev,
+						nick: result.nick
+					})
+				);
 			});
 		};
 		fetchFn();
@@ -55,13 +60,17 @@ export default function TopLayout() {
 						<SheetHeader>
 							<SheetTitle>안녕하세요 !</SheetTitle>
 							<SheetDescription>
+								{userData.nick}님, 환영합니다.
 							</SheetDescription>
 						</SheetHeader>
 						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
 							<div>
 								hi
 							</div>
-							<Button className="w-full">
+							<Button className="w-full mb-[20px]" onClick={() => {
+								window.localStorage.removeItem('uid');
+								router.replace('/');
+							}}>
 								로그아웃
 							</Button>
 						</div>

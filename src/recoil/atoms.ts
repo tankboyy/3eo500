@@ -21,3 +21,17 @@ export const selectDateState = atom<string>({
 	key: 'selectDateState',
 	default: dayjs().format("YYYY-MM-DD")
 });
+
+export type userType = {
+	uid: string
+	email: string
+	nick: string
+}
+export const userDataState = atom<userType>({
+	key: 'userDataState',
+	default: {
+		uid: '',
+		email: '',
+		nick: ''
+	}
+});

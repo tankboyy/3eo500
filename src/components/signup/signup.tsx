@@ -3,6 +3,8 @@
 import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
+import {Input} from "@/components/ui/input";
+import {Button} from "@/components/ui/button";
 
 export default function Signup() {
 	const [id, setId] = useState("");
@@ -43,9 +45,9 @@ export default function Signup() {
 				signup
 			</span>
 			<div className="flex flex-col space-y-2 items-center">
-				<input className="bg-blue-100 rounded-full px-4" type="text" onChange={onChangeId}/>
-				<input className="bg-blue-100 rounded-full px-4" type="password" onChange={onChangePw}/>
-				<button className="bg-blue-300 hover:bg-blue-500 rounded-full w-[120px]" onClick={onSubmit}>회원가입</button>
+				<Input className=" rounded-full" type="text" onChange={onChangeId}/>
+				<Input className=" rounded-full" type="password" onChange={onChangePw}/>
+				<Button className=" rounded-full h-[30px] mt-[10px] w-[120px]" onClick={onSubmit}>회원가입</Button>
 			</div>
 		</div>
 	);

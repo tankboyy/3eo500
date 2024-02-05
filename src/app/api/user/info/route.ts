@@ -14,6 +14,7 @@ export async function POST(request: Request) {
 	onValue(usersRef, (snapshot) => {
 		const data = snapshot.val();
 		Object.values(data).map(item => {
+			// @ts-ignore
 			if (item?.nick === nick) {
 				returnData = {
 					status: "fail",
