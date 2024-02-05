@@ -27,7 +27,8 @@ export default function Page() {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					nick
+					nick,
+					uid: window.localStorage.getItem('uid')
 				})
 			}).then(async (res) => {
 				const result = await res.json();
