@@ -16,6 +16,7 @@ import {useRouter} from "next/navigation";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {userDataState} from "@/recoil/atoms";
 import {Separator} from "@/components/ui/separator";
+import {Label} from "@/components/ui/label";
 
 
 export default function TopLayout() {
@@ -58,23 +59,20 @@ export default function TopLayout() {
 						<HamburgerMenuIcon className="h-[1.2rem] w-[1.2rem] stroke-foreground"/>
 					</SheetTrigger>
 					<SheetContent side="left">
-						<SheetHeader>
-							<SheetTitle>안녕하세요 !</SheetTitle>
-							<SheetDescription>
-								{userData.nick}님, 환영합니다.
-							</SheetDescription>
-						</SheetHeader>
 						<Separator className="my-4"/>
+
 						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
-							<div>
-								hi
+							<div className="flex items-center flex-col w-full space-y-4">
+								<Label className="cursor-pointer" onClick={() => router.push('/board')}>
+									자유게시 판
+								</Label>
+								<Label className="cursor-pointer" onClick={() => {
+									window.localStorage.removeItem('uid');
+									router.replace('/');
+								}}>
+									로그아웃
+								</Label>
 							</div>
-							<Button className="w-full mb-[60px]" onClick={() => {
-								window.localStorage.removeItem('uid');
-								router.replace('/');
-							}}>
-								로그아웃
-							</Button>
 						</div>
 					</SheetContent>
 				</Sheet>
