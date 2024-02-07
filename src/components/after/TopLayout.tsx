@@ -15,6 +15,7 @@ import {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {useRecoilState, useSetRecoilState} from "recoil";
 import {userDataState} from "@/recoil/atoms";
+import {Separator} from "@/components/ui/separator";
 
 
 export default function TopLayout() {
@@ -63,45 +64,18 @@ export default function TopLayout() {
 								{userData.nick}님, 환영합니다.
 							</SheetDescription>
 						</SheetHeader>
+						<Separator className="my-4"/>
 						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
 							<div>
 								hi
 							</div>
-							<Button className="w-full mb-[20px]" onClick={() => {
+							<Button className="w-full mb-[60px]" onClick={() => {
 								window.localStorage.removeItem('uid');
 								router.replace('/');
 							}}>
 								로그아웃
 							</Button>
 						</div>
-						{/*
-					<SheetContent side={side}>
-            <SheetHeader>
-              <SheetTitle>Edit profile</SheetTitle>
-              <SheetDescription>
-                Make changes to your profile here. Click save when you're done.
-              </SheetDescription>
-            </SheetHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">
-                  Name
-                </Label>
-                <Input id="name" value="Pedro Duarte" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="username" className="text-right">
-                  Username
-                </Label>
-                <Input id="username" value="@peduarte" className="col-span-3" />
-              </div>
-            </div>
-            <SheetFooter>
-              <SheetClose asChild>
-                <Button type="submit">Save changes</Button>
-              </SheetClose>
-            </SheetFooter>
-          </SheetContent>*/}
 					</SheetContent>
 				</Sheet>
 

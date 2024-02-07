@@ -14,7 +14,6 @@ import {
 import {Button} from "@/components/ui/button";
 import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
-import {useGetRecord} from "@/hooks/record.hooks";
 import {useQueryClient} from "react-query";
 import {Input} from "@/components/ui/input";
 
@@ -137,16 +136,19 @@ export default function RecordWeight() {
 					<Button className="text-[11px]">기록 추가하기</Button>
 				</DrawerTrigger>
 				<DrawerContent className="max-h-[620px] min-h-[276px]">
-					<DrawerHeader>
-						<ToggleGroup className="border w-auto" type="single" onValueChange={(value) => {
+					<DrawerHeader className="border p-0 m-[16px]">
+						<ToggleGroup className="w-auto" type="single" onValueChange={(value) => {
 							if (value) onChangePart(value);
 						}}>
-							{partNames.map((item, index) => {
-								return (
-									<ToggleGroupItem className="text-[12px]" value={item} key={index}>
-										{item}
-									</ToggleGroupItem>);
-							})}
+							<ScrollArea className="whitespace-nowrap">
+								{partNames.map((item, index) => {
+									return (
+										<ToggleGroupItem className="text-[12px]" value={item} key={index}>
+											{item}
+										</ToggleGroupItem>);
+								})}
+								<ScrollBar orientation="horizontal"/>
+							</ScrollArea>
 						</ToggleGroup>
 					</DrawerHeader>
 					<div className="flex justify-center h-auto px-[18px]">
