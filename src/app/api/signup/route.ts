@@ -12,12 +12,14 @@ export async function POST(req: Request) {
 	return await createUserWithEmailAndPassword(auth, id, password)
 		.then((userCredential) => {
 			const user = userCredential.user;
+			const randomNick = randomName();
 			set(ref(database, 'users/' + user.uid), {
-				nick: randomName(),
+				nick: randomNick,
 			});
 			return Response.json({
 				uid: user.uid,
 				refreshToken: user.refreshToken,
+				nick: randomNick,
 			});
 		})
 		.catch((error) => {
