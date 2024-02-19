@@ -1,17 +1,19 @@
 "use client";
 
 import {RecoilRoot} from "recoil";
-import {QueryClient, QueryClientProvider} from "react-query";
-import {ReactQueryDevtools} from "react-query/devtools";
+import {QueryClient as QueryClient2, QueryClientProvider as QueryClientProvider2} from "react-query";
+import {ReactQueryDevtools as React2} from "react-query/devtools";
 import {Toaster} from "@/components/ui/sonner";
 import ThemeProvider from "@/components/ThemeProvider";
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 
 export default function Provider({
 																	 children,
 																 }: {
 	children: React.ReactNode
 }) {
-	const queryClient = new QueryClient({
+	const queryClient2 = new QueryClient2({
 		defaultOptions: {
 			queries: {
 				refetchOnWindowFocus: false,
@@ -21,20 +23,24 @@ export default function Provider({
 
 		}
 	});
+	const queryClient = new QueryClient({ /* options */});
 	return (
 		<RecoilRoot>
-			<QueryClientProvider client={queryClient}>
-				<ReactQueryDevtools initialIsOpen={false} position="bottom-right"/>
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					{children}
-				</ThemeProvider>
+			<QueryClientProvider2 client={queryClient2}>
+				<React2 initialIsOpen={false} position="bottom-right"/>
+				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools initialIsOpen={false} position="left"/>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+					</ThemeProvider>
+				</QueryClientProvider>
 				<Toaster/>
-			</QueryClientProvider>
+			</QueryClientProvider2>
 		</RecoilRoot>
 	);
 }

@@ -2,6 +2,7 @@ import {addDoc, collection, doc, getDocs, limit, orderBy, query, Timestamp} from
 import {db} from "@/firebase";
 import {NextResponse} from "next/server";
 import {apiBoardType, BoardType} from "@/utils/types";
+import {child, get, getDatabase, ref} from "@firebase/database";
 
 
 export async function POST(request: Request) {
@@ -24,6 +25,22 @@ export async function GET() {
 	const boardRef = collection(db, "board");
 	const boardSnapshot = query(boardRef, orderBy('createAt', 'desc'));
 	const boardList: apiBoardType[] = Array();
+	let usersName: {
+		[key: string]: {
+			nick: string
+		}
+	} = {};
+
+	const dbRef = ref(getDatabase());
+	get(child(dbRef, `/users`)).then((snapshot) => {
+		if (snapshot.exists()) {
+			usersName = snapshot.val();
+		} else {
+			console.log("유저닉네임 불러오기 실패");
+		}
+	}).catch((error) => {
+		console.error(error);
+	});
 
 	await getDocs(boardSnapshot).then((querySnapshot) => {
 		querySnapshot.docs.map((doc) => {
@@ -32,10 +49,12 @@ export async function GET() {
 				const {title, data, createAt, uid} = docData;
 				if (data.includes("<img")) {
 					const imgTags = data.match(/src="([^"]*)"/);
+
 					boardList.push({
 						id: doc.id,
 						title, data, createAt: createAt.toDate(), uid,
-						isImage: imgTags
+						isImage: imgTags,
+						nick: usersName[uid].nick
 					});
 					return;
 				}

@@ -8,10 +8,11 @@ export type BoardType = {
 	uid: string;
 	title: string;
 	data: string;
-	createAt: Object;
+	createAt: string;
 }
 
 export type apiBoardType = BoardType & {
 	id: string;
+	nick?: string;
 	isImage?: string[];
 }

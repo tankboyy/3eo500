@@ -4,7 +4,6 @@ import {recordDataState, selectDateState} from "@/recoil/atoms";
 import {recordDataType} from "@/components/RecordWeight";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db} from "@/firebase";
-import {toast} from "sonner";
 
 export const useGetRecord = () => {
 	const setRecordData = useSetRecoilState(recordDataState);
@@ -22,7 +21,11 @@ export const useGetRecord = () => {
 	});
 };
 
-export const useUpdateRecord = async ({uid, recordName, data}: { uid: string, recordName: string, data: recordDataType[] }) => {
+export const useUpdateRecord = async ({uid, recordName, data}: {
+	uid: string,
+	recordName: string,
+	data: recordDataType[]
+}) => {
 	const setRecordData = useSetRecoilState(recordDataState);
 	const nowDate = useRecoilValue(selectDateState);
 
