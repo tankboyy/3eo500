@@ -11,10 +11,7 @@ import {selectPostState} from "@/recoil/atoms";
 export default function Page() {
 	const pathName = usePathname();
 	const getPostData = useRecoilValue(selectPostState);
-
 	const [postData, setPostData] = useState(getPostData);
-
-
 	const postId = pathName.split("/board/")[1];
 
 
@@ -32,7 +29,7 @@ export default function Page() {
 
 	return (
 		<main>
-			<article className="border rounded-lg p-4 bg-gray-800 w-full hover:bg-gray-600">
+			<article className="border rounded-lg p-4 bg-gray-800 w-full">
 				<div className="flex space-x-4">
 					<div className={"w-full"}>
 						<h2 className="text-xl font-bold">{postData.title}</h2>
