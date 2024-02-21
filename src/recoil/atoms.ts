@@ -1,5 +1,6 @@
 import {atom} from "recoil";
 import dayjs from "dayjs";
+import {apiBoardType} from "@/utils/types";
 
 export type recordType = {
 	[key: string]: {
@@ -34,4 +35,9 @@ export const userDataState = atom<userType>({
 		email: '',
 		nick: ''
 	}
+});
+
+export const selectPostState = atom<apiBoardType | {}>({
+	key: 'selectPostState',
+	default: {}
 });
