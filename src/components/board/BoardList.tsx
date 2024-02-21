@@ -24,7 +24,7 @@ export default function BoardList() {
 
 	function onClickBoard(board: apiBoardType) {
 		setPostData(board);
-		router.push(`/board/${board.uid}`);
+		router.push(`/board/${board.id}`);
 	}
 
 	return (

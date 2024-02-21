@@ -83,15 +83,15 @@ export default function Page() {
 								{/*<Label htmlFor="gender">성별</Label>*/}
 								{/*<RadioGroup defaultValue="비공개" className="flex" onValueChange={(value) => console.log(value)}>*/}
 								{/*	<div className="flex items-center space-x-2">*/}
-								{/*		<RadioGroupItem value="비공개" id="option-one"/>*/}
+								{/*		<RadioGroupItem value="비공개" [id]="option-one"/>*/}
 								{/*		<Label htmlFor="option-one">비공개</Label>*/}
 								{/*	</div>*/}
 								{/*	<div className="flex items-center space-x-2">*/}
-								{/*		<RadioGroupItem value="여자" id="option-two"/>*/}
+								{/*		<RadioGroupItem value="여자" [id]="option-two"/>*/}
 								{/*		<Label htmlFor="option-two">여자</Label>*/}
 								{/*	</div>*/}
 								{/*	<div className="flex items-center space-x-2">*/}
-								{/*		<RadioGroupItem value="남자" id="option-three"/>*/}
+								{/*		<RadioGroupItem value="남자" [id]="option-three"/>*/}
 								{/*		<Label htmlFor="option-three">남자</Label>*/}
 								{/*	</div>*/}
 								{/*</RadioGroup>*/}

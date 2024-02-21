@@ -1,7 +1,7 @@
 'use client';
 
 import {usePathname, useSearchParams} from "next/navigation";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import moment from "moment/moment";
 import Image from "next/image";
 import {useQueryClient} from "@tanstack/react-query";
@@ -11,16 +11,26 @@ import {selectPostState} from "@/recoil/atoms";
 
 export default function Page() {
 	const pathName = usePathname();
-	const searchParams = useSearchParams();
 	const queryClient = useQueryClient();
-	const postData = useRecoilValue(selectPostState);
+	const getPostData = useRecoilValue(selectPostState);
+
+	const [postData, setPostData] = useState(getPostData);
+
+
+	const postId = pathName.split("/board/")[1];
 
 
 	useEffect(() => {
-		console.log(pathName.split("/board/")[1], searchParams);
-		console.log(queryClient.getQueryData(["posts"]));
-		console.log("postData", postData);
+		if (Object.keys(getPostData).length === 0) {
+			(async () => {
+				await fetch(`/api/board/${postId}`, {}).then(async (res) => {
+					const {postData} = await res.json();
+					setPostData(postData);
+				});
+			})();
+		}
 	}, []);
+
 
 	return (
 		<main>
@@ -35,14 +45,6 @@ export default function Page() {
 							</p>
 						</div>
 					</div>
-					{/*{board.isImage &&*/}
-					{/*  <div className="w-1/3">*/}
-					{/*    <Image src={board.isImage[1]} alt={'asdff'}*/}
-					{/*           width={40} height={40}*/}
-					{/*           layout="responsive"*/}
-					{/*    />*/}
-					{/*  </div>*/}
-					{/*}*/}
 				</div>
 			</article>
 		</main>
