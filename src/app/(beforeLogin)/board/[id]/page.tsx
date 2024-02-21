@@ -3,7 +3,6 @@
 import {usePathname, useSearchParams} from "next/navigation";
 import {useEffect, useState} from "react";
 import moment from "moment/moment";
-import Image from "next/image";
 import {useQueryClient} from "@tanstack/react-query";
 import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
@@ -11,7 +10,6 @@ import {selectPostState} from "@/recoil/atoms";
 
 export default function Page() {
 	const pathName = usePathname();
-	const queryClient = useQueryClient();
 	const getPostData = useRecoilValue(selectPostState);
 
 	const [postData, setPostData] = useState(getPostData);
