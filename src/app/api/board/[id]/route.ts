@@ -9,7 +9,7 @@ export async function GET(request: Request) {
 
 	if (postSnap.exists()) {
 		return NextResponse.json({
-			postData: postSnap.data()
+			postData: {...postSnap.data(), createAt: postSnap.data().createAt.toDate()}
 		});
 	}
 }

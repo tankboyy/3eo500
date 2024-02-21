@@ -3,7 +3,7 @@
 import {usePathname, useSearchParams} from "next/navigation";
 import {useEffect, useState} from "react";
 import moment from "moment/moment";
-import {useQueryClient} from "@tanstack/react-query";
+import 'moment/locale/ko';
 import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 
@@ -21,6 +21,7 @@ export default function Page() {
 				await fetch(`/api/board/${postId}`, {}).then(async (res) => {
 					const {postData} = await res.json();
 					setPostData(postData);
+					console.log(postData.createAt, new Date(postData.createAt));
 				});
 			})();
 		}
@@ -31,9 +32,9 @@ export default function Page() {
 		<main>
 			<article className="border rounded-lg p-4 bg-gray-800 w-full">
 				<div className="flex space-x-4">
-					<div className={"w-full"}>
-						<h2 className="text-xl font-bold">{postData.title}</h2>
-						<p className="text-gray-400">{postData.nick ? postData.nick : postData.uid} 님
+					<div className={"w-full space-y-2"}>
+						<h2 className="text-xl text-center font-bold">{postData.title}</h2>
+						<p className="text-gray-400 text-right">{postData.nick ? postData.nick : postData.uid} 님
 							| {moment(new Date(postData.createAt)).fromNow()}</p>
 						<div className="flex">
 							<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
