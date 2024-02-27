@@ -30,19 +30,12 @@ export default function BoardList() {
 	return (
 		<div className="h-full">
 			<header className="flex items-center justify-between px-6 py-4">
-				<button className="text-gray-400 hover:text-white" onClick={() => {
+				<button className="text-gray-400 w-[30px] h-[30px] relative hover:text-white" onClick={() => {
 					refetch();
 					console.log(data, 'z');
 				}}>
-					<svg
-						className="h-6 w-6"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path d="M4 6h16M4 12h16m-7 6h7" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}/>
-					</svg>
+					<Image src="/icons/reading.svg" alt="돋보기" layout="fill" className="fill-amber-50"/>
+
 				</button>
 				<h1 className="text-2xl font-bold">자유 게시판</h1>
 			</header>
