@@ -5,16 +5,44 @@ import 'moment/locale/ko';
 import moment from "moment";
 import {apiBoardType} from "@/utils/types";
 import {useRouter} from "next/navigation";
-import {useGetPosts} from "@/hooks/post.hooks";
+import {useGetPosts, useInfinityPosts} from "@/hooks/post.hooks";
 import {useSetRecoilState} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
+import {useRef} from "react";
+import {useObserver} from "@/hooks/useObserver";
 
 
 export default function BoardList() {
 	const setPostData = useSetRecoilState(selectPostState);
 	const router = useRouter();
-	const {data, refetch} = useGetPosts();
+	// const {data, refetch} = useGetPosts();
 
+	const bottomRef = useRef(null);
+
+
+	const {
+		data,
+		error,
+		fetchNextPage,
+		hasNextPage,
+		isFetching,
+		isFetchingNextPage,
+		status,
+	} = useInfinityPosts("");
+
+
+	// @ts-ignore
+	// const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
+
+	function onClickBoard(board: apiBoardType) {
+		setPostData(board);
+		router.push(`/board/${board.id}`);
+	}
+
+	// useObserver({
+	// 	target: bottomRef,
+	// 	onIntersect: onIntersect,
+	// });
 
 	if (!data) return (
 		<>
@@ -22,16 +50,10 @@ export default function BoardList() {
 		</>
 	);
 
-	function onClickBoard(board: apiBoardType) {
-		setPostData(board);
-		router.push(`/board/${board.id}`);
-	}
-
 	return (
 		<div className="h-full">
 			<header className="flex items-center justify-between px-6 py-4">
 				<button className="text-gray-400 w-[30px] h-[30px] relative hover:text-white" onClick={() => {
-					refetch();
 					console.log(data, 'z');
 				}}>
 					<Image src="/icons/reading.svg" alt="돋보기" layout="fill" className="fill-amber-50"/>
@@ -40,7 +62,7 @@ export default function BoardList() {
 				<h1 className="text-2xl font-bold">자유 게시판</h1>
 			</header>
 			<main className="px-6 py-4 space-y-4">
-				{data.boardList?.map((board: apiBoardType) => {
+				{data.pages.boardList?.map((board: apiBoardType) => {
 
 					const content = board.data.replace(/<img\s+[^>]*>/g, '');
 
@@ -69,6 +91,7 @@ export default function BoardList() {
 						</article>
 					);
 				})}
+				<div ref={bottomRef}/>
 			</main>
 		</div>
 	);

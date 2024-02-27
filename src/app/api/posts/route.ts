@@ -1,36 +1,21 @@
-import {addDoc, collection, doc, getDocs, limit, orderBy, query, Timestamp} from "@firebase/firestore";
+import {collection, getDocs, limit, orderBy, query, startAfter} from "@firebase/firestore";
 import {db} from "@/firebase";
-import {NextResponse} from "next/server";
-import {apiBoardType, BoardType} from "@/utils/types";
+import {apiBoardType} from "@/utils/types";
 import {child, get, getDatabase, ref} from "@firebase/database";
-
+import {NextResponse} from "next/server";
 
 export async function POST(request: Request) {
-
-	const {title, data, uid} = await request.json();
-	const boardRef = await addDoc(collection(db, "board"), {
-		title: title,
-		data: data,
-		createAt: Timestamp.fromDate(new Date()),
-		uid: uid,
-	});
-
-	return Response.json({
-		id: boardRef.id,
-	});
-}
-
-export async function GET() {
-
+	const {pageParam} = await request.json();
+	console.log(pageParam, 'pageParam');
 	const boardRef = collection(db, "board");
-	const boardSnapshot = query(boardRef, orderBy('createAt', 'desc'), limit(10));
+	const boardSnapshot = pageParam === "" ? query(boardRef, orderBy('createAt', 'desc'), limit(10)) :
+		query(boardRef, orderBy('createAt', 'desc'), limit(10), startAfter(pageParam));
 	const boardList: apiBoardType[] = Array();
 	let usersName: {
 		[key: string]: {
 			nick: string
 		}
 	} = {};
-
 	const dbRef = ref(getDatabase());
 	get(child(dbRef, `/users`)).then((snapshot) => {
 		if (snapshot.exists()) {
@@ -39,7 +24,7 @@ export async function GET() {
 			console.log("유저닉네임 불러오기 실패");
 		}
 	}).catch((error) => {
-		console.error(error);
+		console.error("erororrorro", error);
 	});
 
 	await getDocs(boardSnapshot).then((querySnapshot) => {
@@ -53,7 +38,7 @@ export async function GET() {
 						id: doc.id,
 						title, data, createAt: createAt.toDate(), uid,
 						isImage: imgTags,
-						nick: usersName[uid].nick ? usersName[uid].nick : "익명",
+						nick: "익명"
 					};
 					boardList.push(data2);
 					return;
@@ -61,7 +46,6 @@ export async function GET() {
 				// @ts-ignore
 				boardList.push({
 					id: doc.id,
-					nick: usersName[uid].nick ? usersName[uid].nick : "익명",
 					title, data, createAt: createAt.toDate(), uid,
 				});
 			}
