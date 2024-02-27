@@ -49,18 +49,20 @@ export async function GET() {
 				const {title, data, createAt, uid} = docData;
 				if (data.includes("<img")) {
 					const imgTags = data.match(/src="([^"]*)"/);
-
-					boardList.push({
+					const data2 = {
 						id: doc.id,
 						title, data, createAt: createAt.toDate(), uid,
 						isImage: imgTags,
-						nick: usersName[uid].nick
-					});
+						nick: usersName[uid].nick ? usersName[uid].nick : "익명",
+					};
+					console.log(data2.nick);
+					boardList.push(data2);
 					return;
 				}
 				// @ts-ignore
 				boardList.push({
 					id: doc.id,
+					nick: usersName[uid].nick ? usersName[uid].nick : "익명",
 					title, data, createAt: createAt.toDate(), uid,
 				});
 			}

@@ -40,7 +40,7 @@ export default function Page() {
 							</div>
 							님
 							| {moment(new Date(postData.createAt)).fromNow()}</p>
-						<div className="flex">
+						<div className="flex p-2">
 							<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
 							</p>
 						</div>
