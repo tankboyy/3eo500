@@ -16,8 +16,7 @@ export const useInfinityPosts = (pageId: string) => {
 		queryFn: ({pageParam}) => useGetPostsAPI({pageParam}),
 		initialPageParam: "",
 		getNextPageParam: (prevPage, pages) => {
-			console.log("nextFetch", prevPage, pages);
-			return prevPage[prevPage.length - 1].id;
+			return prevPage.boardList[prevPage.boardList.length - 1].id;
 		},
 		staleTime: 300000,
 	});

@@ -8,11 +8,12 @@ import {useRouter} from "next/navigation";
 import {useGetPosts, useInfinityPosts} from "@/hooks/post.hooks";
 import {useSetRecoilState} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useObserver} from "@/hooks/useObserver";
 
 
 export default function BoardList() {
+	const [boardList, setBoardList] = useState([]);
 	const setPostData = useSetRecoilState(selectPostState);
 	const router = useRouter();
 	// const {data, refetch} = useGetPosts();
@@ -31,38 +32,45 @@ export default function BoardList() {
 	} = useInfinityPosts("");
 
 
-	// @ts-ignore
-	// const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
+	useEffect(() => {
+		if (!data) return;
+		setBoardList((prev) => [...prev, ...data.pages[data.pages?.length - 1]?.boardList]);
+	}, [data]);
+	const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
 
 	function onClickBoard(board: apiBoardType) {
 		setPostData(board);
 		router.push(`/board/${board.id}`);
 	}
 
-	// useObserver({
-	// 	target: bottomRef,
-	// 	onIntersect: onIntersect,
-	// });
+	useObserver({
+		target: bottomRef,
+		onIntersect: onIntersect,
+	});
 
-	if (!data) return (
-		<>
-			loading...
-		</>
-	);
+	// if (!data) return (
+	// 	<>
+	// 		loading...
+	// 	</>
+	// );
 
 	return (
 		<div className="h-full">
 			<header className="flex items-center justify-between px-6 py-4">
 				<button className="text-gray-400 w-[30px] h-[30px] relative hover:text-white" onClick={() => {
-					console.log(data, 'z');
+					// fetchNextPage();
 				}}>
+					<button onClick={() => {
+						fetchNextPage();
+					}}>asdfsdasdasfasfa
+					</button>
 					<Image src="/icons/reading.svg" alt="돋보기" layout="fill" className="fill-amber-50"/>
 
 				</button>
 				<h1 className="text-2xl font-bold">자유 게시판</h1>
 			</header>
 			<main className="px-6 py-4 space-y-4">
-				{data.pages.boardList?.map((board: apiBoardType) => {
+				{boardList?.map((board: apiBoardType) => {
 
 					const content = board.data.replace(/<img\s+[^>]*>/g, '');
 

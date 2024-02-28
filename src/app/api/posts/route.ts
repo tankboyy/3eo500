@@ -1,4 +1,4 @@
-import {collection, getDocs, limit, orderBy, query, startAfter} from "@firebase/firestore";
+import {collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, startAt} from "@firebase/firestore";
 import {db} from "@/firebase";
 import {apiBoardType} from "@/utils/types";
 import {child, get, getDatabase, ref} from "@firebase/database";
@@ -6,10 +6,9 @@ import {NextResponse} from "next/server";
 
 export async function POST(request: Request) {
 	const {pageParam} = await request.json();
-	console.log(pageParam, 'pageParam');
 	const boardRef = collection(db, "board");
 	const boardSnapshot = pageParam === "" ? query(boardRef, orderBy('createAt', 'desc'), limit(10)) :
-		query(boardRef, orderBy('createAt', 'desc'), limit(10), startAfter(pageParam));
+		query(boardRef, orderBy('createAt', 'desc'), limit(10), startAt(await getDoc(doc(boardRef, pageParam))));
 	const boardList: apiBoardType[] = Array();
 	let usersName: {
 		[key: string]: {
