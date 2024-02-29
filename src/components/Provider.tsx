@@ -7,6 +7,7 @@ import {Toaster} from "@/components/ui/sonner";
 import ThemeProvider from "@/components/ThemeProvider";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
+import {useEffect, useState} from "react";
 
 export default function Provider({
 																	 children,
@@ -20,10 +21,14 @@ export default function Provider({
 				retry: false,
 				staleTime: 30000,
 			},
-
 		}
 	});
 	const queryClient = new QueryClient({ /* options */});
+	const [isMount, setIsMount] = useState(false);
+	useEffect(() => {
+		setIsMount(true);
+	}, []);
+	if (!isMount) return null;
 	return (
 		<RecoilRoot>
 			<QueryClientProvider2 client={queryClient2}>
