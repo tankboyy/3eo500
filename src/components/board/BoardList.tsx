@@ -9,34 +9,31 @@ import {useGetPosts, useInfinityPosts} from "@/hooks/post.hooks";
 import {useSetRecoilState} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 import {useEffect, useRef, useState} from "react";
+// @ts-ignore
 import {useObserver} from "@/hooks/useObserver";
+import {toast} from "sonner";
 
 
 export default function BoardList() {
-	const [boardList, setBoardList] = useState([]);
+	const [boardList, setBoardList] = useState<apiBoardType[]>([]);
 	const setPostData = useSetRecoilState(selectPostState);
 	const router = useRouter();
-	// const {data, refetch} = useGetPosts();
-
 	const bottomRef = useRef(null);
 
 
 	const {
 		data,
-		error,
 		fetchNextPage,
-		hasNextPage,
-		isFetching,
-		isFetchingNextPage,
-		status,
-	} = useInfinityPosts("");
+	} = useInfinityPosts();
 
 
 	useEffect(() => {
 		if (!data) return;
 		setBoardList((prev) => [...prev, ...data.pages[data.pages?.length - 1]?.boardList]);
+		console.log(data.pages[data.pages?.length - 1]?.boardList);
+		toast.success('게시글을 불러왔습니다.');
 	}, [data]);
-	const onIntersect = ([entry]) => entry.isIntersecting && fetchNextPage();
+	const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
 
 	function onClickBoard(board: apiBoardType) {
 		setPostData(board);
@@ -48,22 +45,13 @@ export default function BoardList() {
 		onIntersect: onIntersect,
 	});
 
-	// if (!data) return (
-	// 	<>
-	// 		loading...
-	// 	</>
-	// );
 
 	return (
 		<div className="h-full">
 			<header className="flex items-center justify-between px-6 py-4">
 				<button className="text-gray-400 w-[30px] h-[30px] relative hover:text-white" onClick={() => {
-					// fetchNextPage();
+					console.log(window.scrollY);
 				}}>
-					<button onClick={() => {
-						fetchNextPage();
-					}}>asdfsdasdasfasfa
-					</button>
 					<Image src="/icons/reading.svg" alt="돋보기" layout="fill" className="fill-amber-50"/>
 
 				</button>

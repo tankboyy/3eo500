@@ -63,7 +63,6 @@ export default function Page() {
 	}, []);
 
 	async function handleSubmit() {
-		console.log(title, data);
 		const uid = localStorage.getItem("uid");
 		fetch('/api/board/write', {
 			method: "POST",

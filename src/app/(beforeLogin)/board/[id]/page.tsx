@@ -35,9 +35,9 @@ export default function Page() {
 					<div className={"w-full space-y-2"}>
 						<h2 className="text-xl text-center font-bold">{postData.title}</h2>
 						<p className="text-gray-400 flex justify-end">
-							<div className="hover:text-blue-200 cursor-pointer">
+							<em className="hover:text-blue-200 cursor-pointer">
 								{postData.nick ? postData.nick : postData.uid}
-							</div>
+							</em>
 							님
 							| {moment(new Date(postData.createAt)).fromNow()}</p>
 						<div className="flex p-2">

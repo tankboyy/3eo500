@@ -50,7 +50,8 @@ export async function POST(request: Request) {
 			}
 		});
 	});
+	if (boardList[0].id === pageParam) boardList.shift();
 	return NextResponse.json({
-		boardList: boardList,
+		boardList: boardList.length === 0 ? "불러올 게시글이 없습니다." : boardList,
 	});
 }
