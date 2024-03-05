@@ -6,12 +6,15 @@ import moment from "moment/moment";
 import 'moment/locale/ko';
 import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
+import {apiBoardType} from "@/utils/types";
+import {Sparkle} from "lucide-react";
+import {Separator} from "@/components/ui/separator";
 
 
 export default function Page() {
 	const pathName = usePathname();
 	const getPostData = useRecoilValue(selectPostState);
-	const [postData, setPostData] = useState(getPostData);
+	const [postData, setPostData] = useState<apiBoardType>();
 	const postId = pathName.split("/board/")[1];
 
 
@@ -27,6 +30,7 @@ export default function Page() {
 		}
 	}, []);
 
+	if (postData === undefined) return <div>로딩중...</div>;
 
 	return (
 		<main>
@@ -45,6 +49,10 @@ export default function Page() {
 							</p>
 						</div>
 					</div>
+				</div>
+				<Separator className="my-4"/>
+				<div>
+
 				</div>
 			</article>
 		</main>
