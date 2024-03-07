@@ -12,7 +12,6 @@ import {useEffect, useRef, useState} from "react";
 // @ts-ignore
 import {useObserver} from "@/hooks/useObserver";
 import {toast} from "sonner";
-import {Separator} from "@/components/ui/separator";
 
 
 export default function BoardList() {
@@ -31,7 +30,6 @@ export default function BoardList() {
 	useEffect(() => {
 		if (!data) return;
 		setBoardList((prev) => [...prev, ...data.pages[data.pages?.length - 1]?.boardList]);
-		console.log(data.pages[data.pages?.length - 1]?.boardList);
 		toast.success('게시글을 불러왔습니다.');
 	}, [data]);
 	const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();

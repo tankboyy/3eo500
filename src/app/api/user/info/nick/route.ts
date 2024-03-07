@@ -1,14 +1,17 @@
 import {database} from "@/firebase";
-import {onValue, ref} from "@firebase/database";
+import {get, onValue, ref} from "@firebase/database";
 
 export async function POST(request: Request) {
+	console.log("nick API");
 	const {uid} = await request.json();
-	const db = database;
-	const usersRef = ref(db, '/users/');
+	const usersRef = ref(database, '/users/');
 	let nick = "";
-	onValue(usersRef, (snapshot) => {
-		const data = snapshot.val();
-		nick = data[uid].nick;
+	await get(ref(database, 'users/' + uid)).then((snapshot) => {
+		if (snapshot.exists()) {
+			nick = snapshot.val().nick;
+		} else {
+			console.log("유저닉네임 불러오기 실패");
+		}
 	});
 	return Response.json({
 		nick: nick,

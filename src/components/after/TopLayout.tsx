@@ -17,6 +17,9 @@ import {useRecoilState, useSetRecoilState} from "recoil";
 import {userDataState} from "@/recoil/atoms";
 import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
+import {ref, set} from "@firebase/database";
+import {database} from "@/firebase";
+import {randomName} from "@/utils/names";
 
 
 export default function TopLayout() {
@@ -30,25 +33,6 @@ export default function TopLayout() {
 
 	useEffect(() => {
 		const uid = window.localStorage.getItem('uid');
-		const fetchFn = async () => {
-			return await fetch("/api/user/info/nick", {
-				method: "POST",
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					uid
-				})
-			}).then(async (res) => {
-				const result = await res.json();
-				setUserData((prev) => ({
-						...prev,
-						nick: result.nick
-					})
-				);
-			});
-		};
-		fetchFn();
 	}, []);
 
 	return (
@@ -64,13 +48,35 @@ export default function TopLayout() {
 						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
 							<div className="flex items-center flex-col w-full space-y-4">
 								<Label className="cursor-pointer" onClick={() => router.push('/board')}>
-									자유게시 판
+									자유게시판
 								</Label>
-								<Label className="cursor-pointer" onClick={() => {
-									window.localStorage.removeItem('uid');
-									router.replace('/');
+								<Label className="cursor-pointer" onClick={async () => {
+									fetch('/api/user/info/nick', {
+										method: 'POST',
+										headers: {
+											'Content-Type': 'application/json'
+										},
+										body: JSON.stringify({
+											uid: window.localStorage.getItem('uid')
+										})
+									}).then(async (res) => {
+										const {nick} = await res.json();
+										console.log(nick);
+										setUserData((prev) => ({
+											...prev,
+											nick: nick,
+										}));
+									})
+										.catch((err) => console.log('nick 에러'));
+									// if (window.localStorage.getItem('uid')) {
+									// 	window.localStorage.removeItem('uid');
+									// 	setUserData((prev) => ({
+									// 		...prev,
+									// 		uid: ''
+									// 	}));
+									// }
 								}}>
-									로그아웃
+									{window.localStorage.getItem('uid') ? "로그아웃" : "로그인"}
 								</Label>
 							</div>
 						</div>

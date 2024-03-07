@@ -14,7 +14,7 @@ import {Separator} from "@/components/ui/separator";
 export default function Page() {
 	const pathName = usePathname();
 	const getPostData = useRecoilValue(selectPostState);
-	const [postData, setPostData] = useState<apiBoardType>();
+	const [postData, setPostData] = useState<apiBoardType>(getPostData && getPostData);
 	const postId = pathName.split("/board/")[1];
 
 
@@ -30,31 +30,36 @@ export default function Page() {
 		}
 	}, []);
 
+
 	if (postData === undefined) return <div>로딩중...</div>;
 
 	return (
 		<main>
-			<article className="border rounded-lg p-4 bg-gray-800 w-full">
-				<div className="flex space-x-4">
-					<div className={"w-full space-y-2"}>
-						<h2 className="text-xl text-center font-bold">{postData.title}</h2>
-						<p className="text-gray-400 flex justify-end">
-							<em className="hover:text-blue-200 cursor-pointer">
-								{postData.nick ? postData.nick : postData.uid}
-							</em>
-							님
-							| {moment(new Date(postData.createAt)).fromNow()}</p>
-						<div className="flex p-2">
-							<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
-							</p>
+			<div className="border rounded-md
+								border-b transition-colors data-[state=selected]:bg-muted
+			">
+				<article className="p-4 w-full">
+					<div className="flex space-x-4">
+						<div className={"w-full space-y-2"}>
+							<h2 className="text-xl text-center font-bold">{postData.title}</h2>
+							<p className="text-gray-400 flex justify-end">
+								<em className="hover:text-blue-200 cursor-pointer">
+									{postData.nick ? postData.nick : postData.uid}
+								</em>
+								님
+								| {moment(new Date(postData.createAt)).fromNow()}</p>
+							<div className="flex p-2">
+								<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
+								</p>
+							</div>
 						</div>
 					</div>
-				</div>
-				<Separator className="my-4"/>
-				<div>
-
-				</div>
-			</article>
+					<Separator className="my-4"/>
+					<div>
+						{"댓글 기능은 아직 구현되지 않았습니다."}
+					</div>
+				</article>
+			</div>
 		</main>
 	);
 }
