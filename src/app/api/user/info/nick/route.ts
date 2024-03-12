@@ -4,7 +4,6 @@ import {get, onValue, ref} from "@firebase/database";
 export async function POST(request: Request) {
 	console.log("nick API");
 	const {uid} = await request.json();
-	const usersRef = ref(database, '/users/');
 	let nick = "";
 	await get(ref(database, 'users/' + uid)).then((snapshot) => {
 		if (snapshot.exists()) {
