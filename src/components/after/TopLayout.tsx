@@ -37,53 +37,51 @@ export default function TopLayout() {
 
 	return (
 		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
-			<Button size="icon" className="bg-transparent">
-				<Sheet>
-					<SheetTrigger>
-						<HamburgerMenuIcon className="h-[1.2rem] w-[1.2rem] stroke-foreground"/>
-					</SheetTrigger>
-					<SheetContent side="left">
-						<Separator className="my-4"/>
+			<Sheet>
+				<SheetTrigger>
+					<HamburgerMenuIcon className="h-[1.2rem] w-[1.2rem] stroke-foreground"/>
+				</SheetTrigger>
+				<SheetContent side="left">
+					<Separator className="my-4"/>
 
-						<div className="w-full pb-[30px] h-full flex justify-between flex-col">
-							<div className="flex items-center flex-col w-full space-y-4">
-								<Label className="cursor-pointer" onClick={() => router.push('/board')}>
-									자유게시판
-								</Label>
-								<Label className="cursor-pointer" onClick={async () => {
-									fetch('/api/user/info/nick', {
-										method: 'POST',
-										headers: {
-											'Content-Type': 'application/json'
-										},
-										body: JSON.stringify({
-											uid: window.localStorage.getItem('uid')
-										})
-									}).then(async (res) => {
-										const {nick} = await res.json();
-										console.log(nick);
-										setUserData((prev) => ({
-											...prev,
-											nick: nick,
-										}));
+					<div className="w-full pb-[30px] h-full flex justify-between flex-col">
+						<div className="flex items-center flex-col w-full space-y-4">
+							<Label className="cursor-pointer" onClick={() => router.push('/board')}>
+								자유게시판
+							</Label>
+							<Label className="cursor-pointer" onClick={async () => {
+								fetch('/api/user/info/nick', {
+									method: 'POST',
+									headers: {
+										'Content-Type': 'application/json'
+									},
+									body: JSON.stringify({
+										uid: window.localStorage.getItem('uid')
 									})
-										.catch((err) => console.log('nick 에러'));
-									// if (window.localStorage.getItem('uid')) {
-									// 	window.localStorage.removeItem('uid');
-									// 	setUserData((prev) => ({
-									// 		...prev,
-									// 		uid: ''
-									// 	}));
-									// }
-								}}>
-									{window.localStorage.getItem('uid') ? "로그아웃" : "로그인"}
-								</Label>
-							</div>
+								}).then(async (res) => {
+									const {nick} = await res.json();
+									console.log(nick);
+									setUserData((prev) => ({
+										...prev,
+										nick: nick,
+									}));
+								})
+									.catch((err) => console.log('nick 에러'));
+								// if (window.localStorage.getItem('uid')) {
+								// 	window.localStorage.removeItem('uid');
+								// 	setUserData((prev) => ({
+								// 		...prev,
+								// 		uid: ''
+								// 	}));
+								// }
+							}}>
+								{window.localStorage.getItem('uid') ? "로그아웃" : "로그인"}
+							</Label>
 						</div>
-					</SheetContent>
-				</Sheet>
+					</div>
+				</SheetContent>
+			</Sheet>
 
-			</Button>
 			<Button size="icon">
 				{resolvedTheme !== 'dark' ?
 					<SunIcon onClick={onChangeTheme}

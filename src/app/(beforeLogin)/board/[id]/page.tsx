@@ -34,10 +34,8 @@ export default function Page() {
 	if (postData === undefined) return <div>로딩중...</div>;
 
 	return (
-		<main>
-			<div className="border rounded-md
-								border-b transition-colors data-[state=selected]:bg-muted
-			">
+		<>
+			<div className="border m-2 rounded-md border-b transition-colors data-[state=selected]:bg-muted">
 				<article className="p-4 w-full">
 					<div className="flex space-x-4">
 						<div className={"w-full space-y-2"}>
@@ -60,6 +58,6 @@ export default function Page() {
 					</div>
 				</article>
 			</div>
-		</main>
+		</>
 	);
 }
