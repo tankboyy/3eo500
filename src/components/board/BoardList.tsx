@@ -28,9 +28,8 @@ export default function BoardList() {
 
 
 	useEffect(() => {
-		if (!data) return;
-		console.log("data 불러오기.", boardList);
-		setBoardList((prev) => [...prev, ...data.pages[data.pages?.length - 1]?.boardList]);
+		if (data === undefined) return;
+		setBoardList(data?.pages.map((page) => page.boardList).flat());
 		toast.success('게시글을 불러왔습니다.');
 	}, [data]);
 	const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
@@ -51,11 +50,10 @@ export default function BoardList() {
 			<div className="border rounded-md">
 				<div className="relative w-full overflow-auto">
 					<div className="w-full caption-bottom text-sm">
-						<div>
-							<div className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-								<div>
-									자유 게시판
-								</div>
+						<div
+							className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center font-bold text-2xl">
+							<div>
+								자유 게시판
 							</div>
 						</div>
 						<div className="[&_article:last-child]:border-0">
