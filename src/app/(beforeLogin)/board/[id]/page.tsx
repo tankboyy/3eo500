@@ -7,8 +7,8 @@ import 'moment/locale/ko';
 import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 import {apiBoardType} from "@/utils/types";
+import {Sparkle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
-import * as DOMPurify from "dompurify";
 
 
 export default function Page() {
@@ -47,7 +47,7 @@ export default function Page() {
 								님
 								| {moment(new Date(postData.createAt)).fromNow()}</p>
 							<div className="flex p-2">
-								<p className={``} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(String(postData.data))}}>
+								<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
 								</p>
 							</div>
 						</div>

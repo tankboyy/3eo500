@@ -23,20 +23,20 @@ export async function POST(request: Request) {
 			console.log("유저닉네임 불러오기 실패");
 		}
 	}).catch((error) => {
-		console.error("erororrorro", error);
+		console.error("error", error);
 	});
 
 	await getDocs(boardSnapshot).then((querySnapshot) => {
 		querySnapshot.docs.map((doc) => {
 			const docData = doc.data() as apiBoardType;
 			if (Object.keys(docData).length === 4) {
-				const data = {...docData};
+				const data = {...docData, id: doc.id};
 				// @ts-ignore
 				data.createAt = data.createAt.toDate() as string;
 				if (data.data.includes("<img")) {
 					data.isImage = data.data.match(/src="([^"]*)"/) as string[];
 				}
-				data.nick = usersName[data.uid].nick;
+				// data.nick = usersName[data.uid].nick;
 				boardList.push(data);
 			}
 		});
