@@ -36,6 +36,7 @@ export async function POST(request: Request) {
 				if (data.data.includes("<img")) {
 					data.isImage = data.data.match(/src="([^"]*)"/) as string[];
 				}
+				data.nick = usersName[data.uid].nick;
 				boardList.push(data);
 			}
 		});
