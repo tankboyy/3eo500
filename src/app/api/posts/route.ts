@@ -1,4 +1,4 @@
-import {collection, doc, getDoc, getDocs, limit, orderBy, query, startAfter, startAt} from "@firebase/firestore";
+import {collection, doc, getDoc, getDocs, limit, orderBy, query, startAt} from "@firebase/firestore";
 import {db} from "@/firebase";
 import {apiBoardType} from "@/utils/types";
 import {child, get, getDatabase, ref} from "@firebase/database";
@@ -28,25 +28,15 @@ export async function POST(request: Request) {
 
 	await getDocs(boardSnapshot).then((querySnapshot) => {
 		querySnapshot.docs.map((doc) => {
-			const docData = doc.data();
+			const docData = doc.data() as apiBoardType;
 			if (Object.keys(docData).length === 4) {
-				const {title, data, createAt, uid} = docData;
-				if (data.includes("<img")) {
-					const imgTags = data.match(/src="([^"]*)"/);
-					const data2 = {
-						id: doc.id,
-						title, data, createAt: createAt.toDate(), uid,
-						isImage: imgTags,
-						nick: "익명"
-					};
-					boardList.push(data2);
-					return;
-				}
+				const data = {...docData};
 				// @ts-ignore
-				boardList.push({
-					id: doc.id,
-					title, data, createAt: createAt.toDate(), uid,
-				});
+				data.createAt = data.createAt.toDate() as string;
+				if (data.data.includes("<img")) {
+					data.isImage = data.data.match(/src="([^"]*)"/) as string[];
+				}
+				boardList.push(data);
 			}
 		});
 	});

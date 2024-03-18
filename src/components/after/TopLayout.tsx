@@ -43,7 +43,6 @@ export default function TopLayout() {
 				</SheetTrigger>
 				<SheetContent side="left">
 					<Separator className="my-4"/>
-
 					<div className="w-full pb-[30px] h-full flex justify-between flex-col">
 						<div className="flex items-center flex-col w-full space-y-4">
 							<Label className="cursor-pointer" onClick={() => router.push('/board')}>

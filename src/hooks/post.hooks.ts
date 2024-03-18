@@ -36,7 +36,6 @@ export const useGetPostsAPI = async ({pageParam}: { pageParam: string }) => {
 		body: JSON.stringify({pageParam})
 	})
 		.then(async (res) => {
-
 			const data = await res.json();
 			return data.boardList === "불러올 게시글이 없습니다." ? {boardList: []} : data;
 		});
