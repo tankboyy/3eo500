@@ -1,7 +1,7 @@
 'use client';
 
 import {usePathname, useSearchParams} from "next/navigation";
-import {useEffect, useState} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import moment from "moment/moment";
 import 'moment/locale/ko';
 import {useRecoilValue} from "recoil";
@@ -15,9 +15,9 @@ export default function Page() {
 	const [postData, setPostData] = useState<apiBoardType>();
 	const postId = pathName?.split("/board/")[1];
 	const getPostData = useRecoilValue(selectPostState);
-	
 
-	useEffect(() => {
+
+	useLayoutEffect(() => {
 		if (Object.keys(getPostData).length === 0) {
 			(async () => {
 				await fetch(`/api/board/${postId}`, {}).then(async (res) => {
