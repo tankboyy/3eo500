@@ -32,18 +32,18 @@ export default function Page() {
 	if (postData.id === "") return <div>로딩중...</div>;
 
 	return (
-		<>
-			<div className="border m-2 rounded-md border-b transition-colors data-[state=selected]:bg-muted">
+		<main>
+			<div className="border m-2 rounded-md border-b transition-colors data-[state=selected]:bg-muted w-full">
 				<article className="p-4 w-full">
 					<div className="flex space-x-4">
 						<div className={"w-full space-y-2"}>
 							<h2 className="text-xl text-center font-bold">{postData.title}</h2>
-							<p className="text-gray-400 flex justify-end">
-								<em className="hover:text-blue-200 cursor-pointer">
+							<span className="text-gray-400 flex justify-end">
+								<p className="hover:text-blue-200 cursor-pointer">
 									{postData.nick ? postData.nick : postData.uid}
-								</em>
+								</p>
 								님
-								| {moment(new Date(postData.createAt)).fromNow()}</p>
+								| {moment(new Date(postData.createAt)).fromNow()}</span>
 							<div className="flex p-2">
 								<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
 								</p>
@@ -56,6 +56,6 @@ export default function Page() {
 					</div>
 				</article>
 			</div>
-		</>
+		</main>
 	);
 }
