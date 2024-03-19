@@ -6,7 +6,9 @@ export default function Progress() {
 	const [per, setPer] = useState(0);
 	useEffect(() => {
 		const interval = setInterval(() => {
-			setPer((prev) => prev + 1);
+			setPer((prev) => {
+				return prev > 100 ? 0 : prev + 1;
+			});
 		}, 50);
 		return () => clearInterval(interval);
 	}, []);
