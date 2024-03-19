@@ -8,7 +8,7 @@ export default function Page() {
 	useEffect(() => {
 		if (window.localStorage.getItem('uid')) {
 			router.replace('/main');
-		}
+		} else router.replace('/login');
 	}, []);
 	return (
 		<main>
