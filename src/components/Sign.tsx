@@ -3,15 +3,15 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import Login from "@/components/login/login";
 import Signup from "@/components/signup/signup";
-import {useEffect} from "react";
+import {useEffect, useLayoutEffect} from "react";
 import {useRouter} from "next/navigation";
 
 
 export default function Sign() {
 
 	const router = useRouter();
-
-	useEffect(() => {
+	
+	useLayoutEffect(() => {
 		if (window.localStorage.getItem('uid')) {
 			router.replace('/main');
 		}
