@@ -30,8 +30,13 @@ export default function BoardList() {
 
 	useEffect(() => {
 		if (data === undefined) return;
-		setBoardList(data?.pages.map((page) => page.boardList).flat());
-		toast.success('게시글을 불러왔습니다.');
+		setBoardList(() => {
+			if (data?.pages.map((page) => page.boardList).flat().length !== boardList.length) {
+				toast.success('게시글을 불러왔습니다.');
+			}
+			return data?.pages.map((page) => page.boardList).flat();
+		});
+
 	}, [data]);
 	const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
 
