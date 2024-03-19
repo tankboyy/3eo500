@@ -18,7 +18,7 @@ export default function Page() {
 
 
 	useLayoutEffect(() => {
-		if (Object.keys(getPostData).length === 0) {
+		if (postData.id === "") {
 			(async () => {
 				await fetch(`/api/board/${postId}`, {}).then(async (res) => {
 					const {postData} = await res.json();
@@ -29,7 +29,7 @@ export default function Page() {
 	}, []);
 
 
-	if (postData === undefined) return <div>로딩중...</div>;
+	if (postData.id === "") return <div>로딩중...</div>;
 
 	return (
 		<>
