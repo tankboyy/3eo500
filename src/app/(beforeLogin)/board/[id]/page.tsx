@@ -29,7 +29,7 @@ export default function Page() {
 	}, []);
 
 
-	if (postData.id === "") return <div>로딩중...</div>;
+	if (postData.id === "") return <main>로딩중...</main>;
 
 	return (
 		<main>
