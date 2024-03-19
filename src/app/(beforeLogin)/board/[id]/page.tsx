@@ -8,6 +8,7 @@ import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 import {apiBoardType} from "@/utils/types";
 import {Separator} from "@/components/ui/separator";
+import Progress from "@/components/progress";
 
 
 export default function Page() {
@@ -29,7 +30,9 @@ export default function Page() {
 	}, []);
 
 
-	if (postData.id === "") return <main>로딩중...</main>;
+	if (postData.id === "") return <main>로딩중...
+		<Progress/>
+	</main>;
 
 	return (
 		<main>
