@@ -12,6 +12,7 @@ import {useEffect, useRef, useState} from "react";
 // @ts-ignore
 import {useObserver} from "@/hooks/useObserver";
 import {toast} from "sonner";
+import Progress from "@/components/progress";
 
 
 export default function BoardList() {
@@ -47,50 +48,52 @@ export default function BoardList() {
 
 	return (
 		<main className="px-6 py-4">
-			<div className="border rounded-md">
-				<div className="relative w-full overflow-auto">
-					<div className="w-full caption-bottom text-sm">
-						<div
-							className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center font-bold text-2xl">
-							<div>
-								자유 게시판
+			{!boardList.length ? <Progress/> :
+				<div className="border rounded-md">
+					<div className="relative w-full overflow-auto">
+						<div className="w-full caption-bottom text-sm">
+							<div
+								className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center font-bold text-2xl">
+								<div>
+									자유 게시판
+								</div>
 							</div>
-						</div>
-						<div className="[&_article:last-child]:border-0">
-							{boardList?.map((board: apiBoardType) => {
-								const content = board.data.replace(/<img\s+[^>]*>/g, '');
-								return (
-									<div className=" p-4 w-full cursor-pointer
+							<div className="[&_article:last-child]:border-0">
+								{boardList?.map((board: apiBoardType) => {
+									const content = board.data.replace(/<img\s+[^>]*>/g, '');
+									return (
+										<div className=" p-4 w-full cursor-pointer
 								border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted
 								"
-											 key={board.id}>
-										<div className="flex space-x-4" onClick={() => onClickBoard(board)}>
-											<div className={`${board.isImage ? "w-2/3" : "w-full"}`}>
-												<h2 className="text-xl font-bold">{board.title}</h2>
-												<p className="text-gray-400">{board.nick ? board.nick : board.uid} 님
-													| {moment(new Date(board.createAt)).fromNow()}</p>
-												<div className="flex">
-													<p className={`line-clamp-3 ...`} dangerouslySetInnerHTML={{__html: content}}>
-													</p>
+												 key={board.id}>
+											<div className="flex space-x-4" onClick={() => onClickBoard(board)}>
+												<div className={`${board.isImage ? "w-2/3" : "w-full"}`}>
+													<h2 className="text-xl font-bold">{board.title}</h2>
+													<p className="text-gray-400">{board.nick ? board.nick : board.uid} 님
+														| {moment(new Date(board.createAt)).fromNow()}</p>
+													<div className="flex">
+														<p className={`line-clamp-3 ...`} dangerouslySetInnerHTML={{__html: content}}>
+														</p>
+													</div>
 												</div>
+												{board.isImage &&
+                          <div className="w-1/3">
+                            <Image src={board.isImage[1]} alt={'asdff'}
+                                   width={40} height={40}
+                                   layout="responsive"
+                            />
+                          </div>
+												}
 											</div>
-											{board.isImage &&
-                        <div className="w-1/3">
-                          <Image src={board.isImage[1]} alt={'asdff'}
-                                 width={40} height={40}
-                                 layout="responsive"
-                          />
-                        </div>
-											}
 										</div>
-									</div>
-								);
-							})}
-						</div>
+									);
+								})}
+							</div>
 
+						</div>
 					</div>
 				</div>
-			</div>
+			}
 			<div ref={bottomRef}/>
 		</main>
 	);
