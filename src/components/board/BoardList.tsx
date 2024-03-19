@@ -8,7 +8,7 @@ import {useRouter} from "next/navigation";
 import {useGetPosts, useInfinityPosts} from "@/hooks/post.hooks";
 import {useSetRecoilState} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
-import {useEffect, useLayoutEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 // @ts-ignore
 import {useObserver} from "@/hooks/useObserver";
 import {toast} from "sonner";
@@ -27,7 +27,7 @@ export default function BoardList() {
 	} = useInfinityPosts();
 
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (data === undefined) return;
 		setBoardList(data?.pages.map((page) => page.boardList).flat());
 		toast.success('게시글을 불러왔습니다.');
@@ -44,7 +44,6 @@ export default function BoardList() {
 		onIntersect: onIntersect,
 	});
 
-	if (!boardList.length) return <div>로딩중</div>;
 
 	return (
 		<main className="px-6 py-4">
