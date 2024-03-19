@@ -7,16 +7,15 @@ import 'moment/locale/ko';
 import {useRecoilValue} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 import {apiBoardType} from "@/utils/types";
-import {Sparkle} from "lucide-react";
 import {Separator} from "@/components/ui/separator";
 
 
 export default function Page() {
 	const pathName = usePathname();
+	const [postData, setPostData] = useState<apiBoardType>();
+	const postId = pathName?.split("/board/")[1];
 	const getPostData = useRecoilValue(selectPostState);
-	const [postData, setPostData] = useState<apiBoardType>(getPostData && getPostData);
-	const postId = pathName.split("/board/")[1];
-
+	
 
 	useEffect(() => {
 		if (Object.keys(getPostData).length === 0) {
@@ -24,7 +23,6 @@ export default function Page() {
 				await fetch(`/api/board/${postId}`, {}).then(async (res) => {
 					const {postData} = await res.json();
 					setPostData(postData);
-					console.log(postData.createAt, new Date(postData.createAt));
 				});
 			})();
 		}
