@@ -12,9 +12,9 @@ import {Separator} from "@/components/ui/separator";
 
 export default function Page() {
 	const pathName = usePathname();
-	const [postData, setPostData] = useState<apiBoardType>();
-	const postId = pathName?.split("/board/")[1];
 	const getPostData = useRecoilValue(selectPostState);
+	const [postData, setPostData] = useState<apiBoardType>(getPostData);
+	const postId = pathName?.split("/board/")[1];
 
 
 	useLayoutEffect(() => {

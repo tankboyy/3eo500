@@ -37,7 +37,13 @@ export const userDataState = atom<userType>({
 	}
 });
 
-export const selectPostState = atom<apiBoardType | {}>({
+export const selectPostState = atom<apiBoardType>({
 	key: 'selectPostState',
-	default: {}
+	default: {
+		uid: '',
+		title: '',
+		data: '',
+		createAt: '',
+		id: ''
+	}
 });
