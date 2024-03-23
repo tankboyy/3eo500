@@ -80,6 +80,7 @@ export default function Page() {
 			});
 	}
 
+
 	const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setTitle(e.target.value);
 	};
@@ -97,3 +98,4 @@ export default function Page() {
 		</main>
 	);
 }
+
