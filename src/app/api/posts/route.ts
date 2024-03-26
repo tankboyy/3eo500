@@ -25,6 +25,7 @@ export async function POST(request: Request) {
 	}).catch((error) => {
 		console.error("error", error);
 	});
+
 	await getDocs(boardSnapshot).then((querySnapshot) => {
 		querySnapshot.docs.map((doc) => {
 			const docData = doc.data() as apiBoardType;
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
 				if (data.data.includes("<img")) {
 					data.isImage = data.data.match(/src="([^"]*)"/) as string[];
 				}
-				data.nick = usersName[data.uid].nick;
+				data.nick = usersName[data.uid]?.nick ? usersName[data.uid].nick : "**헬린이**";
 				boardList.push(data);
 			}
 		});
