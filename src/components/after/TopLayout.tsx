@@ -21,7 +21,7 @@ import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
 
 
-export default function TopLayout() {
+export default function TopLayout({after}: { after: boolean }) {
 	const {theme, resolvedTheme, setTheme} = useTheme();
 	const router = useRouter();
 	const auth = getAuth(app);
@@ -32,7 +32,7 @@ export default function TopLayout() {
 
 	// 로그인 유무 확인
 	useEffect(() => {
-		if (isLogged === false) {
+		if (isLogged === false && after) {
 			router.push('/login');
 		}
 	}, [isLogged]);

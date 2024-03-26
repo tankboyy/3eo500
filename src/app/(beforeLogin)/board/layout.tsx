@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
 	return (
 		<div className="flex justify-center flex-col">
-			<TopLayout/>
+			<TopLayout after={false}/>
 			{children}
 		</div>
 	);
