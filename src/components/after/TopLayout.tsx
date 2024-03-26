@@ -11,29 +11,32 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
-import {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import {useRecoilState, useSetRecoilState} from "recoil";
-import {userDataState} from "@/recoil/atoms";
 import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
-import {ref, set} from "@firebase/database";
-import {database} from "@/firebase";
-import {randomName} from "@/utils/names";
+import {useEffect, useLayoutEffect} from "react";
+import {getAuth, onAuthStateChanged} from "@firebase/auth";
+import {app} from "@/firebase";
+import useAuthentication from "@/hooks/useAuthentication";
+import useSignOut from "@/hooks/useSignOut";
 
 
 export default function TopLayout() {
 	const {theme, resolvedTheme, setTheme} = useTheme();
 	const router = useRouter();
-	const [userData, setUserData] = useRecoilState(userDataState);
-
+	const auth = getAuth(app);
+	const isLogged = useAuthentication();
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
 
+	// 로그인 유무 확인
 	useEffect(() => {
-		const uid = window.localStorage.getItem('uid');
-	}, []);
+		if (isLogged === false) {
+			router.push('/login');
+		}
+	}, [isLogged]);
+
 
 	return (
 		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
@@ -48,33 +51,10 @@ export default function TopLayout() {
 							<Label className="cursor-pointer" onClick={() => router.push('/board')}>
 								자유게시판
 							</Label>
-							<Label className="cursor-pointer" onClick={async () => {
-								fetch('/api/user/info/nick', {
-									method: 'POST',
-									headers: {
-										'Content-Type': 'application/json'
-									},
-									body: JSON.stringify({
-										uid: window.localStorage.getItem('uid')
-									})
-								}).then(async (res) => {
-									const {nick} = await res.json();
-									console.log(nick);
-									setUserData((prev) => ({
-										...prev,
-										nick: nick,
-									}));
-								})
-									.catch((err) => console.log('nick 에러'));
-								// if (window.localStorage.getItem('uid')) {
-								// 	window.localStorage.removeItem('uid');
-								// 	setUserData((prev) => ({
-								// 		...prev,
-								// 		uid: ''
-								// 	}));
-								// }
+							<Label className="cursor-pointer" onClick={() => {
+								isLogged ? useSignOut : router.replace('/login');
 							}}>
-								{window.localStorage.getItem('uid') ? "로그아웃" : "로그인"}
+								{isLogged ? "로그아웃" : "로그인"}
 							</Label>
 						</div>
 					</div>

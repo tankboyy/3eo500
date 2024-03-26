@@ -17,14 +17,7 @@ export default function Calendar() {
 	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
 	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
 	const recordData = useRecoilValue(recordDataState);
-	const router = useRouter();
 
-	useEffect(() => {
-		if (!window.localStorage.getItem('uid')) {
-			toast.error('로그인이 필요합니다.');
-			router.push('/');
-		}
-	}, []);
 
 	useGetRecord();
 
