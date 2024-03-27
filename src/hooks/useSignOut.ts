@@ -3,6 +3,7 @@ import {app} from "@/firebase";
 import {toast} from "sonner";
 
 export default function UseSignOut() {
+	console.log('useSignOut');
 	const auth = getAuth(app);
 	signOut(auth)
 		.then(() => {

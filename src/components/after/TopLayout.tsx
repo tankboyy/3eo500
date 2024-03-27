@@ -52,7 +52,9 @@ export default function TopLayout({after}: { after: boolean }) {
 								자유게시판
 							</Label>
 							<Label className="cursor-pointer" onClick={() => {
-								isLogged ? useSignOut : router.replace('/login');
+								if (isLogged) {
+									useSignOut();
+								} else router.replace('/login');
 							}}>
 								{isLogged ? "로그아웃" : "로그인"}
 							</Label>

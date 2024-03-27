@@ -10,6 +10,6 @@ export default function UseAuthentication() {
 		onAuthStateChanged(auth, (user) => {
 			user ? setIsLoggedIn(true) : setIsLoggedIn(false);
 		});
-	}, []);
+	}, [auth]);
 	return isLoggedIn;
 }
