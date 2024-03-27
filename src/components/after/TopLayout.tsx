@@ -56,7 +56,7 @@ export default function TopLayout({after}: { after: boolean }) {
 									useSignOut();
 								} else router.replace('/login');
 							}}>
-								{isLogged ? "로그아웃" : "로그인"}
+								{isLogged ? "로그아웃" : "로그인 / 회원가입"}
 							</Label>
 						</div>
 					</div>
