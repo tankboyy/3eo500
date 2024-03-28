@@ -1,13 +1,14 @@
+import {useQueryClient} from "@tanstack/react-query";
 import {useRecoilValue} from "recoil";
-import {recordDataState, selectDateState} from "@/recoil/atoms";
+import {recordType, selectDateState} from "@/recoil/atoms";
 
 export default function UseGetTodayRecord() {
+
+	const q = useQueryClient();
 	const selectDate = useRecoilValue(selectDateState);
-	const recordData = useRecoilValue(recordDataState);
+	const recordData = q.getQueryData<recordType>(['record']);
 
-	const data = recordData[selectDate];
+	if (!recordData) return undefined;
 
-	if (!data) return undefined;
-
-	return data;
+	return recordData[selectDate];
 }
