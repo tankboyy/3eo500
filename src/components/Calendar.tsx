@@ -3,11 +3,9 @@
 import {useEffect, useState} from "react";
 import dayjs from "dayjs";
 import {useMakeMonthArr} from "@/hooks/useMakeMonthArr";
-import {useGetRecord} from "@/hooks/record.hooks";
 import {useRecoilState, useRecoilValue} from "recoil";
-import {recordDataState, selectDateState} from "@/recoil/atoms";
-import {useRouter} from "next/navigation";
-import {toast} from "sonner";
+import {recordDataState, recordType, selectDateState, userDataState} from "@/recoil/atoms";
+import {useQueryClient} from "@tanstack/react-query";
 
 const days = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -16,13 +14,12 @@ export default function Calendar() {
 	const [nowDate, setNowDate] = useState(new Date());
 	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
 	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
-	const recordData = useRecoilValue(recordDataState);
-
-
-	useGetRecord();
+	const q = useQueryClient();
+	const recordData = q.getQueryData(['record']);
 
 
 	useEffect(() => {
+		if (!recordData) return;
 		const keys = Object.keys(recordData);
 		const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
 			if (keys.includes(day.day)) {
