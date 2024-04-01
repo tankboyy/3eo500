@@ -1,6 +1,7 @@
 import {atom} from "recoil";
 import dayjs from "dayjs";
 import {apiBoardType} from "@/utils/types";
+import {User} from "@firebase/auth";
 
 export type recordType = {
 	[key: string]: {
@@ -28,13 +29,9 @@ export type userType = {
 	email: string
 	nick: string
 }
-export const userDataState = atom<userType>({
+export const userDataState = atom<User | null>({
 	key: 'userDataState',
-	default: {
-		uid: '',
-		email: '',
-		nick: ''
-	}
+	default: null,
 });
 
 export const selectPostState = atom<apiBoardType>({
