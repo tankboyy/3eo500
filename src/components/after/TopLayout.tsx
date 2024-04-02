@@ -24,7 +24,6 @@ import useSignOut from "@/hooks/useSignOut";
 export default function TopLayout({after}: { after: boolean }) {
 	const {theme, resolvedTheme, setTheme} = useTheme();
 	const router = useRouter();
-	const auth = getAuth(app);
 	const isLogged = useAuthentication();
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
@@ -35,7 +34,7 @@ export default function TopLayout({after}: { after: boolean }) {
 		if (isLogged === false && after) {
 			router.push('/login');
 		}
-	}, [isLogged]);
+	}, []);
 
 
 	return (
