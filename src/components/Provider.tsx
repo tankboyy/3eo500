@@ -8,12 +8,16 @@ import ThemeProvider from "@/components/ThemeProvider";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import {useEffect, useState} from "react";
+import {getAuth} from "@firebase/auth";
+import {app} from "@/firebase";
 
 export default function Provider({
 																	 children,
 																 }: {
 	children: React.ReactNode
 }) {
+	getAuth(app);
+
 	const queryClient2 = new QueryClient2({
 		defaultOptions: {
 			queries: {
