@@ -22,7 +22,7 @@ export default function Login() {
 	}
 
 	async function onSubmit() {
-		const auth = getAuth(app);
+		const auth = getAuth();
 		try {
 			await signInWithEmailAndPassword(auth, id, password);
 			router.replace('/main');

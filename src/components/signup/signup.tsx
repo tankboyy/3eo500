@@ -1,20 +1,19 @@
 'use client';
 
-import {useState} from "react";
+import React, {useState} from "react";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {useSetRecoilState} from "recoil";
 import {userDataState} from "@/recoil/atoms";
-import {createUserWithEmailAndPassword, getAuth} from "@firebase/auth";
+import {createUserWithEmailAndPassword, getAuth, onAuthStateChanged} from "@firebase/auth";
 import {app} from "@/firebase";
 
 export default function Signup() {
 	const [id, setId] = useState("");
 	const [password, setPassword] = useState("");
 	const router = useRouter();
-	const setUserData = useSetRecoilState(userDataState);
 
 	function onChangeId(event: React.ChangeEvent<HTMLInputElement>) {
 		setId(event.target.value);
@@ -26,7 +25,7 @@ export default function Signup() {
 
 	async function onSubmit() {
 		try {
-			const auth = getAuth(app);
+			const auth = getAuth();
 			await createUserWithEmailAndPassword(auth, id, password);
 			toast.success("회원가입 완료, 메인 페이지로 이동합니다!");
 			router.replace('/main');

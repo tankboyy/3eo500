@@ -4,7 +4,7 @@ import {app} from "@/firebase";
 
 export default function UseAuthentication() {
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
-	const auth = getAuth(app);
+	const auth = getAuth();
 	useEffect(() => {
 
 		onAuthStateChanged(auth, (user) => {
