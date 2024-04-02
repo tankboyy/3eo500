@@ -1,63 +1,94 @@
-import {useMutation, useQuery} from "react-query";
-import {useRecoilValue, useSetRecoilState} from "recoil";
-import {recordDataState, selectDateState} from "@/recoil/atoms";
-import {recordDataType} from "@/components/RecordWeight";
+import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
+import {getAuth, User} from "@firebase/auth";
+import {recordType, selectDateState} from "@/recoil/atoms";
+import {useRecoilValue} from "recoil";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db} from "@/firebase";
+import {recordDataType} from "@/components/RecordWeight";
+import {toast} from "sonner";
+
+export async function getRecordData(uid: string | undefined) {
+	return fetch("/api/record", {
+		method: "POST",
+		body: JSON.stringify({uid: uid}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => res.json())
+		.then(data => data);
+}
 
 export const useGetRecord = () => {
-	const setRecordData = useSetRecoilState(recordDataState);
-	return useQuery("record", async () => {
-		const res = await fetch("/api/record", {
-			method: "POST",
-			body: JSON.stringify({uid: localStorage.getItem("uid")}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		});
-		const data = await res.json();
-		setRecordData(data);
-		return data;
+	const auth = getAuth();
+
+	if (!auth) return;
+	return useQuery<recordType>({
+		queryKey: ["record"],
+		queryFn: () => getRecordData(auth.currentUser?.uid),
+		staleTime: 300000,
 	});
 };
 
-export const useUpdateRecord = async ({uid, recordName, data}: {
-	uid: string,
-	recordName: string,
-	data: recordDataType[]
-}) => {
-	const setRecordData = useSetRecoilState(recordDataState);
-	const nowDate = useRecoilValue(selectDateState);
+interface UpdateRecordType {
+	selectDate: string;
+	recordName: string;
+	data: recordDataType[];
+}
 
-	const Ref = doc(db, "record", uid);
-	const docSnap = await getDoc(Ref);
-
+async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
+	const auth = getAuth();
+	const uid = auth.currentUser?.uid;
+	if (!uid) return;
+	const ref = doc(db, "record", uid);
+	const docSnap = await getDoc(ref);
+	let returnData = {};
 	if (docSnap.exists()) {
 		const prevData = docSnap.data();
-		let data = {};
-		if (prevData[nowDate]) {
-			data = {
-				[nowDate]: {
-					...prevData[nowDate],
+		if (prevData[selectDate]) {
+			returnData = {
+				[selectDate]: {
+					...prevData[selectDate],
 					[recordName]: data
 				}
 			};
 		} else {
-			data = {
-				[nowDate]: {
+			returnData = {
+				[selectDate]: {
 					[recordName]: data
 				}
 			};
 		}
-
-		// useMutation(updateDoc(Ref, data));
-
-		// toast.promise(updateDoc(Ref, data).then(() => {
-		// 	return "성공";
-		// }), {
-		// 	loading: '기록중...',
-		// 	success: '기록완료!',
-		// 	error: '기록실패!'
-		// });
 	}
+	return await updateDoc(ref, returnData);
+}
+
+export const useMutationRecord = () => {
+	const q = useQueryClient();
+	const selectDate = useRecoilValue(selectDateState);
+	return useMutation({
+		mutationFn: updateRecord,
+		onSuccess: async (data1, variables, context) => {
+			toast.success("저장되었습니다.");
+			const {selectDate, recordName, data} = variables as UpdateRecordType;
+			q.setQueryData(["record"], (old) => {
+				return {
+					// @ts-ignore
+					...old,
+					[selectDate]: {
+						// @ts-ignore
+						...old[selectDate],
+						[recordName]: data
+					}
+				};
+
+			});
+		},
+		onError: (error, context) => {
+			console.log('error', error, context);
+			toast.error("저장에 실패했습니다.");
+		},
+		onMutate: ({selectDate, recordName, data}: UpdateRecordType) => {
+		}
+	});
 };
