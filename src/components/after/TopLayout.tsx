@@ -31,7 +31,7 @@ export default function TopLayout({after}: { after: boolean }) {
 
 	// 로그인 유무 확인
 	useEffect(() => {
-		if (isLogged === false && after) {
+		if (!isLogged && after) {
 			router.push('/login');
 		}
 	}, []);
