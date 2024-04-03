@@ -1,8 +1,6 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import Provider from "@/components/Provider";
-import {Head} from "next/document";
-import Link from "next/link";
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -16,7 +14,6 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-
 		<body className="flex justify-center">
 		<Provider>
 			{children}

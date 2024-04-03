@@ -14,27 +14,33 @@ import {
 import {useRouter} from "next/navigation";
 import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
-import {useEffect, useLayoutEffect} from "react";
+import {useEffect, useLayoutEffect, useState} from "react";
 import {getAuth, onAuthStateChanged} from "@firebase/auth";
 import {app} from "@/firebase";
 import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
+import useGetUser from "@/hooks/useGetUser";
+import {useRecoilValue} from "recoil";
+import {userDataState} from "@/recoil/atoms";
 
 
 export default function TopLayout({after}: { after: boolean }) {
 	const {theme, resolvedTheme, setTheme} = useTheme();
+
 	const router = useRouter();
 	const isLogged = useAuthentication();
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
-
+	const userData = useRecoilValue(userDataState);
 	// 로그인 유무 확인
 	useEffect(() => {
-		if (!isLogged && after) {
-			router.push('/login');
+
+		console.log('로그인 확인', isLogged, userData);
+		if (after && userData) {
+			// router.push('/login');
 		}
-	}, []);
+	}, [userData]);
 
 
 	return (

@@ -10,13 +10,13 @@ import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import {useEffect, useState} from "react";
 import {getAuth} from "@firebase/auth";
 import {app} from "@/firebase";
+import useAuthentication from "@/hooks/useAuthentication";
 
 export default function Provider({
 																	 children,
 																 }: {
 	children: React.ReactNode
 }) {
-	getAuth(app);
 
 	const queryClient2 = new QueryClient2({
 		defaultOptions: {
@@ -33,6 +33,7 @@ export default function Provider({
 		setIsMount(true);
 	}, []);
 	if (!isMount) return null;
+
 	return (
 		<RecoilRoot>
 			<QueryClientProvider2 client={queryClient2}>

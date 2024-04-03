@@ -8,7 +8,7 @@ export default function UseAuthentication() {
 	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [userData, setUserData] = useRecoilState(userDataState);
 
-	const auth = getAuth();
+	const auth = getAuth(app);
 	useLayoutEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
