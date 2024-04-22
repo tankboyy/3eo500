@@ -18,7 +18,7 @@ export default function Page() {
 	const postId = pathName?.split("/board/")[1];
 
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (postData.id === "") {
 			(async () => {
 				await fetch(`/api/board/${postId}`, {}).then(async (res) => {

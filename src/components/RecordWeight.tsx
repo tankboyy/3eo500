@@ -12,6 +12,8 @@ import {Button} from "@/components/ui/button";
 import {ToggleGroup, ToggleGroupItem} from "@/components/ui/toggle-group";
 import {ScrollArea, ScrollBar} from "@/components/ui/scroll-area";
 import RecordView from "@/components/record/RecordView";
+import {collection, doc, getDoc, getFirestore, setDoc} from "@firebase/firestore";
+import {app, db} from "@/firebase";
 
 const _ = require("lodash");
 

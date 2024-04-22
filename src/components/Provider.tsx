@@ -8,9 +8,7 @@ import ThemeProvider from "@/components/ThemeProvider";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from "@tanstack/react-query-devtools";
 import {useEffect, useState} from "react";
-import {getAuth} from "@firebase/auth";
-import {app} from "@/firebase";
-import useAuthentication from "@/hooks/useAuthentication";
+import AuthProvider from "@/components/providers/AuthProvider";
 
 export default function Provider({
 																	 children,
@@ -27,14 +25,17 @@ export default function Provider({
 			},
 		}
 	});
+
 	const queryClient = new QueryClient({ /* options */});
 	const [isMount, setIsMount] = useState(false);
+
 	useEffect(() => {
 		setIsMount(true);
 	}, []);
 	if (!isMount) return null;
 
 	return (
+		<AuthProvider>
 		<RecoilRoot>
 			<QueryClientProvider2 client={queryClient2}>
 				<React2 initialIsOpen={false} position="bottom-right"/>
@@ -46,11 +47,12 @@ export default function Provider({
 						enableSystem
 						disableTransitionOnChange
 					>
-						{children}
+							{children}
 					</ThemeProvider>
 				</QueryClientProvider>
 				<Toaster/>
 			</QueryClientProvider2>
 		</RecoilRoot>
+		</AuthProvider>
 	);
 }

@@ -16,7 +16,7 @@ export default function Sign() {
 	const userData = useRecoilValue(userDataState);
 
 
-	useLayoutEffect(() => {
+	useEffect(() => {
 		if (userData) {
 			router.replace('/main');
 		}

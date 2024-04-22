@@ -1,35 +1,31 @@
-import {getAuth, signInWithEmailAndPassword} from "@firebase/auth";
-import {app} from "@/firebase";
+import { getAuth, signInWithEmailAndPassword } from "@firebase/auth";
+import { app, useAuth } from "@/firebase";
 
 export async function POST(req: Request) {
-	const a = app;
-	const {id, password} = await req.json();
-	const auth = getAuth();
+	console.log('login start')
+	const { id, password } = await req.json();
+	const auth = useAuth;
 	const data = {
-		uid: "",
+		accessToken: "",
 		refreshToken: "",
 	};
 	await signInWithEmailAndPassword(auth, id, password)
-		.then((userCredential) => {
+		.then(async (userCredential) => {
 			const user = userCredential.user;
-			data.uid = userCredential.user.uid;
+			data.accessToken = await user.getIdToken();
 			data.refreshToken = user.refreshToken;
-			console.log('uid');
-			const a = getNickApi(userCredential.user.uid);
-			console.log(a);
 		})
 		.catch((error) => {
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			console.log(errorCode, errorMessage);
+			console.log(errorCode, errorMessage, "login 에러");
 		});
-
 	return Response.json(data, {
 		headers: {
 			"Content-Type": "application/json",
-			"set-cookie": "refreshToken=" + data.refreshToken + "; path=/; HttpOnly; SameSite=Strict; Secure",
+			"set-cookie": "refreshToken=" + data.refreshToken + ";" + "accessToken=" + data.accessToken + "; HttpOnly; Secure",
 		}
-	});
+	})
 }
 
 const getNickApi = async (uid: string) => {

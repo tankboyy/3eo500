@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-
   images: {
     // domains: ["https://d3hlzyv4ta72d6.cloudfront.net/"],
     remotePatterns: [

@@ -9,7 +9,14 @@ export default function UseGetUser() {
 	const [userData, setUserData] = useRecoilState(userDataState);
 	const auth = getAuth();
 	useEffect(() => {
-		if (auth) setUserData(auth.currentUser);
+		if (!auth) return
+		// console.log(auth);
+		console.log(auth.currentUser)
+			if (!auth.currentUser) {
+			console.log('not user', auth.currentUser);
+		} else {
+			console.log('user', auth.currentUser);
+		}
 	}, [auth]);
 	return userData;
 }

@@ -37,11 +37,13 @@ interface UpdateRecordType {
 }
 
 async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
-	const auth = getAuth();
-	const uid = auth.currentUser?.uid;
+	// const auth = getAuth();
+	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2'
 	if (!uid) return;
 	const ref = doc(db, "record", uid);
-	const docSnap = await getDoc(ref);
+	console.log('ref', ref.firestore, ref.id, ref.path);
+	const docSnap = await getDoc(doc(db, "record", uid));
+	console.log('docSnap', docSnap.data());
 	let returnData = {};
 	if (docSnap.exists()) {
 		const prevData = docSnap.data();
@@ -60,6 +62,7 @@ async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
 			};
 		}
 	}
+	console.log('returnData', returnData);
 	return await updateDoc(ref, returnData);
 }
 
@@ -81,7 +84,6 @@ export const useMutationRecord = () => {
 						[recordName]: data
 					}
 				};
-
 			});
 		},
 		onError: (error, context) => {
