@@ -27,6 +27,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 			nookies.destroy(null, 'accessToken');
 			nookies.set(null, 'accessToken', token, { path: '/' });
 		})
+		
 	}, [])
 
 	useEffect(() => {

@@ -6,6 +6,7 @@ import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db} from "@/firebase";
 import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
+import { useGetAuthData } from "@/components/providers/AuthProvider";
 
 export async function getRecordData(uid: string | undefined) {
 	return fetch("/api/record", {
@@ -20,12 +21,11 @@ export async function getRecordData(uid: string | undefined) {
 }
 
 export const useGetRecord = () => {
-	const auth = getAuth();
-
-	if (!auth) return;
+	const auth = useGetAuthData()
+	if (!auth.user?.uid) return;
 	return useQuery<recordType>({
 		queryKey: ["record"],
-		queryFn: () => getRecordData(auth.currentUser?.uid),
+		queryFn: () => getRecordData(auth.user?.uid),
 		staleTime: 300000,
 	});
 };
