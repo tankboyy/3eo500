@@ -17,6 +17,7 @@ import {Label} from "@/components/ui/label";
 import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
 import { useGetAuthData } from "../providers/AuthProvider";
+import { useEffect } from "react";
 
 
 export default function TopLayout({after}: { after: boolean }) {
@@ -28,6 +29,10 @@ export default function TopLayout({after}: { after: boolean }) {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
 
+	useEffect(() => {
+		console.log('changed')
+	}, 
+	[isLogged])
 
 	return (
 		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
