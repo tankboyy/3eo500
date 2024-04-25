@@ -16,13 +16,14 @@ import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
 import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
+import { useGetAuthData } from "../providers/AuthProvider";
 
 
 export default function TopLayout({after}: { after: boolean }) {
 	const {theme, resolvedTheme, setTheme} = useTheme();
 
 	const router = useRouter();
-	const isLogged = useAuthentication();
+	const isLogged = useGetAuthData().user;
 	const onChangeTheme = () => {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
@@ -37,7 +38,7 @@ export default function TopLayout({after}: { after: boolean }) {
 				<SheetContent side="left">
 					<Separator className="my-4"/>
 					<div className="w-full pb-[30px] h-full flex justify-between flex-col">
-						<div className="flex items-center flex-col w-full space-y-4">
+						<div className="flex flex-col items-center w-full space-y-4">
 							<Label className="cursor-pointer" onClick={() => router.push('/board')}>
 								자유게시판
 							</Label>

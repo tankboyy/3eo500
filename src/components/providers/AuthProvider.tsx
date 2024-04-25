@@ -2,9 +2,10 @@
 
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { getAuth, User } from "@firebase/auth";
+import { User } from "@firebase/auth";
 import nookies from "nookies";
 import { log } from "console";
+import { useAuth } from "@/firebase";
 
 const AuthContext = createContext<{ user: User | null | undefined }>({
 	user: undefined,
@@ -13,26 +14,24 @@ const AuthContext = createContext<{ user: User | null | undefined }>({
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [userState, setUserState] = useState<User | null | undefined>();
 
+
 	useEffect(() => {
-		return getAuth().onIdTokenChanged(async (user) => {
+		return useAuth.onIdTokenChanged(async (user) => {
 			if (!user) {
-				console.log('no user');
 				setUserState(null);
 				nookies.set(null, 'accessToken', '', { path: '/' });
 				return;
 			}
-			console.log('got user');
 			setUserState(user);
 			const token = await user.getIdToken();
 			nookies.destroy(null, 'accessToken');
 			nookies.set(null, 'accessToken', token, { path: '/' });
-			console.log(nookies.get())
 		})
 	}, [])
 
 	useEffect(() => {
 		const refreshToken = setInterval(async () => {
-			const { currentUser } = getAuth();
+			const { currentUser } = useAuth;
 			if (currentUser) await currentUser.getIdToken(true);
 		}, 10 * 60 * 1000);
 		return () => clearInterval(refreshToken);
@@ -48,6 +47,6 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 	);
 }
 
-export const useAuth = () => {
+export const useGetAuthData = () => {
 	return useContext(AuthContext);
 }

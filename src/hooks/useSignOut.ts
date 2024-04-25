@@ -1,10 +1,9 @@
 import {getAuth, signOut} from "@firebase/auth";
-import {app} from "@/firebase";
+import {app, useAuth} from "@/firebase";
 import {toast} from "sonner";
 
 export default function UseSignOut() {
-	console.log('useSignOut');
-	const auth = getAuth();
+	const auth = useAuth
 	signOut(auth)
 		.then(() => {
 			toast.success('로그아웃 되었습니다.');

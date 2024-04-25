@@ -8,13 +8,11 @@ export const metadata: Metadata = {
 	description: '3대 500',
 };
 
-export default async function RootLayout({
-																		 children,
-																	 }: {
+export default async function RootLayout({children}: {
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
+		<html lang="ko">
 		<body className="flex justify-center">
 		<Provider>
 			{children}
