@@ -29,10 +29,6 @@ export default function TopLayout({after}: { after: boolean }) {
 		resolvedTheme === 'dark' ? setTheme('light') : setTheme('dark');
 	};
 
-	useEffect(() => {
-		console.log('changed')
-	}, 
-	[isLogged])
 
 	return (
 		<div className="h-[60px] border-b dark:border-border p-[10px] flex justify-between">
