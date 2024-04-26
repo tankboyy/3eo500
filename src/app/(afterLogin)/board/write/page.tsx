@@ -1,7 +1,7 @@
 'use client';
 
-import ReactQuill from "react-quill";
-import {useMemo, useRef, useState} from "react";
+
+import {useEffect, useMemo, useRef, useState} from "react";
 import 'react-quill/dist/quill.snow.css';
 import {Button} from "@/components/ui/button";
 import AWS from "aws-sdk";
@@ -10,8 +10,15 @@ import {Input} from "@/components/ui/input";
 export default function Page() {
 	const [data, setData] = useState("");
 	const [title, setTitle] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
 	const quillRef = useRef(null);
 
+	let ReactQuill = isOpen && typeof window === 'object' ? require('react-quill') : () => false;
+
+
+	useEffect(() => {
+		setIsOpen(true);
+	}, [])
 
 	const ImageHandler = async () => {
 		const a = document.createElement("input");
@@ -87,7 +94,10 @@ export default function Page() {
 
 	return (
 		<main className="py-[20px]">
-			<div className="flex w-full space-x-2 pb-[10px]">
+			{
+				!!ReactQuill && isOpen && 
+				<>
+				<div className="flex w-full space-x-2 pb-[10px]">
 				<Input placeholder="제목" onChange={onChangeTitle}/>
 				<Button onClick={handleSubmit}>
 					작성완료
@@ -95,6 +105,8 @@ export default function Page() {
 			</div>
 			<ReactQuill ref={quillRef} theme="snow" value={data} onChange={setData} className="h-[400px] w-full"
 									modules={modules}/>
+				</>
+			}
 		</main>
 	);
 }

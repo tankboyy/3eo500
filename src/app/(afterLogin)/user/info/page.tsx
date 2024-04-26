@@ -1,5 +1,7 @@
 // 'use client';
 
+import { DividerHorizontalIcon } from "@radix-ui/react-icons";
+
 // import {Input} from "@/components/ui/input";
 // import {
 // 	Card,
@@ -15,7 +17,7 @@
 // import {userDataState} from "@/recoil/atoms";
 // import {useRouter} from "next/navigation";
 
-// export default function Page() {
+export default function Page() {
 // 	const [nick, setNick] = useState<string>();
 // 	const [prevNick, setPrevNick] = useState<string>();
 // 	const [userData, setUserData] = useRecoilState(userDataState);
@@ -66,7 +68,10 @@
 // 		}
 // 	}
 
-// 	return (
+	return (
+    <div>
+      hihi
+    </div>
 // 		<main>
 // 			<div className="w-full p-[20px]">
 // 				<Card className="w-full">
@@ -104,5 +109,5 @@
 // 				</Card>
 // 			</div>
 // 		</main>
-// 	);
-// }
+	);
+}
