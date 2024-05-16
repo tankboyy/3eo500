@@ -1,14 +1,29 @@
-'use client';
+// 'use client';
 
 import Calendar from "@/components/Calendar";
 import Main from "@/components/Main";
-import {getRecordData, useGetRecord} from "@/hooks/record.hooks";
+import {useGetAuthData} from "@/components/providers/AuthProvider";
 
+async function getRecordData(uid: string | undefined) {
+	return fetch("/api/record", {
+		method: "POST",
+		body: JSON.stringify({uid: uid}),
+		headers: {
+			"Content-Type": "application/json"
+		}
+	})
+		.then(res => res.json())
+		.then(data => data);
+}
 
-export default function Home() {
+export default async function Home() {
 
-	useGetRecord();
+	// useGetRecord();
 
+	// const uid = useGetAuthData().user?.uid;
+	// const {data: recordData} = await getRecordData(uid);
+
+	// console.log(data);
 	return (
 		<main>
 			<Calendar/>

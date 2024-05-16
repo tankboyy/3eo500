@@ -1,6 +1,5 @@
 // Import the functions you need from the SDKs you need
 import {initializeApp} from "firebase/app";
-import {getAnalytics} from "firebase/analytics";
 import {getFirestore} from "@firebase/firestore";
 import {getDatabase} from "@firebase/database";
 import {getAuth} from "@firebase/auth";
@@ -20,7 +19,7 @@ const firebaseConfig = {
 	databaseURL: process.env.NEXT_PUBLIC_DATABASE_NAME,
 };
 
-export const app = initializeApp(firebaseConfig)
+export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 // export const analytics = getAnalytics(app);
 export const useAuth = getAuth(app);

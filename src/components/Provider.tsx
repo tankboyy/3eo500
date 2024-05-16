@@ -27,12 +27,6 @@ export default function Provider({
 	});
 
 	const queryClient = new QueryClient({ /* options */});
-	const [isMount, setIsMount] = useState(false);
-
-	// useEffect(() => {
-	// 	setIsMount(true);
-	// }, []);
-	// if (!isMount) return null;
 
 	return (
 		<AuthProvider>
