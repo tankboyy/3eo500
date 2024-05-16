@@ -29,30 +29,31 @@ export default function Provider({
 	const queryClient = new QueryClient({ /* options */});
 	const [isMount, setIsMount] = useState(false);
 
-	useEffect(() => {
-		setIsMount(true);
-	}, []);
-	if (!isMount) return null;
+	// useEffect(() => {
+	// 	setIsMount(true);
+	// }, []);
+	// if (!isMount) return null;
 
 	return (
 		<AuthProvider>
-		<RecoilRoot>
-			<QueryClientProvider2 client={queryClient2}>
-				<React2 initialIsOpen={false} position="bottom-right"/>
-				<QueryClientProvider client={queryClient}>
-					<ReactQueryDevtools initialIsOpen={false} position="left"/>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-							{children}
-					</ThemeProvider>
-				</QueryClientProvider>
-				<Toaster/>
-			</QueryClientProvider2>
-		</RecoilRoot>
+			<RecoilRoot>
+				<QueryClientProvider2 client={queryClient2}>
+					<React2 initialIsOpen={false} position="bottom-right"/>
+					<QueryClientProvider client={queryClient}>
+						<ReactQueryDevtools initialIsOpen={false} position="left"/>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+						</ThemeProvider>
+						{children}
+					</QueryClientProvider>
+					<Toaster/>
+				</QueryClientProvider2>
+			</RecoilRoot>
 		</AuthProvider>
 	);
 }
+

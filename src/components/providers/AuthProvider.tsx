@@ -1,10 +1,8 @@
 'use client'
 
-
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { User } from "@firebase/auth";
 import nookies from "nookies";
-import { log } from "console";
 import { useAuth } from "@/firebase";
 
 const AuthContext = createContext<{ user: User | null | undefined }>({
@@ -27,7 +25,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 			nookies.destroy(null, 'accessToken');
 			nookies.set(null, 'accessToken', token, { path: '/' });
 		})
-		
+
 	}, [])
 
 	useEffect(() => {

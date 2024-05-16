@@ -1,8 +1,8 @@
 'use client';
 
 import {Button} from "@/components/ui/button";
-import {MoonIcon, SunIcon, HamburgerMenuIcon} from "@radix-ui/react-icons";
 import {useTheme} from "next-themes";
+import {MoonIcon, SunIcon, HamburgerMenuIcon} from "@radix-ui/react-icons";
 import {
 	Sheet,
 	SheetContent,
@@ -16,8 +16,8 @@ import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
 import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
-import { useGetAuthData } from "../providers/AuthProvider";
-import { useEffect } from "react";
+import {useGetAuthData} from "../providers/AuthProvider";
+import {useEffect} from "react";
 
 
 export default function TopLayout({after}: { after: boolean }) {
@@ -54,7 +54,6 @@ export default function TopLayout({after}: { after: boolean }) {
 					</div>
 				</SheetContent>
 			</Sheet>
-
 			<Button size="icon">
 				{resolvedTheme !== 'dark' ?
 					<SunIcon onClick={onChangeTheme}

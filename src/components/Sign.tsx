@@ -13,14 +13,14 @@ import {userDataState} from "@/recoil/atoms";
 export default function Sign() {
 
 	const router = useRouter();
-	const userData = useRecoilValue(userDataState);
+	// const userData = useRecoilValue(userDataState);
 
 
-	useEffect(() => {
-		if (userData) {
-			router.replace('/main');
-		}
-	}, [userData]);
+	// useEffect(() => {
+	// 	if (userData) {
+	// 		router.replace('/main');
+	// 	}
+	// }, [userData]);
 
 	return (
 		<div id="component" className="flex items-center h-full -translate-y-20">
@@ -35,7 +35,9 @@ export default function Sign() {
 				<TabsContent value="signup">
 					<Signup/>
 				</TabsContent>
+
 			</Tabs>
 		</div>
 	);
 }
+
