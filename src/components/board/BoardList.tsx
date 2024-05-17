@@ -15,8 +15,8 @@ import {toast} from "sonner";
 import Progress from "@/components/progress";
 
 
-export default function BoardList() {
-	const [boardList, setBoardList] = useState<apiBoardType[]>([]);
+export default function BoardList({postsData}: { postsData: { boardList: apiBoardType[] } }) {
+	const [boardList, setBoardList] = useState<apiBoardType[]>(postsData.boardList);
 	const setPostData = useSetRecoilState(selectPostState);
 	const router = useRouter();
 	const bottomRef = useRef(null);
@@ -54,7 +54,7 @@ export default function BoardList() {
 	return (
 		<main className="px-6 py-4">
 			{!boardList.length ? <Progress/> :
-				<div className="border rounded-md">
+				<div className="border rounded-md w-full">
 					<div className="relative w-full overflow-auto">
 						<div className="w-full caption-bottom text-sm">
 							<div
@@ -82,10 +82,16 @@ export default function BoardList() {
 													</div>
 												</div>
 												{board.isImage &&
-                          <div className="w-1/3">
-                            <Image src={board.isImage[1]} alt={'asdff'}
-                                   width={40} height={40}
-                                   layout="responsive"
+                          <div className="w-1/3 h-[50px]">
+                            <Image src={board.isImage[1]} alt={board.isImage[1]}
+                                   style={{
+																		 objectFit: "cover",
+																		 height: "100%",
+																		 width: "100%",
+																	 }}
+                                   width={100}
+                                   height={50}
+                                   quality={50}
                             />
                           </div>
 												}

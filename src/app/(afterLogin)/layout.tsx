@@ -9,13 +9,11 @@ import {redirect} from "next/navigation";
 async function checkAuth() {
 	const auth = getAuth();
 	const accessToken = cookies().get("accessToken")?.value;
-	console.log("accessToken : ", accessToken);
 	if (!accessToken) {
 		redirect("/login");
 	}
 	const decodedToken = await getAuth().verifyIdToken(accessToken);
 	const uid = decodedToken.uid;
-	console.log("uid : ", uid);
 }
 
 export default async function RootLayout({
