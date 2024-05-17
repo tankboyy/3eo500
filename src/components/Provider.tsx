@@ -41,8 +41,8 @@ export default function Provider({
 							enableSystem
 							disableTransitionOnChange
 						>
+							{children}
 						</ThemeProvider>
-						{children}
 					</QueryClientProvider>
 					<Toaster/>
 				</QueryClientProvider2>

@@ -4,17 +4,17 @@ import Calendar from "@/components/Calendar";
 import Main from "@/components/Main";
 import {useGetAuthData} from "@/components/providers/AuthProvider";
 
-async function getRecordData(uid: string | undefined) {
-	return fetch("/api/record", {
-		method: "POST",
-		body: JSON.stringify({uid: uid}),
-		headers: {
-			"Content-Type": "application/json"
-		}
-	})
-		.then(res => res.json())
-		.then(data => data);
-}
+// async function getRecordData(uid: string | undefined) {
+// 	return fetch("/api/record", {
+// 		method: "POST",
+// 		body: JSON.stringify({uid: uid}),
+// 		headers: {
+// 			"Content-Type": "application/json"
+// 		}
+// 	})
+// 		.then(res => res.json())
+// 		.then(data => data);
+// }
 
 export default async function Home() {
 
