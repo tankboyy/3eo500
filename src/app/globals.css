@@ -11,6 +11,11 @@
     div #component {
         @apply max-w-[calc(100vw-40px)] w-screen flex justify-center
     }
+
+
+    body {
+        @apply bg-background text-foreground;
+    }
 }
 
 

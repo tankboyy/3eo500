@@ -17,9 +17,12 @@ export default async function RootLayout({children}: {
 	adminApp;
 	return (
 		<html lang="ko">
-		<body className="flex justify-center">
+		<body className="max-w-screen-md min-w-[320px] mx-auto">
 		<Provider>
-			{children}
+			<main>
+
+				{children}
+			</main>
 
 		</Provider>
 		</body>
