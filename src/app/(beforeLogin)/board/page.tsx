@@ -1,4 +1,5 @@
 import BoardList from "@/components/board/BoardList";
+import PageLayout from "@/components/PageLayout";
 
 async function getPosts() {
 	return fetch("http://localhost:3000/api/posts", {
@@ -19,8 +20,10 @@ async function getPosts() {
 export default async function Page() {
 	const postsData = await getPosts();
 	return (
-		<main>
+		<PageLayout
+			title="자유 게시판"
+		>
 			<BoardList postsData={postsData}/>
-		</main>
+		</PageLayout>
 	);
 }

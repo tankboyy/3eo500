@@ -13,6 +13,7 @@ import {useEffect, useRef, useState} from "react";
 import {useObserver} from "@/hooks/useObserver";
 import {toast} from "sonner";
 import Progress from "@/components/progress";
+import Link from "next/link";
 
 
 export default function BoardList({postsData}: { postsData: { boardList: apiBoardType[] } }) {
@@ -40,10 +41,6 @@ export default function BoardList({postsData}: { postsData: { boardList: apiBoar
 	}, [data]);
 	const onIntersect = ([entry]: any) => entry.isIntersecting && fetchNextPage();
 
-	function onClickBoard(board: apiBoardType) {
-		setPostData(board);
-		router.push(`/board/${board.id}`);
-	}
 
 	useObserver({
 		target: bottomRef,
@@ -52,60 +49,29 @@ export default function BoardList({postsData}: { postsData: { boardList: apiBoar
 
 
 	return (
-		<main className="px-6 py-4">
-			{!boardList.length ? <Progress/> :
-				<div className="border rounded-md w-full">
-					<div className="relative w-full overflow-auto">
-						<div className="w-full caption-bottom text-sm">
-							<div
-								className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted text-center font-bold text-2xl">
-								<div>
-									자유 게시판
-								</div>
-							</div>
-							<div className="[&_article:last-child]:border-0">
-								{boardList?.map((board: apiBoardType) => {
-									const content = board.data.replace(/<img\s+[^>]*>/g, '');
-									return (
-										<div className=" p-4 w-full cursor-pointer
-								border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted
-								"
-												 key={board.id}>
-											<div className="flex space-x-4" onClick={() => onClickBoard(board)}>
-												<div className={`${board.isImage ? "w-2/3" : "w-full"}`}>
-													<h2 className="text-xl font-bold">{board.title}</h2>
-													<p className="text-gray-400">{board.nick ? board.nick : board.uid} 님
-														| {moment(new Date(board.createAt)).fromNow()}</p>
-													<div className="flex">
-														<p className={`line-clamp-3 ...`} dangerouslySetInnerHTML={{__html: content}}>
-														</p>
-													</div>
-												</div>
-												{board.isImage &&
-                          <div className="w-1/3 h-[50px]">
-                            <Image src={board.isImage[1]} alt={board.isImage[1]}
-                                   style={{
-																		 objectFit: "cover",
-																		 height: "100%",
-																		 width: "100%",
-																	 }}
-                                   width={100}
-                                   height={50}
-                                   quality={50}
-                            />
-                          </div>
-												}
-											</div>
-										</div>
-									);
-								})}
-							</div>
-
+		<>
+			{boardList?.map((board: apiBoardType) => {
+				const content = board.data.replace(/<img\s+[^>]*>/g, '');
+				return (
+					<Link className="flex py-2 items-start justify-between gap-2"
+								key={board.id} href={`/board/${board.id}`}>
+						<div className="flex flex-col gap-1 flex-1">
+							<span className="font-bold text-lg break-all line-clamp-2">{board.title}</span>
+							<span className={`line-clamp-3 ... break-all`} dangerouslySetInnerHTML={{__html: content}}></span>
+							<time className="text-gray-400 text-xs mt-1">{board.nick ? board.nick : board.uid} 님
+								| {moment(new Date(board.createAt)).fromNow()}</time>
 						</div>
-					</div>
-				</div>
-			}
+						{board.isImage &&
+              <Image src={board.isImage[1]} alt={board.isImage[1]}
+                     width={150}
+                     height={150}
+                     className="object-cover w-32 h-24 rounded"
+              />
+						}
+					</Link>
+				);
+			})}
 			<div ref={bottomRef}/>
-		</main>
+		</>
 	);
 }
