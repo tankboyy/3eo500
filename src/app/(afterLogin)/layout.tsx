@@ -38,7 +38,6 @@ export default async function RootLayout({
 	return (
 
 		<div className="flex flex-col justify-center">
-			<TopLayout after/>
 			{children}
 		</div>
 	);
