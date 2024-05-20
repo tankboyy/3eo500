@@ -4,10 +4,9 @@
 
 
 @layer base {
-    main {
-        @apply max-w-[420px] min-h-[100dvh] flex flex-col w-[100dvw] mx-auto items-center
-    }
-
+    /*main {*/
+    /*    @apply max-w-[420px] min-h-[100dvh] flex flex-col w-[100dvw] mx-auto items-center*/
+    /*}*/
     div #component {
         @apply max-w-[calc(100vw-40px)] w-screen flex justify-center
     }
