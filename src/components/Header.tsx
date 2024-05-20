@@ -1,5 +1,8 @@
 import MobileNav from "@/components/MobileNav";
 import Nav from "@/components/Nav";
+import Link from "next/link";
+import ThemeChanger from "@/components/ThemeChanger";
+
 
 export default function Header() {
 	return (
@@ -9,6 +12,13 @@ export default function Header() {
 				<MobileNav/>
 				<Nav/>
 			</div>
+			<div className="flex items-center gap-1">
+				<Link href="/login" className="text-xs font-medium">
+					로그인
+				</Link>
+				<ThemeChanger/>
+			</div>
 		</header>
 	);
 }
+
