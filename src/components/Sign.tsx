@@ -1,26 +1,9 @@
-'use client';
-
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import Login from "@/components/login/login";
 import Signup from "@/components/signup/signup";
-import {useEffect, useLayoutEffect} from "react";
-import {useRouter} from "next/navigation";
-import useAuthentication from "@/hooks/useAuthentication";
-import {useRecoilValue} from "recoil";
-import {userDataState} from "@/recoil/atoms";
 
 
 export default function Sign() {
-
-	const router = useRouter();
-	// const userData = useRecoilValue(userDataState);
-
-
-	// useEffect(() => {
-	// 	if (userData) {
-	// 		router.replace('/main');
-	// 	}
-	// }, [userData]);
 
 	return (
 		<div id="component" className="flex items-center h-full -translate-y-20">

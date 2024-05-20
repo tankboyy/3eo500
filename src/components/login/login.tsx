@@ -39,9 +39,9 @@ export default function Login() {
 
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
-			<span className="text-center text-[24px] text-bold">
+			<h1 className="text-center text-[24px] text-bold">
 				login
-			</span>
+			</h1>
 			<div className="flex flex-col items-center space-y-2">
 				<Input className="rounded-full " type="text" onChange={onChangeId}/>
 				<Input className="rounded-full " type="password" onChange={onChangePw}/>

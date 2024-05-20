@@ -6,7 +6,7 @@ import Header from "@/components/Header";
 
 export const metadata: Metadata = {
 	title: '매일매일',
-	description: '3대 500',
+	description: '운동, 헬스, 기록, 성취감',
 };
 
 
@@ -24,8 +24,8 @@ export default async function RootLayout({children}: {
 				<Header/>
 				{children}
 			</main>
-
 		</Provider>
+		운동을 기록해보자
 		</body>
 		</html>
 	);
