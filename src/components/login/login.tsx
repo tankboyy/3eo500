@@ -7,6 +7,7 @@ import {Button} from "@/components/ui/button";
 import {useRouter} from "next/navigation";
 import {useAuth} from "@/firebase";
 import {signInWithEmailAndPassword} from "firebase/auth";
+import Cookies from "js-cookie";
 
 export default function Login() {
 	const [id, setId] = useState("");
@@ -25,6 +26,8 @@ export default function Login() {
 		signInWithEmailAndPassword(useAuth, id, password)
 			.then((user) => {
 				if (user.user) {
+					// @ts-ignore
+					Cookies.set('accessToken', user.user.accessToken, {expires: 1});
 					router.replace('/main');
 					toast.success('로그인 성공');
 					return;
@@ -36,7 +39,7 @@ export default function Login() {
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
 			<h1 className="text-center text-[24px] text-bold">
-				login
+				로그인
 			</h1>
 			<div className="flex flex-col items-center space-y-2">
 				<Input className="rounded-full " type="text" onChange={onChangeId}/>

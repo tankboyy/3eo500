@@ -10,13 +10,15 @@ export async function checkAuth() {
 	if (!accessToken) {
 		return {isAuthenticated: false};
 	}
-	try {
-		const decodedToken = await getAuth().verifyIdToken(accessToken);
-		const uid = decodedToken.uid;
-		return {isAuthenticated: true};
-	} catch (error) {
-		return {isAuthenticated: false};
-	}
+	return getAuth().verifyIdToken(accessToken)
+		.then((decodedToken) => {
+			const uid = decodedToken.uid;
+			return {isAuthenticated: true};
+		})
+		.catch((error) => {
+			cookies().set("accessToken", "");
+			return {isAuthenticated: false};
+		});
 }
 
 export default async function RootLayout({
