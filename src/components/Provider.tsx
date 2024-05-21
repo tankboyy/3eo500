@@ -29,25 +29,23 @@ export default function Provider({
 	const queryClient = new QueryClient({ /* options */});
 
 	return (
-		<AuthProvider>
-			<RecoilRoot>
-				<QueryClientProvider2 client={queryClient2}>
-					<React2 initialIsOpen={false} position="bottom-right"/>
-					<QueryClientProvider client={queryClient}>
-						<ReactQueryDevtools initialIsOpen={false} position="left"/>
-						<ThemeProvider
-							attribute="class"
-							defaultTheme="system"
-							enableSystem
-							disableTransitionOnChange
-						>
-							{children}
-						</ThemeProvider>
-					</QueryClientProvider>
-					<Toaster/>
-				</QueryClientProvider2>
-			</RecoilRoot>
-		</AuthProvider>
+		<RecoilRoot>
+			<QueryClientProvider2 client={queryClient2}>
+				<React2 initialIsOpen={false} position="bottom-right"/>
+				<QueryClientProvider client={queryClient}>
+					<ReactQueryDevtools initialIsOpen={false} position="left"/>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+					</ThemeProvider>
+				</QueryClientProvider>
+				<Toaster/>
+			</QueryClientProvider2>
+		</RecoilRoot>
 	);
 }
 

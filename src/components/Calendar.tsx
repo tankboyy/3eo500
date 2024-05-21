@@ -19,18 +19,19 @@ export default function Calendar() {
 
 
 	useEffect(() => {
-		if (!recordData) return;
-		const keys = Object.keys(recordData);
-		const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
-			if (keys.includes(day.day)) {
-				return ({
-					day: day.day, isTrue: true
+		if (recordData) {
+			const keys = Object.keys(recordData);
+			const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
+				if (keys.includes(day.day)) {
+					return ({
+						day: day.day, isTrue: true
+					});
+				} else return ({
+					day: day.day, isTrue: false
 				});
-			} else return ({
-				day: day.day, isTrue: false
-			});
-		}));
-		setMonthArr(newMonthArr);
+			}));
+			setMonthArr(newMonthArr);
+		}
 		setSelectDate(dayjs(nowDate).format('YYYY-MM-DD'));
 	}, [nowDate, recordData]);
 

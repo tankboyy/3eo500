@@ -19,7 +19,7 @@ export default function Nav() {
 	return (
 		<nav className="sm:flex hidden items-center space-x-6 text-sm gap-2">
 			{navs.map(({name, href}) => (
-				<NavItem href={href} name={name}/>
+				<NavItem key={name} href={href} name={name}/>
 			))}
 		</nav>
 	);

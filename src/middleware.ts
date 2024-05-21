@@ -1,8 +1,11 @@
 import {getAuth} from "firebase-admin/auth";
 import {NextRequest, NextResponse} from "next/server";
+import {cookies} from "next/headers";
+import {redirect} from "next/navigation";
 
 //
 export function middleware(request: NextRequest) {
+	const accessToken = cookies().get("accessToken")?.value;
 //   let accessToken = request.cookies.get('accessToken')?.value;
 //   const pathUrl = request.nextUrl.pathname;
 //

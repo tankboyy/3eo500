@@ -9,12 +9,12 @@ export default function Main() {
 	const todayRecordData = useGetTodayRecord();
 
 	return (
-		<div id="component">
+		<>
 			{
 				!todayRecordData ?
 					<RecordWeight/> :
 					<AlreadyRecord recordData={todayRecordData}/>
 			}
-		</div>
+		</>
 	);
 }

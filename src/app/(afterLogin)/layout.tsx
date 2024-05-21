@@ -1,19 +1,22 @@
-import {adminApp} from "@/admin";
-import TopLayout from "@/components/after/TopLayout";
-import {useAuth} from "@/firebase";
 import {getAuth} from "firebase-admin/auth";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
+import {adminApp} from "@/admin";
 
 
-async function checkAuth() {
-	const auth = getAuth();
+export async function checkAuth() {
+	adminApp;
 	const accessToken = cookies().get("accessToken")?.value;
 	if (!accessToken) {
-		redirect("/login");
+		return {isAuthenticated: false};
 	}
-	const decodedToken = await getAuth().verifyIdToken(accessToken);
-	const uid = decodedToken.uid;
+	try {
+		const decodedToken = await getAuth().verifyIdToken(accessToken);
+		const uid = decodedToken.uid;
+		return {isAuthenticated: true};
+	} catch (error) {
+		return {isAuthenticated: false};
+	}
 }
 
 export default async function RootLayout({
@@ -22,18 +25,11 @@ export default async function RootLayout({
 	children: React.ReactNode
 }) {
 
-	await checkAuth();
+	const {isAuthenticated} = await checkAuth();
 
-	// const accessToken = cookies().get("accessToken")!.value;
-	// getAuth().verifyIdToken(accessToken)
-	// 	.then((decodedToken) => {
-	// 		const uid = decodedToken.uid;
-	// 		console.log("uid : ", uid);
-	//
-	// 	}).catch((error) => {
-	// 	console.error("error : ", error);
-	// });
-
+	if (!isAuthenticated) {
+		redirect("/login");
+	}
 
 	return (
 

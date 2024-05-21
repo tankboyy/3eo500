@@ -13,9 +13,6 @@ export const metadata: Metadata = {
 export default async function RootLayout({children}: {
 	children: React.ReactNode
 }) {
-
-
-	adminApp;
 	return (
 		<html lang="ko">
 		<body className="max-w-screen-md min-w-[320px] mx-auto">

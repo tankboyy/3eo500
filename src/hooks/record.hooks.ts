@@ -3,10 +3,10 @@ import {getAuth, User} from "@firebase/auth";
 import {recordType, selectDateState} from "@/recoil/atoms";
 import {useRecoilValue} from "recoil";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
-import {db} from "@/firebase";
+import {db, useAuth} from "@/firebase";
 import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
-import { useGetAuthData } from "@/components/providers/AuthProvider";
+import {useGetAuthData} from "@/components/providers/AuthProvider";
 
 export async function getRecordData(uid: string | undefined) {
 	return fetch("/api/record", {
@@ -21,11 +21,13 @@ export async function getRecordData(uid: string | undefined) {
 }
 
 export const useGetRecord = () => {
-	const auth = useGetAuthData()
-	if (!auth.user?.uid) return;
+	// const auth = useGetAuthData();
+	const auth = useAuth.currentUser;
+	console.log('auth', auth?.uid);
+	if (!auth?.uid) return;
 	return useQuery<recordType>({
 		queryKey: ["record"],
-		queryFn: () => getRecordData(auth.user?.uid),
+		queryFn: () => getRecordData(auth?.uid),
 		staleTime: 300000,
 	});
 };
@@ -38,7 +40,7 @@ interface UpdateRecordType {
 
 async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
 	// const auth = getAuth();
-	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2'
+	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2';
 	if (!uid) return;
 	const ref = doc(db, "record", uid);
 	console.log('ref', ref.firestore, ref.id, ref.path);

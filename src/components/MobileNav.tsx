@@ -13,7 +13,6 @@ import {useState} from "react";
 export default function MobileNav() {
 	const [open, setOpen] = useState(false);
 	const router = useRouter();
-	const isLogged = useGetAuthData().user;
 
 	return (
 		<Sheet open={open} onOpenChange={setOpen}>
