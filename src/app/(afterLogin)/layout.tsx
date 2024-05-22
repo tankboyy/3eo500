@@ -16,7 +16,6 @@ export async function checkAuth() {
 			return {isAuthenticated: true};
 		})
 		.catch((error) => {
-			cookies().set("accessToken", "");
 			return {isAuthenticated: false};
 		});
 }
@@ -30,6 +29,7 @@ export default async function RootLayout({
 	const {isAuthenticated} = await checkAuth();
 
 	if (!isAuthenticated) {
+		cookies().set("accessToken", "");
 		redirect("/login");
 	}
 

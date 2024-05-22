@@ -22,7 +22,9 @@ export default async function RootLayout({children}: {
 				{children}
 			</main>
 		</Provider>
-		운동을 기록해보자
+		<footer className="w-full flex justify-center text-sm text-gray-500">
+			운동을 기록해보자
+		</footer>
 		</body>
 		</html>
 	);
