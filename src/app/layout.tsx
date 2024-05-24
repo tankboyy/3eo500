@@ -15,9 +15,9 @@ export default async function RootLayout({children}: {
 }) {
 	return (
 		<html lang="ko">
-		<body className="max-w-screen-md min-w-[320px] mx-auto">
+		<body className="">
 		<Provider>
-			<main className="flex flex-col">
+			<main className="flex flex-col mx-auto max-w-screen-md min-w-[320px]">
 				<Header/>
 				{children}
 			</main>

@@ -40,9 +40,9 @@ export default function RecordWeight() {
 			<DrawerTrigger>
 				<Button className="text-[11px]">기록 추가하기</Button>
 			</DrawerTrigger>
-			<DrawerContent className="max-h-[620px] min-h-[276px]">
+			<DrawerContent className="min-h-[276px] w-full">
 				<DrawerHeader className="border p-0 m-[16px]">
-					<ToggleGroup className="w-auto" type="single" onValueChange={(value) => {
+					<ToggleGroup className="" type="single" onValueChange={(value) => {
 						if (value) onChangePart(value);
 					}}>
 						<ScrollArea className="whitespace-nowrap">
@@ -56,7 +56,7 @@ export default function RecordWeight() {
 						</ScrollArea>
 					</ToggleGroup>
 				</DrawerHeader>
-				<div className="flex justify-center h-auto px-[18px]">
+				<div className="flex justify-center w-full h-auto px-[18px]">
 					{selectPart && !recordName ?
 						<ScrollArea className="w-96 rounded-md max-h-[150px] h-auto border mb-[40px]">
 							<div>

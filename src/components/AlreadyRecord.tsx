@@ -35,46 +35,44 @@ export default function AlreadyRecord({recordData}: Props) {
 	const selectDate = useRecoilValue(selectDateState);
 
 	return (
-		<div id="component">
-			<Card className={cn("max-w-[380px] w-full mb-[20px]")}>
-				<CardHeader>
-					<CardTitle>운동 일지</CardTitle>
-					<CardDescription>{selectDate}</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<Accordion type="multiple" className="w-full">
-						{Object.keys(recordData).map((key, index) => {
-								const data: {
-									weight: number;
-									reps: number;
-									status: boolean
-								}[] = recordData[key];
+		<Card className={cn("max-w-[380px] w-full mb-[20px] flex flex-col justify-center")}>
+			<CardHeader>
+				<CardTitle>운동 일지</CardTitle>
+				<CardDescription>{selectDate}</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<Accordion type="multiple" className="w-full">
+					{Object.keys(recordData).map((key, index) => {
+							const data: {
+								weight: number;
+								reps: number;
+								status: boolean
+							}[] = recordData[key];
 
-								return (
-									<div key={index} onClick={() => {
-										// setSelectName(key);
-										// setOpen(true);
-									}}>
-										<AccordionItem value={`item-${index}`}>
-											<AccordionTrigger>
-												{key}
-											</AccordionTrigger>
-											<AccordionContent>
-												<RecordView selectName={key}/>
-											</AccordionContent>
-										</AccordionItem>
-									</div>
-								);
-							}
-						)}
-					</Accordion>
-				</CardContent>
-				<CardFooter>
-					<RecordWeight/>
-				</CardFooter>
-			</Card>
+							return (
+								<div key={index} onClick={() => {
+									// setSelectName(key);
+									// setOpen(true);
+								}}>
+									<AccordionItem value={`item-${index}`}>
+										<AccordionTrigger>
+											{key}
+										</AccordionTrigger>
+										<AccordionContent>
+											<RecordView selectName={key}/>
+										</AccordionContent>
+									</AccordionItem>
+								</div>
+							);
+						}
+					)}
+				</Accordion>
+			</CardContent>
+			<CardFooter>
+				<RecordWeight/>
+			</CardFooter>
+		</Card>
 
 
-		</div>
 	);
 }
