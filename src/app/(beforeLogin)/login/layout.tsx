@@ -1,6 +1,7 @@
-import {checkAuth} from "@/app/actions";
+
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
+import {checkAuth} from "@/hooks/useCheckAuth";
 
 export default async function layout({children}: {
 	children: React.ReactNode
@@ -11,13 +12,6 @@ export default async function layout({children}: {
 	if (isAuthenticated) {
 		redirect("/main");
 	}
-
-	async function Delete() {
-		'use server';
-		cookies().delete("accessToken");
-	}
-
-	Delete();
 
 	return (
 		<>{children}</>
