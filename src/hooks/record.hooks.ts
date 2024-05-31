@@ -1,14 +1,14 @@
 import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {getAuth, User} from "@firebase/auth";
 import {recordType, selectDateState} from "@/recoil/atoms";
 import {useRecoilValue} from "recoil";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db, useAuth} from "@/firebase";
 import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
-import {useGetAuthData} from "@/components/providers/AuthProvider";
 
-export async function getRecordData(uid: string | undefined) {
+export async function getRecordData() {
+	console.log('fetch');
+	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2';
 	return fetch("/api/record", {
 		method: "POST",
 		body: JSON.stringify({uid: uid}),
@@ -17,17 +17,14 @@ export async function getRecordData(uid: string | undefined) {
 		}
 	})
 		.then(res => res.json())
-		.then(data => data);
+		.then(data => data)
+		.catch(err => console.error(err));
 }
 
 export const useGetRecord = () => {
-	// const auth = useGetAuthData();
-	const auth = useAuth.currentUser;
-	console.log('auth', auth?.uid);
-	if (!auth?.uid) return;
 	return useQuery<recordType>({
 		queryKey: ["record"],
-		queryFn: () => getRecordData(auth?.uid),
+		queryFn: () => getRecordData(),
 		staleTime: 300000,
 	});
 };

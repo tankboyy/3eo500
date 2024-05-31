@@ -4,6 +4,7 @@ import {collection, doc, getDoc, getFirestore, setDoc} from "@firebase/firestore
 export async function POST(request: Request) {
 	const uid = await request.json().then((data: { uid: string }) => data.uid);
 
+	console.log('uid', uid);
 	let res: { data: {}; } = {
 		data: {}
 	};

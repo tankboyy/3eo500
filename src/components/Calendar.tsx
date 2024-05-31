@@ -7,7 +7,7 @@ import {useRecoilState, useRecoilValue} from "recoil";
 import {recordDataState, recordType, selectDateState, userDataState} from "@/recoil/atoms";
 import {useQueryClient} from "@tanstack/react-query";
 
-const days = ['일', '월', '화', '수', '목', '금', '토'];
+export const days = ['일', '월', '화', '수', '목', '금', '토'];
 
 
 export default function Calendar() {

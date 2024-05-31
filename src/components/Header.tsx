@@ -2,7 +2,8 @@ import MobileNav from "@/components/MobileNav";
 import Nav from "@/components/Nav";
 import Link from "next/link";
 import ThemeChanger from "@/components/ThemeChanger";
-import {checkAuth} from "@/app/actions";
+import {checkAuth} from "@/hooks/useCheckAuth";
+
 
 
 export default async function Header() {
