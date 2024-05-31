@@ -1,11 +1,10 @@
 'use client';
 
-import Calendar, {days} from "@/components/Calendar";
 import Main from "@/components/Main";
 import PageLayout from "@/components/PageLayout";
 import {useGetRecord} from "@/hooks/record.hooks";
 import {useQueryClient} from "@tanstack/react-query";
-import Calendar2 from "@/components/Calendar2";
+import Calendar from "@/components/Calendar";
 
 
 export default function Home() {
@@ -32,8 +31,9 @@ export default function Home() {
 			}}>
 				asd
 			</button>
-			<Calendar2/>
+			<Calendar/>
 			<Main/>
+			
 		</PageLayout>
 	);
 }

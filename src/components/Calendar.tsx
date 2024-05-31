@@ -1,77 +1,141 @@
 'use client';
 
-import {useEffect, useState} from "react";
-import dayjs from "dayjs";
-import {useMakeMonthArr} from "@/hooks/useMakeMonthArr";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {recordDataState, recordType, selectDateState, userDataState} from "@/recoil/atoms";
-import {useQueryClient} from "@tanstack/react-query";
-
-export const days = ['일', '월', '화', '수', '목', '금', '토'];
-
+import {useState} from "react";
+import {
+	addDays,
+	addMonths,
+	endOfMonth,
+	endOfWeek,
+	format,
+	isSameDay,
+	isSameMonth,
+	startOfMonth,
+	startOfWeek,
+	subMonths
+} from "date-fns";
+import {useRecoilState} from "recoil";
+import {selectorDateState} from "@/recoil/atoms";
 
 export default function Calendar() {
-	const [nowDate, setNowDate] = useState(new Date());
-	const [selectDate, setSelectDate] = useRecoilState(selectDateState);
-	const [monthArr, setMonthArr] = useState<({ isTrue: boolean; day: string })[][]>();
-	const q = useQueryClient();
-	const recordData = q.getQueryData(['record']);
+	const [currentMonth, setCurrentMonth] = useState(new Date());
+	const [slideDirection, setSlideDirection] = useState('');
+	const [selectorDate, setSelectorDate] = useRecoilState(selectorDateState);
+
+	const nextMonth = () => {
+		console.log('nextMonth');
+		setSlideDirection('transform translate-x-full');
+		setTimeout(() => {
+			setCurrentMonth(addMonths(currentMonth, 1));
+			setSlideDirection('');
+		}, 500);
+	};
+
+	const prevMonth = () => {
+		console.log('prevMonth');
+		setSlideDirection('transform -translate-x-full');
+		setTimeout(() => {
+			setCurrentMonth(subMonths(currentMonth, 1));
+			setSlideDirection('');
+		}, 500);
+	};
 
 
-	useEffect(() => {
-		if (recordData) {
-			const keys = Object.keys(recordData);
-			const newMonthArr = useMakeMonthArr(nowDate).map((week) => week.map((day) => {
-				if (keys.includes(day.day)) {
-					return ({
-						day: day.day, isTrue: true
-					});
-				} else return ({
-					day: day.day, isTrue: false
-				});
-			}));
-			setMonthArr(newMonthArr);
+	const renderCells = () => {
+		const monthStart = startOfMonth(currentMonth);
+		const monthEnd = endOfMonth(monthStart);
+		const startDate = startOfWeek(monthStart);
+		const endDate = endOfWeek(monthEnd);
+
+		const onDateClick = (day: Date) => {
+			setCurrentMonth(day);
+			setSelectorDate(day);
+		};
+
+		const rows = [];
+		let days = [];
+		let day = startDate;
+		let formattedDate = '';
+
+		while (day <= endDate) {
+			for (let i = 0; i < 7; i++) {
+				formattedDate = format(day, 'd');
+				const cloneDay = day;
+				days.push(
+					<div
+						className={`flex-1 h-8 flex justify-center items-center relative cursor-pointer ${
+							!isSameMonth(day, monthStart)
+								? 'text-gray-400'
+								: isSameDay(day, new Date())
+									? 'bg-green-200'
+									: ''
+						}`}
+						key={String(day)}
+						onClick={() => onDateClick(cloneDay)}
+					>
+						<span className="z-10">{formattedDate}</span>
+						<span className="absolute text-gray-300 text-2xl">{formattedDate}</span>
+					</div>
+				);
+				day = addDays(day, 1);
+			}
+			rows.push(
+				<div className="flex" key={String(day)}>
+					{days}
+				</div>
+			);
+			days = [];
 		}
-		setSelectDate(dayjs(nowDate).format('YYYY-MM-DD'));
-	}, [nowDate, recordData]);
+		return <div className={`transition-transform duration-500 ${slideDirection}`}>{rows}</div>;
+	};
 
+	const renderDays = () => {
+		const days = [];
+		const date = ['일', '월', '화', '수', '목', '금', '토'];
+
+		for (let i = 0; i < 7; i++) {
+			days.push(
+				<div className={`flex-1 text-center py-2 ${i === 0 && "text-red-600"} ${i === 6 && "text-blue-500"}`} key={i}>
+					{date[i]}
+				</div>
+			);
+		}
+
+		return <div className="flex">{days}</div>;
+	};
+
+	const renderHeader = () => {
+		return (
+			<div className="flex justify-between items-center py-2 px-2">
+				<div className="cursor-pointer" onClick={prevMonth}>
+					&lt;
+				</div>
+				<div className="text-lg">
+          <span>
+            {format(currentMonth, 'MMMM yyyy')}
+          </span>
+				</div>
+				<div className="cursor-pointer" onClick={nextMonth}>
+					&gt;
+				</div>
+			</div>
+		);
+	};
 
 	return (
 		<div className="flex flex-col justify-center border-b-4 pb-[10px] w-full px-[10px] mb-[20px]">
-			<div className="flex justify-between">
-				<button className="" onClick={() => {
-					setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth() - 1, nowDate.getDate()));
-				}}> prev
-				</button>
-				<span>
-					{dayjs(nowDate).format('YYYY년 MM월')}
-				</span>
-				<button className="" onClick={() => {
-					setNowDate(new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, nowDate.getDate()));
-				}}> next
-				</button>
-			</div>
-			<div className="flex justify-between py-[4px]">
-				{days.map((day, index) =>
-					<div key={index}
-							 className={`w-6 h-6 text-center ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"}`}>
-						{day}
-					</div>
-				)}
-			</div>
-			<div>
-				{monthArr?.map((week, index) =>
-					<div key={index} className="flex justify-between">
-						{week.map((day, index) =>
-							<div key={index}
-									 className={`w-6 h-6 text-center cursor-pointer rounded-full hover:bg-gray-200 ${index === 0 && "text-red-600"} ${index === 6 && "text-blue-500"} ${day.day === selectDate && "bg-gray-400"} ${day.isTrue && "bg-blue-300"} `}
-									 onClick={() => setSelectDate(day.day)}>
-								{dayjs(day.day).format('D')}
-							</div>
-						)}
-					</div>
-				)}
+			<button
+				onClick={() => {
+					setSelectorDate('2022-01-01');
+				}}
+			>asdz
+			</button>
+
+			{renderHeader()}
+			{renderDays()}
+			<div className="overflow-hidden">
+				{renderCells()}
 			</div>
 		</div>
+
 	);
 }

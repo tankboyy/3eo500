@@ -8,13 +8,11 @@ export default function Main() {
 
 	const todayRecordData = useGetTodayRecord();
 
+	if (todayRecordData === undefined) return <RecordWeight/>;
+
 	return (
 		<>
-			{
-				!todayRecordData ?
-					<RecordWeight/> :
-					<AlreadyRecord recordData={todayRecordData}/>
-			}
+			<AlreadyRecord recordData={todayRecordData}/>
 		</>
 	);
 }
