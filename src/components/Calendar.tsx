@@ -21,6 +21,7 @@ export default function Calendar() {
 	const [slideDirection, setSlideDirection] = useState('');
 	const [selectorDate, setSelectorDate] = useRecoilState(selectorDateState);
 
+
 	const nextMonth = () => {
 		console.log('nextMonth');
 		setSlideDirection('transform translate-x-full');
@@ -65,8 +66,8 @@ export default function Calendar() {
 						className={`flex-1 h-8 flex justify-center items-center relative cursor-pointer ${
 							!isSameMonth(day, monthStart)
 								? 'text-gray-400'
-								: isSameDay(day, new Date())
-									? 'bg-green-200'
+								: isSameDay(day, selectorDate)
+									? 'bg-blue-200'
 									: ''
 						}`}
 						key={String(day)}
