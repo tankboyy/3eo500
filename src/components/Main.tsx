@@ -11,11 +11,12 @@ export default function Main() {
 	const selectDate = useRecoilValue(selectDateState);
 	const todayRecordData = useGetTodayRecord(selectDate);
 
-	if (todayRecordData === undefined) return <RecordWeight/>;
 
 	return (
 		<>
-			<AlreadyRecord recordData={todayRecordData}/>
+			{
+				todayRecordData ? <AlreadyRecord recordData={todayRecordData}/> : <RecordWeight/>
+			}
 		</>
 	);
 }

@@ -37,7 +37,7 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 
 	useEffect(() => {
 		return () => {
-			if (recordDatas.current === newRecordData) return;
+			if (recordDatas.current === newRecordData || nowDate) return;
 			addRecord.mutate({uid, recordName: selectName, selectDate: nowDate, data: recordDatas.current});
 		};
 	}, []);

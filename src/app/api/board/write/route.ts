@@ -5,6 +5,17 @@ import {apiBoardType, BoardType} from "@/utils/types";
 import {child, get, getDatabase, ref} from "@firebase/database";
 
 
+export type PostType = {
+	createAt: Timestamp,
+	data: string,
+	title: string,
+	uid: string,
+	likes: {
+		userId: string,
+		likedAt: Timestamp,
+	},
+}
+
 export async function POST(request: Request) {
 
 	const {title, data, uid} = await request.json();

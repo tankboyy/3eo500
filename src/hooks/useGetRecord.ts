@@ -13,8 +13,8 @@ export default function UseGetRecord(day?: Date | string) {
 	if (day) {
 		if (typeof day === 'string') return recordData[day];
 		return recordData[dayjs(day).format('YYYY-MM-DD')];
+	} else {
+		const selectDate = useRecoilValue(selectDateState);
+		return recordData[selectDate];
 	}
-	const selectDate = useRecoilValue(selectDateState);
-	return recordData[selectDate];
-
 }

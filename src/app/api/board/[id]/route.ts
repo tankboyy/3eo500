@@ -5,6 +5,7 @@ import {child, get, getDatabase, ref} from "@firebase/database";
 
 export async function GET(request: Request) {
 	const postId = request.url.split("board/")[1];
+	console.log("postId: ", postId);
 	const postRef = doc(db, "board", postId);
 	const postSnap = await getDoc(postRef);
 
@@ -35,4 +36,7 @@ export async function GET(request: Request) {
 			}
 		});
 	}
+	return NextResponse.json({
+		data: "hi"
+	});
 }

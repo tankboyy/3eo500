@@ -15,11 +15,15 @@ import {
 } from "date-fns";
 import {useRecoilState} from "recoil";
 import {selectorDateState} from "@/recoil/atoms";
+import {useGetRecord} from "@/hooks/record.hooks";
+import {useQueryClient} from "@tanstack/react-query";
 
 export default function Calendar() {
 	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const [slideDirection, setSlideDirection] = useState('');
 	const [selectorDate, setSelectorDate] = useRecoilState(selectorDateState);
+	const query = useQueryClient();
+	const allRecordData = query.getQueryData(['record']);
 
 
 	const nextMonth = () => {
@@ -48,6 +52,7 @@ export default function Calendar() {
 		const endDate = endOfWeek(monthEnd);
 
 		const onDateClick = (day: Date) => {
+			console.log(day, format(day, 'yyyy-MM-dd'));
 			setCurrentMonth(day);
 			setSelectorDate(day);
 		};
@@ -66,7 +71,9 @@ export default function Calendar() {
 						className={`flex-1 h-8 flex justify-center items-center relative cursor-pointer ${
 							!isSameMonth(day, monthStart)
 								? 'text-gray-400'
-								: isSameDay(day, selectorDate)
+								:
+								// useGetRecord(cloneDay) ? 'bg-cyan-300' :
+								isSameDay(day, selectorDate)
 									? 'bg-blue-200'
 									: ''
 						}`}
