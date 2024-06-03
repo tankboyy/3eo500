@@ -1,6 +1,11 @@
-import {cookies} from "next/headers";
+import {getAuth} from "firebase-admin/auth";
 
-export default async function useGetUid(accessToken?: string) {
-	accessToken = !accessToken ? cookies.get("accessToken") : accessToken;
-	console.log("accessToken", accessToken);
+export default async function useGetUid(accessToken: string) {
+	return getAuth().verifyIdToken(accessToken)
+		.then((decodedToken) => {
+			return decodedToken;
+		})
+		.catch((error) => {
+			return {};
+		});
 }
