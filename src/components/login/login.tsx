@@ -5,6 +5,7 @@ import {Button} from "@/components/ui/button";
 import {signIn} from "@/app/actions";
 import {getAuth} from "@firebase/auth";
 import {useAuth} from "@/firebase";
+import {SubmitButton} from "@/components/signup/signup";
 
 export default function Login() {
 	console.log(useAuth.currentUser);
@@ -16,7 +17,7 @@ export default function Login() {
 			<form className="flex flex-col items-center space-y-2" action={signIn}>
 				<Input className="rounded-full" name="id" type="text"/>
 				<Input className="rounded-full" name="pw" type="password"/>
-				<Button className=" rounded-full h-[30px] mt-[10px] w-[120px]" type="submit">로그인</Button>
+				<SubmitButton submitName="로그인"/>
 			</form>
 		</div>
 	);

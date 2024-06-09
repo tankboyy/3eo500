@@ -8,13 +8,6 @@ import {signUp} from "@/app/actions";
 import {useFormState, useFormStatus} from "react-dom";
 
 export default function Signup() {
-
-	const {pending} = useFormStatus();
-
-	useEffect(() => {
-		console.log(pending);
-	}, [pending]);
-
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
 			<span className="text-center text-[24px] text-bold">
@@ -23,18 +16,18 @@ export default function Signup() {
 			<form className="flex flex-col items-center space-y-2" action={signUp}>
 				<Input className="rounded-full " name="id" type="text"/>
 				<Input className="rounded-full " name="pw" type="password"/>
-				<SubmitButton/>
+				<SubmitButton submitName={"회원가입"}/>
 			</form>
 		</div>
 	);
 }
 
 
-export function SubmitButton() {
+export function SubmitButton({submitName}: { submitName: string }) {
 	const {pending} = useFormStatus();
-	
+
 	return (
 		<Button type="submit" className=" rounded-full h-[30px] mt-[10px] w-[120px]" disabled={pending}
-		>회원가입</Button>
+		>{submitName}</Button>
 	);
 }
