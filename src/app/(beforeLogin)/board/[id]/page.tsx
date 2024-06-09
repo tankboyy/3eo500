@@ -13,14 +13,23 @@ async function getPostData(postId: string) {
 	return response.json();
 }
 
+async function getPostComments(postId: string) {
+	const response = await fetch(`http://localhost:3000/api/board/${postId}/comment`);
+	return response.json();
+}
+
 export default async function Page(request: any) {
 
 	const postId = request.params.id;
-	const postData = await getPostData(postId);
+
+	const {postData, postComments} = await Promise.all([getPostData(postId), getPostComments(postId)])
+		.then((values) => {
+			return {postData: values[0], postComments: values[1]};
+		});
 
 	return (
 		<>
-			<Main post={postData.postData}/>
+			<Main post={postData.postData} comments={postComments && postComments}/>
 		</>
 	);
 }

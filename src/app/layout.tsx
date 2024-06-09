@@ -3,6 +3,7 @@ import './globals.css';
 import {adminApp} from '@/admin';
 import Provider from "@/components/Provider";
 import Header from "@/components/Header";
+import {app} from "@/firebase";
 
 export const metadata: Metadata = {
 	title: '매일매일',

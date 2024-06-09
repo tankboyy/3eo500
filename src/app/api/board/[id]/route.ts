@@ -15,16 +15,16 @@ export async function GET(request: Request) {
 		}
 	} = {};
 
-	const dbRef = ref(getDatabase());
-	await get(child(dbRef, `/users`)).then((snapshot) => {
-		if (snapshot.exists()) {
-			usersName = snapshot.val();
-		} else {
-			console.log("유저닉네임 불러오기 실패");
-		}
-	}).catch((error) => {
-		console.error(error);
-	});
+	// const dbRef = ref(getDatabase());
+	// await get(child(dbRef, `/users`)).then((snapshot) => {
+	// 	if (snapshot.exists()) {
+	// 		usersName = snapshot.val();
+	// 	} else {
+	// 		console.log("유저닉네임 불러오기 실패");
+	// 	}
+	// }).catch((error) => {
+	// 	console.error(error);
+	// });
 
 
 	if (postSnap.exists()) {
@@ -32,7 +32,7 @@ export async function GET(request: Request) {
 			postData: {
 				...postSnap.data(),
 				createAt: postSnap.data().createAt.toDate(),
-				nick: usersName[postSnap.data().uid].nick
+				// nick: usersName[postSnap.data().uid].nick
 			}
 		});
 	}

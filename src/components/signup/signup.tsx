@@ -1,14 +1,19 @@
 'use client';
 
-import React from "react";
+import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {signUp} from "@/app/actions";
-import {useFormState} from "react-dom";
+import {useFormState, useFormStatus} from "react-dom";
 
 export default function Signup() {
-	const router = useRouter();
+
+	const {pending} = useFormStatus();
+
+	useEffect(() => {
+		console.log(pending);
+	}, [pending]);
 
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
@@ -18,9 +23,18 @@ export default function Signup() {
 			<form className="flex flex-col items-center space-y-2" action={signUp}>
 				<Input className="rounded-full " name="id" type="text"/>
 				<Input className="rounded-full " name="pw" type="password"/>
-				<Button type="submit" className=" rounded-full h-[30px] mt-[10px] w-[120px]"
-				>회원가입</Button>
+				<SubmitButton/>
 			</form>
 		</div>
+	);
+}
+
+
+export function SubmitButton() {
+	const {pending} = useFormStatus();
+	
+	return (
+		<Button type="submit" className=" rounded-full h-[30px] mt-[10px] w-[120px]" disabled={pending}
+		>회원가입</Button>
 	);
 }

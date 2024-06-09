@@ -10,9 +10,7 @@ import Calendar from "@/components/Calendar";
 export default function Home() {
 	const q = useQueryClient();
 	if (!q.getQueryData(['record'])) {
-		console.log("useGetRecord");
 		const {data} = useGetRecord();
-		console.log(data);
 	}
 	return (
 		<PageLayout>
@@ -33,7 +31,7 @@ export default function Home() {
 			</button>
 			<Calendar/>
 			<Main/>
-			
+
 		</PageLayout>
 	);
 }

@@ -3,9 +3,18 @@
 import moment from "moment";
 import {Separator} from "@/components/ui/separator";
 import {useState} from "react";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+import 'moment/locale/ko';
+import dayjs from "dayjs";
+import {Timestamp} from "@firebase/firestore";
+import CommentSection from "@/app/(beforeLogin)/board/[id]/_components/commentSection";
+import Image from "next/image";
 
-export default function Main({post}: { post: any }) {
+export default function Main({post, comments}: { post: any, comments?: any }) {
 	const [postData, setPostData] = useState(post);
+	const [commentsData, setCommentsData] = useState(comments);
+
+	console.log(post);
 
 	return (
 		<div className="border m-2 rounded-md border-b transition-colors data-[state=selected]:bg-muted w-full">
@@ -22,12 +31,22 @@ export default function Main({post}: { post: any }) {
 						<div className="flex p-2">
 							<p className={``} dangerouslySetInnerHTML={{__html: postData.data}}>
 							</p>
+							<div className="text-white stroke-amber-50">
+								<Image
+									src="/icons/eye.svg"
+									alt="view"
+									className="stroke-amber-50"
+									width={20}
+									height={20}
+								/>
+								{postData.views && postData.views}
+							</div>
 						</div>
 					</div>
 				</div>
 				<Separator className="my-4"/>
 				<div>
-					{"댓글 기능은 아직 구현되지 않았습니다."}
+					<CommentSection data={commentsData}/>
 				</div>
 			</article>
 		</div>
