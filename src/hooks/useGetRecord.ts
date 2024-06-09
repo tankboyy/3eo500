@@ -15,6 +15,7 @@ export default function UseGetRecord(day?: Date | string) {
 		return recordData[dayjs(day).format('YYYY-MM-DD')];
 	} else {
 		const selectDate = useRecoilValue(selectDateState);
+		// @ts-ignore
 		return recordData[selectDate];
 	}
 }

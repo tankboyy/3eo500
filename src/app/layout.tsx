@@ -1,9 +1,8 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import {adminApp} from '@/admin';
 import Provider from "@/components/Provider";
 import Header from "@/components/Header";
-import {app} from "@/firebase";
+
 
 export const metadata: Metadata = {
 	title: '매일매일',
@@ -23,7 +22,7 @@ export default async function RootLayout({children}: {
 				{children}
 			</main>
 		</Provider>
-		<footer className="w-full flex justify-center text-sm text-gray-500">
+		<footer className="w-full flex justify-center text-sm text-gray-500 ">
 			운동을 기록해보자
 		</footer>
 		</body>
