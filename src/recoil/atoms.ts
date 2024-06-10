@@ -2,6 +2,7 @@ import {atom, selector} from "recoil";
 import dayjs from "dayjs";
 import {apiBoardType} from "@/utils/types";
 import {User} from "@firebase/auth";
+import {recoilPersist} from "recoil-persist";
 
 export type recordType = {
 	[key: string]: {
@@ -13,10 +14,7 @@ export type recordType = {
 	}
 }
 
-export const recordDataState = atom<recordType>({
-	key: 'recordDataState',
-	default: {}
-});
+const {persistAtom} = recoilPersist();
 
 
 export const selectDateState = atom<string | Date>({
@@ -63,6 +61,7 @@ export type userType = {
 export const userDataState = atom<User | null>({
 	key: 'userDataState',
 	default: null,
+	effects_UNSTABLE: [persistAtom]
 });
 
 export const selectPostState = atom<apiBoardType>({
