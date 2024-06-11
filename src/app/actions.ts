@@ -1,10 +1,10 @@
 'use server';
 
-import {createUserWithEmailAndPassword} from "@firebase/auth";
+import {createUserWithEmailAndPassword, UserCredential} from "@firebase/auth";
 import {useAuth} from "@/firebase";
-import {revalidatePath} from "next/cache";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {redirect, RedirectType} from "next/navigation";
+import {cookies} from "next/headers";
 
 export async function signIn(formData: FormData) {
 	const {id, pw} = {
@@ -15,7 +15,11 @@ export async function signIn(formData: FormData) {
 	if (!id || !pw) return;
 
 	const data = await signInWithEmailAndPassword(useAuth, id, pw)
-		.then((userData) => {
+		.then(async (userData: UserCredential) => {
+			const accessToken = await userData.user.getIdToken();
+			const refreshToken = userData.user.refreshToken;
+			cookies().set('accessToken', accessToken);
+			cookies().set('refreshToken', refreshToken);
 			return userData;
 		})
 		.catch((error) => {
@@ -31,7 +35,11 @@ export async function signUp(queryData: FormData) {
 	};
 	if (!id || !pw) return;
 	const data = await createUserWithEmailAndPassword(useAuth, id, pw)
-		.then((userData) => {
+		.then(async (userData) => {
+			const accessToken = await userData.user.getIdToken();
+			const refreshToken = userData.user.refreshToken;
+			cookies().set('accessToken', accessToken);
+			cookies().set('refreshToken', refreshToken);
 			return userData;
 		})
 		.catch((error) => {
