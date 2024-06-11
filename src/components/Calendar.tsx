@@ -15,33 +15,26 @@ import {
 } from "date-fns";
 import {useRecoilState} from "recoil";
 import {selectorDateState} from "@/recoil/atoms";
-import {useGetRecord} from "@/hooks/record.hooks";
+import {getRecordData, useGetRecord} from "@/hooks/record.hooks";
 import {useQueryClient} from "@tanstack/react-query";
+import {useAuth} from "@/firebase";
 
 export default function Calendar() {
 	const [currentMonth, setCurrentMonth] = useState(new Date());
-	const [slideDirection, setSlideDirection] = useState('');
 	const [selectorDate, setSelectorDate] = useRecoilState(selectorDateState);
-	const query = useQueryClient();
-	const allRecordData = query.getQueryData(['record']);
+	// const getRecord = useGetRecord();
 
+	// console.log('getRecord', getRecord.data);
+
+	getRecordData()
+		.then(data => console.log(data));
 
 	const nextMonth = () => {
-		console.log('nextMonth');
-		setSlideDirection('transform translate-x-full');
-		setTimeout(() => {
-			setCurrentMonth(addMonths(currentMonth, 1));
-			setSlideDirection('');
-		}, 500);
+		setCurrentMonth(addMonths(currentMonth, 1));
 	};
 
 	const prevMonth = () => {
-		console.log('prevMonth');
-		setSlideDirection('transform -translate-x-full');
-		setTimeout(() => {
-			setCurrentMonth(subMonths(currentMonth, 1));
-			setSlideDirection('');
-		}, 500);
+		setCurrentMonth(subMonths(currentMonth, 1));
 	};
 
 
@@ -80,8 +73,8 @@ export default function Calendar() {
 						key={String(day)}
 						onClick={() => onDateClick(cloneDay)}
 					>
+						<span className="text-blue-600 absolute top-0 translate-y-[-30%]">•</span>
 						<span className="z-10">{formattedDate}</span>
-						<span className="absolute text-gray-300 text-2xl">{formattedDate}</span>
 					</div>
 				);
 				day = addDays(day, 1);
@@ -93,7 +86,7 @@ export default function Calendar() {
 			);
 			days = [];
 		}
-		return <div className={`transition-transform duration-500 ${slideDirection}`}>{rows}</div>;
+		return <div className={``}>{rows}</div>;
 	};
 
 	const renderDays = () => {
@@ -131,18 +124,9 @@ export default function Calendar() {
 
 	return (
 		<div className="flex flex-col justify-center border-b-4 pb-[10px] w-full px-[10px] mb-[20px]">
-			<button
-				onClick={() => {
-					setSelectorDate('2022-01-01');
-				}}
-			>asdz
-			</button>
-
 			{renderHeader()}
 			{renderDays()}
-			<div className="overflow-hidden">
-				{renderCells()}
-			</div>
+			{renderCells()}
 		</div>
 
 	);

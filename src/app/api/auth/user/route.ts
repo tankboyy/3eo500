@@ -1,12 +1,11 @@
-import {getAuth} from "@firebase/auth";
-import {app} from "@/firebase";
+import {adminAuth} from "@/admin";
+import {NextRequest} from "next/server";
 
-export async function GET() {
-	const auth = getAuth(app);
-	const user = auth.currentUser;
-	console.log(user);
+export async function GET(request: NextRequest) {
+	console.log('request.cookies.get', request.cookies.get('accessToken')!.value);
 
+	const uid = await adminAuth.verifyIdToken(request.cookies.get('accessToken')!.value);
 	return Response.json({
-		data: "hi"
-	})
+		data: uid.uid
+	});
 }

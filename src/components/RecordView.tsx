@@ -1,6 +1,6 @@
 import {recordDataType} from "@/components/RecordWeight";
 import {useEffect, useRef, useState} from "react";
-import useGetTodayRecord from "@/hooks/useGetRecord";
+import useGetTodayRecord from "@/hooks/hasDataForDate";
 import {useAddRecord} from "@/hooks/useAddRecord";
 import {useRecoilValue} from "recoil";
 import {selectDateState} from "@/recoil/atoms";
