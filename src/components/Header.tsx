@@ -1,29 +1,14 @@
-'use client';
-
 import MobileNav from "@/components/MobileNav";
 import Nav from "@/components/Nav";
 import Link from "next/link";
 import ThemeChanger from "@/components/ThemeChanger";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {userDataState} from "@/recoil/atoms";
-import useCheckAuth from "@/hooks/auth/useCheckAuth";
 import {useAuth} from "@/firebase";
 import {useEffect, useLayoutEffect, useState} from "react";
 
 
 export default function Header() {
-	const [userData, setUserData] = useRecoilState(userDataState);
-	const [isLoading, setIsLoading] = useState(true);
-
-	useEffect(() => {
-		const unsubscribe = useAuth.onAuthStateChanged((user) => {
-			setUserData(user);
-			setIsLoading(false);
-		});
-
-		// Cleanup subscription on unmount
-		return () => unsubscribe();
-	}, []);
 
 	return (
 		<header
@@ -33,7 +18,7 @@ export default function Header() {
 				<Nav/>
 			</div>
 			<div className="flex items-center gap-1">
-				<Link href="/login" className={`${(userData || isLoading) && "hidden"}  text-xs font-medium`}>
+				<Link href="/login" className={`${'' && "hidden"}  text-xs font-medium`}>
 					로그인
 				</Link>
 				<ThemeChanger/>
