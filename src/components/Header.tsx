@@ -3,6 +3,7 @@ import Nav from "@/components/Nav";
 import Link from "next/link";
 import ThemeChanger from "@/components/ThemeChanger";
 import {cookies} from "next/headers";
+import SignOutButton from "@/components/signOutButton";
 
 
 export default function Header() {
@@ -15,9 +16,12 @@ export default function Header() {
 				<Nav/>
 			</div>
 			<div className="flex items-center gap-3">
-				<Link href="/login" className={`${accessToken && "hidden"}  text-xs font-medium`}>
-					로그인
-				</Link>
+				{!accessToken ?
+					<Link href="/login" className={`${accessToken && "hidden"}  text-xs font-medium`}>
+						로그인
+					</Link> :
+					<SignOutButton accessToken={accessToken}/>
+				}
 				<ThemeChanger/>
 			</div>
 		</header>
