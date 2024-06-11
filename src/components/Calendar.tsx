@@ -40,7 +40,6 @@ export default function Calendar() {
 		const endDate = endOfWeek(monthEnd);
 
 		const onDateClick = (day: Date) => {
-			console.log(day, format(day, 'yyyy-MM-dd'));
 			setCurrentMonth(day);
 			setSelectorDate(day);
 		};

@@ -14,7 +14,7 @@ export type recordType = {
 }
 
 
-export const selectDateState = atom<string | Date>({
+export const selectDateState = atom<string>({
 	key: 'selectDateState',
 	default: dayjs().format("YYYY-MM-DD"),
 });
