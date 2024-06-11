@@ -4,20 +4,26 @@ import {adminAuth} from "@/admin";
 export async function middleware(request: NextRequest) {
 
 	const response = NextResponse.next();
+	const accessToken = request.cookies.get('accessToken')?.value;
 
 	// 로그인 페이지일때
 	if (request.nextUrl.pathname.substring((1)) === 'login') {
-		const accessToken = request.cookies.get('accessToken')?.value;
-		// accessToken 이 없으면 그냥 리턴
-		if (!accessToken) return response;
-		return NextResponse.redirect(new URL('/main', request.url));
+		if (accessToken) return NextResponse.redirect(new URL('/main', request.url));
 	}
+
+	if (request.nextUrl.pathname.substring((1)) === 'main') {
+		if (!accessToken) return NextResponse.redirect(new URL('/login', request.url));
+	}
+
+
 	return response;
+
 }
 
 //
 export const config = {
 	matcher: [
-		'/login/:path*'
+		'/login/:path*',
+		'/main'
 	]
 };

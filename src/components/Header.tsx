@@ -14,7 +14,7 @@ export default function Header() {
 				<MobileNav/>
 				<Nav/>
 			</div>
-			<div className="flex items-center gap-1">
+			<div className="flex items-center gap-3">
 				<Link href="/login" className={`${accessToken && "hidden"}  text-xs font-medium`}>
 					로그인
 				</Link>
