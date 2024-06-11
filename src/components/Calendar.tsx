@@ -22,12 +22,7 @@ import {useAuth} from "@/firebase";
 export default function Calendar() {
 	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const [selectorDate, setSelectorDate] = useRecoilState(selectorDateState);
-	// const getRecord = useGetRecord();
-
-	// console.log('getRecord', getRecord.data);
-
-	getRecordData()
-		.then(data => console.log(data));
+	const {data} = useGetRecord();
 
 	const nextMonth = () => {
 		setCurrentMonth(addMonths(currentMonth, 1));
@@ -73,7 +68,8 @@ export default function Calendar() {
 						key={String(day)}
 						onClick={() => onDateClick(cloneDay)}
 					>
-						<span className="text-blue-600 absolute top-0 translate-y-[-30%]">•</span>
+						<span
+							className={`${!data?.[format(cloneDay, 'yyyy-MM-dd')] && 'hidden'} text-blue-600 absolute top-0 translate-y-[-30%]`}>•</span>
 						<span className="z-10">{formattedDate}</span>
 					</div>
 				);
