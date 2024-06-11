@@ -5,6 +5,7 @@ import {useAuth} from "@/firebase";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {redirect, RedirectType} from "next/navigation";
 import {cookies} from "next/headers";
+import {adminAuth} from "@/admin";
 
 export async function signIn(formData: FormData) {
 	const {id, pw} = {
@@ -36,10 +37,10 @@ export async function signUp(queryData: FormData) {
 	if (!id || !pw) return;
 	const data = await createUserWithEmailAndPassword(useAuth, id, pw)
 		.then(async (userData) => {
-			const accessToken = await userData.user.getIdToken();
-			const refreshToken = userData.user.refreshToken;
+			const token = await userData.user.getIdToken();
+			const expiresIn = 60 * 60 * 24 * 1000;
+			const accessToken = await adminAuth.createSessionCookie(token, {expiresIn});
 			cookies().set('accessToken', accessToken);
-			cookies().set('refreshToken', refreshToken);
 			return userData;
 		})
 		.catch((error) => {

@@ -35,7 +35,7 @@ export default function AlreadyRecord({recordData}: Props) {
 	const selectDate = useRecoilValue(selectDateState);
 
 	return (
-		<Card className={cn("max-w-[380px] w-full mb-[20px] flex flex-col justify-center")}>
+		<Card className={cn("w-full mb-[20px] flex flex-col justify-center")}>
 			<CardHeader>
 				<CardTitle>운동 일지</CardTitle>
 				<CardDescription>{selectDate}</CardDescription>
@@ -68,7 +68,7 @@ export default function AlreadyRecord({recordData}: Props) {
 					)}
 				</Accordion>
 			</CardContent>
-			<CardFooter>
+			<CardFooter className="flex justify-center">
 				<RecordWeight/>
 			</CardFooter>
 		</Card>
