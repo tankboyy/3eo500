@@ -1,4 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
+import {adminAuth} from "@/admin";
 
 export async function middleware(request: NextRequest) {
 
@@ -6,27 +7,12 @@ export async function middleware(request: NextRequest) {
 
 	// 로그인 페이지일때
 	if (request.nextUrl.pathname.substring((1)) === 'login') {
-		console.log(request.cookies.getAll());
-		return response;
+		const accessToken = request.cookies.get('accessToken')?.value;
+		// accessToken 이 없으면 그냥 리턴
+		if (!accessToken) return response;
+		return NextResponse.redirect(new URL('/main', request.url));
 	}
-
-//
-// 	if (request.cookies.has('accessToken')) {
-// 		const {data} = await fetch('http://localhost:3000/api/auth/token', {
-// 			method: 'POST',
-// 			headers: {
-// 				'Content-Type': 'application/json',
-// 			},
-// 			body: JSON.stringify({
-// 				accessToken: request.cookies.get('accessToken')?.value
-// 			})
-// 		})
-// 			.then(response => response.json());
-// 		if (Object.keys(data).length === 0) {
-// 			response.cookies.delete('accessToken');
-// 		}
-// 	}
-// 	return response;
+	return response;
 }
 
 //
