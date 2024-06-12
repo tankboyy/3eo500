@@ -74,7 +74,7 @@ export default function RecordWeight() {
 							</div>
 							<ScrollBar orientation="vertical"/>
 						</ScrollArea> :
-						<RecordView recordName={recordName} selectPart={selectPart}/>
+						<RecordView recordName={recordName} selectPart={selectPart} setRecordName={setRecordName}/>
 					}
 				</div>
 			</DrawerContent>

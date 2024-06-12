@@ -1,12 +1,25 @@
 import {adminAuth} from "@/admin";
-import {NextRequest} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
+import {cookies} from "next/headers";
 
 export async function GET(request: NextRequest) {
-	console.log('request.cookies.get', request.cookies.get('accessToken')!.value);
-
-	const uid = await adminAuth.verifyIdToken(request.cookies.get('accessToken')!.value);
-	console.log(uid);
-	return Response.json({
-		data: uid.uid
-	});
+	const response = NextResponse;
+	const accessToken = request.cookies.get('accessToken')?.value ? request.cookies.get('accessToken')?.value : request.headers.get('Authorization')?.replace('Bearer ', '');
+	if (!accessToken) {
+		cookies().delete('accessToken');
+		return response;
+	}
+	return await adminAuth.verifyIdToken(accessToken)
+		.then((decodedToken) => {
+			// sessionStorage.setItem('uid', decodedToken.uid);
+			return response.json({
+				data: decodedToken.uid
+			});
+		})
+		.catch((error) => {
+			cookies().delete('accessToken');
+			return response.json({
+				data: null
+			});
+		});
 }

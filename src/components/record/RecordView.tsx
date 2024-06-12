@@ -8,9 +8,10 @@ import {selectDateState} from "@/recoil/atoms";
 type RecordViewProps = {
 	recordName: string;
 	selectPart: string;
+	setRecordName: any
 
 }
-export default function RecordView({recordName, selectPart}: RecordViewProps) {
+export default function RecordView({recordName, selectPart, setRecordName}: RecordViewProps) {
 	const [recordData, setRecordData] = useState<recordDataType[]>([{
 		reps: 0,
 		weight: 0,
@@ -66,29 +67,24 @@ export default function RecordView({recordName, selectPart}: RecordViewProps) {
 		}
 	};
 
+	const {mutate} = useMutationRecord();
 
 	useEffect(() => {
 		console.log('useEffect');
 		return () => {
 			console.log('unmount');
+			if (recordName && recordData.length > 0) {
+				mutate({selectDate, recordName: recordName, data: recordData});
+			}
 
 		};
 	}, []);
 
-	// function onSaveRecord() {
-	// 	const uid = localStorage.getItem("uid");
-	// 	if (!uid) return;
-	// 	addRecord.mutate({uid, recordName, selectDate: nowDate, data: recordDatas});
-	// }
-
-	const {mutate} = useMutationRecord();
 
 	// const selectDate = useGet
 	function removeSelection() {
-		console.log('removeSelection', recordName, selectPart);
-		console.log(recordData);
-
 		mutate({selectDate, recordName: recordName, data: recordData});
+		setRecordName("");
 	}
 
 	return (
