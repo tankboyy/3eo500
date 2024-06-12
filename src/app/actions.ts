@@ -31,10 +31,10 @@ export async function signIn(_currentState: unknown, formData: FormData) {
 	else return "확인 후 다시 시도해주세요.";
 }
 
-export async function signUp(queryData: FormData) {
+export async function signUp(_currentState: unknown, formData: FormData) {
 	const {id, pw} = {
-		id: queryData.get('id') as string,
-		pw: queryData.get('pw') as string
+		id: formData.get('id') as string,
+		pw: formData.get('pw') as string
 	};
 	if (!id || !pw) return;
 	const data = await createUserWithEmailAndPassword(useAuth, id, pw)
@@ -46,8 +46,10 @@ export async function signUp(queryData: FormData) {
 			return userData;
 		})
 		.catch((error) => {
+			console.log('error', error);
 			return error;
 		});
 	if (data.operationType === "signIn") redirect('/main', RedirectType.push);
+	else return "확인 후 다시 시도해주세요.";
 }
 
