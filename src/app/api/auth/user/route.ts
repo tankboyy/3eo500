@@ -4,9 +4,10 @@ import {cookies} from "next/headers";
 
 export async function GET(request: NextRequest) {
 	const response = NextResponse;
+	console.log('GET');
 	const accessToken = request.cookies.get('accessToken')?.value ? request.cookies.get('accessToken')?.value : request.headers.get('Authorization')?.replace('Bearer ', '');
 	if (!accessToken) {
-		cookies().delete('accessToken');
+		cookies().set('accessToken', '');
 		return response;
 	}
 	return await adminAuth.verifyIdToken(accessToken)
@@ -17,7 +18,9 @@ export async function GET(request: NextRequest) {
 			});
 		})
 		.catch((error) => {
-			cookies().delete('accessToken');
+			console.log('!error');
+
+			cookies().set('accessToken', 'zxczc');
 			return response.json({
 				data: null
 			});

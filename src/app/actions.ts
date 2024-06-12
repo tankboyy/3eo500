@@ -7,7 +7,8 @@ import {redirect, RedirectType} from "next/navigation";
 import {cookies} from "next/headers";
 import {adminAuth} from "@/admin";
 
-export async function signIn(formData: FormData) {
+export async function signIn(_currentState: unknown, formData: FormData) {
+
 	const {id, pw} = {
 		id: formData.get('id') as string,
 		pw: formData.get('pw') as string
@@ -27,6 +28,7 @@ export async function signIn(formData: FormData) {
 			return error;
 		});
 	if (data.operationType === "signIn") redirect('/main', RedirectType.push);
+	else return "확인 후 다시 시도해주세요.";
 }
 
 export async function signUp(queryData: FormData) {

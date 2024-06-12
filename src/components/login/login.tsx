@@ -1,22 +1,21 @@
 'use client';
 
 import {Input} from "@/components/ui/input";
-import {Button} from "@/components/ui/button";
 import {signIn} from "@/app/actions";
-import {getAuth} from "@firebase/auth";
-import {useAuth} from "@/firebase";
 import {SubmitButton} from "@/components/signup/signup";
+import {useFormState} from "react-dom";
 
 export default function Login() {
-	console.log(useAuth.currentUser);
+	const [errorMessage, dispatch] = useFormState(signIn, undefined);
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
 			<span className="text-center text-[24px] text-bold">
 				로그인
 			</span>
-			<form className="flex flex-col items-center space-y-2" action={signIn}>
+			<form className="flex flex-col items-center space-y-2" action={dispatch}>
 				<Input className="rounded-full" name="id" type="text"/>
 				<Input className="rounded-full" name="pw" type="password"/>
+				<div className="text-red-400 text-sm">{errorMessage && <p>{errorMessage}</p>}</div>
 				<SubmitButton submitName="로그인"/>
 			</form>
 		</div>
