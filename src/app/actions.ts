@@ -18,10 +18,10 @@ export async function signIn(_currentState: unknown, formData: FormData) {
 
 	const data = await signInWithEmailAndPassword(useAuth, id, pw)
 		.then(async (userData: UserCredential) => {
-			const accessToken = await userData.user.getIdToken();
-			const refreshToken = userData.user.refreshToken;
+			const token = await userData.user.getIdToken();
+			const expiresIn = 60 * 60 * 24 * 1000;
+			const accessToken = await adminAuth.createSessionCookie(token, {expiresIn});
 			cookies().set('accessToken', accessToken);
-			cookies().set('refreshToken', refreshToken);
 			return userData;
 		})
 		.catch((error) => {
@@ -53,3 +53,7 @@ export async function signUp(_currentState: unknown, formData: FormData) {
 	else return "확인 후 다시 시도해주세요.";
 }
 
+export async function signOut() {
+	cookies().delete('accessToken');
+	redirect('/login', RedirectType.push);
+}

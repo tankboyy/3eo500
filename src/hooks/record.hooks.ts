@@ -6,7 +6,8 @@ import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
 
 export async function getRecordData() {
-	const {data: uid} = await fetch('api/auth/user').then(res => res.json());
+	// const {data: uid} = await fetch('api/auth/user').then(res => res.json());
+	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2';
 	if (!uid) return;
 	return fetch("/api/record", {
 		method: "POST",
