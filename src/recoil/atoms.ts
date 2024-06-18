@@ -36,7 +36,7 @@ function isValidDateFormat(dateString: string) {
 		date.getDate() === parseInt(day);
 }
 
-export const selectorDateState = selector({
+export const selectorDateState = selector<string | Date>({
 	key: 'selectorDate',
 	get: ({get}) => {
 		return get(selectDateState);

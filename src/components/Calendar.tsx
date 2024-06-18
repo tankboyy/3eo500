@@ -16,8 +16,6 @@ import {
 import {useRecoilState} from "recoil";
 import {selectorDateState} from "@/recoil/atoms";
 import {getRecordData, useGetRecord} from "@/hooks/record.hooks";
-import {useQueryClient} from "@tanstack/react-query";
-import {useAuth} from "@/firebase";
 
 export default function Calendar() {
 	const [currentMonth, setCurrentMonth] = useState(new Date());

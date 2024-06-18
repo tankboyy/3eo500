@@ -11,7 +11,7 @@ export default function Main() {
 	const selectDate = useRecoilValue(selectDateState);
 	const todayRecordData = useGetTodayRecord(selectDate);
 
-
+	console.log(todayRecordData);
 	return (
 		<>
 			{
