@@ -1,16 +1,22 @@
 'use client';
 
-import {useSetRecoilState} from "recoil";
-import {userDataState} from "@/recoil/atoms";
+import {useRecoilState, useSetRecoilState} from "recoil";
+import {authState, userDataState} from "@/recoil/atoms";
 import {useEffect} from "react";
-import {useAuth} from "@/firebase";
+import {useRouter} from "next/navigation";
+import Cookies from 'js-cookie';
 
 export default function UseCheckAuth() {
-	const setUser = useSetRecoilState(userDataState);
+	const [auth, setAuth] = useRecoilState(authState);
+	const router = useRouter();
 	useEffect(() => {
-		const check = useAuth.onAuthStateChanged(user => {
-			setUser(user);
-		});
-		return () => check();
-	}, []);
+		if (auth) {
+			setAuth(false);
+			Cookies.set("accessToken", "", {expires: -1});
+			router.push("/login");
+		}
+	}, [auth]);
+	return (
+		<></>
+	);
 }

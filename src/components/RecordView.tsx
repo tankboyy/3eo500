@@ -28,13 +28,14 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 	}] : recordData[selectName]);
 	const recordDatas = useRef(newRecordData);
 	const [recordingState, setRecordingState] = useState(false);
-	const {mutate} = useMutationRecord();
+	const {mutate, isError, error} = useMutationRecord();
 	const nowDate = useRecoilValue(selectDateState);
 	const uid = localStorage.getItem("uid")!;
 
 	useEffect(() => {
 		recordDatas.current = newRecordData;
 	}, [newRecordData]);
+
 
 	useEffect(() => {
 		return () => {

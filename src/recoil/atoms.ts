@@ -50,6 +50,11 @@ export const selectorDateState = selector<string | Date>({
 	}
 });
 
+export const authState = atom<boolean>({
+	key: 'auth',
+	default: false,
+});
+
 export const userDataState = atom<User | null>({
 	key: 'userDataState',
 	default: null,

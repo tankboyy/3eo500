@@ -1,9 +1,11 @@
 import {useQuery, useMutation, useQueryClient} from "@tanstack/react-query";
-import {recordType, selectDateState, userDataState} from "@/recoil/atoms";
+import {authState, recordType, selectDateState, userDataState} from "@/recoil/atoms";
 import {doc, getDoc, updateDoc} from "@firebase/firestore";
 import {db, useAuth} from "@/firebase";
 import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
+import {useRouter} from "next/navigation";
+import {useSetRecoilState} from "recoil";
 
 export async function getRecordData() {
 	// const {data: uid} = await fetch('api/auth/user').then(res => res.json());
@@ -35,12 +37,12 @@ interface UpdateRecordType {
 }
 
 async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
-	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2';
-	if (!uid) return;
-	console.log('updateRecord', selectDate, recordName, data);
+	const res = await fetch("http://localhost:3000/api/auth/user");
+	if (res.status !== 200) throw Error("auth error");
+
+	const {data: uid} = await res.json();
 	const ref = doc(db, "record", uid);
 	const docSnap = await getDoc(doc(db, "record", uid));
-	console.log('docSnap', docSnap.data());
 	let returnData = {};
 	if (docSnap.exists()) {
 		const prevData = docSnap.data();
@@ -59,12 +61,13 @@ async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
 			};
 		}
 	}
-	console.log('returnData', returnData);
 	return await updateDoc(ref, returnData);
 }
 
 export const useMutationRecord = () => {
 	const q = useQueryClient();
+	const setAuth = useSetRecoilState(authState);
+
 	return useMutation({
 		mutationFn: updateRecord,
 		onSuccess: async (data1, variables, context) => {
@@ -83,8 +86,11 @@ export const useMutationRecord = () => {
 			});
 		},
 		onError: (error, context) => {
-			console.log('error', error, context);
 			toast.error("저장에 실패했습니다.");
+			if (error.message === "auth error") {
+				setAuth(true);
+			}
+			return error.message;
 		},
 		onMutate: ({selectDate, recordName, data}: UpdateRecordType) => {
 		}
