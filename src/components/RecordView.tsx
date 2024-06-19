@@ -6,6 +6,7 @@ import {useRecoilValue} from "recoil";
 import {selectDateState} from "@/recoil/atoms";
 import {Input} from "@/components/ui/input";
 import RecordLine from "@/components/RecordLine";
+import {useMutationRecord} from "@/hooks/record.hooks";
 
 type Props = {
 	selectName: string;
@@ -27,7 +28,7 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 	}] : recordData[selectName]);
 	const recordDatas = useRef(newRecordData);
 	const [recordingState, setRecordingState] = useState(false);
-	const {mutation: addRecord} = useAddRecord();
+	const {mutate} = useMutationRecord();
 	const nowDate = useRecoilValue(selectDateState);
 	const uid = localStorage.getItem("uid")!;
 
@@ -37,8 +38,11 @@ export default function RecordView({selectName, recordData = useGetTodayRecord()
 
 	useEffect(() => {
 		return () => {
-			if (recordDatas.current === newRecordData || nowDate) return;
-			addRecord.mutate({uid, recordName: selectName, selectDate: nowDate, data: recordDatas.current});
+			if (recordDatas.current !== newRecordData) mutate({
+				recordName: selectName,
+				selectDate: nowDate,
+				data: recordDatas.current
+			});
 		};
 	}, []);
 

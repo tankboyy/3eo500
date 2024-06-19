@@ -17,6 +17,7 @@ export default function RecordView({recordName, selectPart, setRecordName}: Reco
 		weight: 0,
 		status: false
 	}]);
+
 	const selectDate = useRecoilValue(selectDateState);
 
 
@@ -44,10 +45,6 @@ export default function RecordView({recordName, selectPart, setRecordName}: Reco
 		});
 	};
 
-
-	// function removeSelection() {
-	// 	setRecordName("");
-	// }
 
 	const changeRecords = (action: string) => {
 		if (action === "add") {
