@@ -6,10 +6,17 @@ import {recordDataType} from "@/components/RecordWeight";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
 import {useSetRecoilState} from "recoil";
+import Cookies from "js-cookie";
 
 export async function getRecordData() {
-	// const {data: uid} = await fetch('api/auth/user').then(res => res.json());
-	const uid = 'jZvW9dLKixZnLW5KBXSuPDv59Ip2';
+	const {data: uid} = await fetch('http://localhost:3000/api/auth/user', {
+		method: 'GET',
+		headers: {
+			"Content-Type": "application/json",
+			'Authorization': "Bearer " + Cookies.get('accessToken')
+		}
+	}).then(res => res.json());
+
 	if (!uid) return;
 	return fetch("/api/record", {
 		method: "POST",
@@ -37,7 +44,13 @@ interface UpdateRecordType {
 }
 
 async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
-	const res = await fetch("http://localhost:3000/api/auth/user");
+	const res = await fetch("http://localhost:3000/api/auth/user", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			'Authorization': "Bearer " + Cookies.get('accessToken')
+		}
+	});
 	if (res.status !== 200) throw Error("auth error");
 
 	const {data: uid} = await res.json();

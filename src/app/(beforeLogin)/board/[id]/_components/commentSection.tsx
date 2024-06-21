@@ -8,8 +8,7 @@ import useGetUid from "@/hooks/server/useGetUid";
 export default function CommentSection({data}: any) {
 	const [isOpen, setIsOpen] = useState(false);
 	useEffect(() => {
-
-		console.log(document.cookie.replace(/(?:(?:^|.*;\s*)accessToken\s*=\s*([^;]*).*$)|^.*$/, "$1"));
+		
 	}, []);
 	return (
 		<div>
