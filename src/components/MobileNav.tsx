@@ -4,7 +4,6 @@ import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {HamburgerMenuIcon} from "@radix-ui/react-icons";
 import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
-import useSignOut from "@/hooks/useSignOut";
 import {useRouter} from "next/navigation";
 import {useGetAuthData} from "@/components/providers/AuthProvider";
 import {NavItem, navs} from "@/components/Nav";

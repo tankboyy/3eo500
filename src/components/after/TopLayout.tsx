@@ -14,7 +14,6 @@ import {
 import {useRouter} from "next/navigation";
 import {Separator} from "@/components/ui/separator";
 import {Label} from "@/components/ui/label";
-import useAuthentication from "@/hooks/useAuthentication";
 import useSignOut from "@/hooks/useSignOut";
 import {useGetAuthData} from "../providers/AuthProvider";
 import {useEffect} from "react";

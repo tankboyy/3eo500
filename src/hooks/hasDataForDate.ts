@@ -2,7 +2,7 @@ import {useQueryClient} from "@tanstack/react-query";
 import {useRecoilValue} from "recoil";
 import {recordType, selectDateState} from "@/recoil/atoms";
 import dayjs from "dayjs";
-import {useGetRecord} from "@/hooks/record.hooks";
+import {useGetRecord} from "@/hooks/querys/record.hooks";
 
 export default function HasDataForDate(day?: Date | string) {
 

@@ -5,7 +5,7 @@ import 'moment/locale/ko';
 import moment from "moment";
 import {apiBoardType} from "@/utils/types";
 import {useRouter} from "next/navigation";
-import {useInfinityPosts} from "@/hooks/post.hooks";
+import {useInfinityPosts} from "@/hooks/querys/post.hooks";
 import {useSetRecoilState} from "recoil";
 import {selectPostState} from "@/recoil/atoms";
 import {useEffect, useRef, useState} from "react";

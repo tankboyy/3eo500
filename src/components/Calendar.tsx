@@ -15,7 +15,7 @@ import {
 } from "date-fns";
 import {useRecoilState} from "recoil";
 import {selectorDateState} from "@/recoil/atoms";
-import {getRecordData, useGetRecord} from "@/hooks/record.hooks";
+import {getRecordData, useGetRecord} from "@/hooks/querys/record.hooks";
 
 export default function Calendar() {
 	const [currentMonth, setCurrentMonth] = useState(new Date());

@@ -1,12 +1,11 @@
 import {recordDataType} from "@/components/RecordWeight";
 import {useEffect, useRef, useState} from "react";
 import useGetTodayRecord from "@/hooks/hasDataForDate";
-import {useAddRecord} from "@/hooks/useAddRecord";
 import {useRecoilValue} from "recoil";
 import {selectDateState} from "@/recoil/atoms";
 import {Input} from "@/components/ui/input";
 import RecordLine from "@/components/RecordLine";
-import {useMutationRecord} from "@/hooks/record.hooks";
+import {useMutationRecord} from "@/hooks/querys/record.hooks";
 
 type Props = {
 	selectName: string;

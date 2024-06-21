@@ -1,7 +1,7 @@
 import {Input} from "@/components/ui/input";
 import React, {useEffect, useState} from "react";
 import {recordDataType} from "@/components/RecordWeight";
-import {useMutationRecord} from "@/hooks/record.hooks";
+import {useMutationRecord} from "@/hooks/querys/record.hooks";
 import {useRecoilValue} from "recoil";
 import {selectDateState} from "@/recoil/atoms";
 
