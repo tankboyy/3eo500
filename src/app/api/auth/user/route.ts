@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
 	}
 	return await adminAuth.verifySessionCookie(accessToken)
 		.then((decodedToken) => {
+			console.log(decodedToken.uid);
 			return NextResponse.json({
 				data: decodedToken.uid
 			});

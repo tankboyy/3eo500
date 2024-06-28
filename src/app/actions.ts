@@ -57,3 +57,31 @@ export async function signOut() {
 	cookies().delete('accessToken');
 	redirect('/login', RedirectType.push);
 }
+
+export async function postBoard(_currentState: unknown, formData: FormData, ...props: any[]) {
+
+	const accessToken = cookies().get('accessToken')?.value;
+
+	const {title, data} = {
+		title: formData.get('title') as string,
+		data: formData.get('data') as string
+	};
+
+	console.log(formData, ...props);
+	if (!accessToken) throw new Error('로그인이 필요합니다.');
+	const {data: uid} = await fetch('http://localhost:3000/api/auth/user', {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${accessToken}`,
+			'Content-Type': 'application/json',
+		},
+
+
+	}).then(async res => {
+		if (res.status === 200) return await res.json();
+		cookies().delete('accessToken');
+		redirect('/login', RedirectType.push);
+	});
+
+
+}

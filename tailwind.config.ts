@@ -14,7 +14,9 @@ const config: Config = {
 					'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
 			},
 			"transition-transform": {
-				"transition": "transform 0.5s ease-in-out"
+
+				"transition": "transform 0.5s ease-in-out",
+				width: 100
 			}
 		},
 	},
