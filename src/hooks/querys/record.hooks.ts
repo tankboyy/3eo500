@@ -9,7 +9,7 @@ import {useSetRecoilState} from "recoil";
 import Cookies from "js-cookie";
 
 export async function getRecordData() {
-	const {data: uid} = await fetch('http://localhost:3000/api/auth/user', {
+	const {data: uid} = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth/user', {
 		method: 'GET',
 		headers: {
 			"Content-Type": "application/json",
@@ -44,7 +44,7 @@ interface UpdateRecordType {
 }
 
 async function updateRecord({selectDate, recordName, data}: UpdateRecordType) {
-	const res = await fetch("http://localhost:3000/api/auth/user", {
+	const res = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/user", {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

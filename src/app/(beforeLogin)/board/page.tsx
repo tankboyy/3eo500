@@ -2,7 +2,7 @@ import BoardList from "@/components/board/BoardList";
 import PageLayout from "@/components/PageLayout";
 
 async function getPosts() {
-	return fetch("http://localhost:3000/api/posts", {
+	return fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
 		cache: 'no-store',
 		method: "POST",
 		headers: {

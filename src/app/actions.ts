@@ -69,7 +69,7 @@ export async function postBoard(_currentState: unknown, formData: FormData, ...p
 
 	console.log(formData, ...props);
 	if (!accessToken) throw new Error('로그인이 필요합니다.');
-	const {data: uid} = await fetch('http://localhost:3000/api/auth/user', {
+	const {data: uid} = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth/user', {
 		method: 'GET',
 		headers: {
 			'Authorization': `Bearer ${accessToken}`,

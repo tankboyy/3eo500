@@ -9,12 +9,12 @@ import Progress from "@/components/progress";
 import Main from "@/app/(beforeLogin)/board/[id]/_components/main";
 
 async function getPostData(postId: string) {
-	const response = await fetch(`http://localhost:3000/api/board/${postId}`);
+	const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/board/${postId}`);
 	return response.json();
 }
 
 async function getPostComments(postId: string) {
-	const response = await fetch(`http://localhost:3000/api/board/${postId}/comment`);
+	const response = await fetch(process.env.NEXT_PUBLIC_API_URL + `/board/${postId}/comment`);
 	return response.json();
 }
 

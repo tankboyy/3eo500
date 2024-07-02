@@ -16,7 +16,7 @@ export async function middleware(request: NextRequest) {
 
 	// 방문할때 auth 검증 후 토큰이 필요한 페이지들은 토큰이 없으면 로그인 페이지로 리다이렉트 + nextjs fetch의 raletive
 	if (request.nextUrl.pathname.substring((1)) === 'main') {
-		const res = await fetch('http://localhost:3000/api/auth/user', {
+		const res = await fetch(process.env.NEXT_PUBLIC_API_URL + '/auth/user', {
 			"headers": {
 				"Authorization": `Bearer ${accessToken}`
 			},
