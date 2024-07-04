@@ -3,12 +3,11 @@ import PageLayout from "@/components/PageLayout";
 
 async function getPosts() {
 	return fetch(process.env.NEXT_PUBLIC_API_URL + "/posts", {
-		cache: 'no-store',
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json"
 		},
-		body: JSON.stringify({pageParam: ""})
+		body: JSON.stringify({pageParam: ""}),
 	})
 		.then(async (res) => {
 			const data = await res.json();

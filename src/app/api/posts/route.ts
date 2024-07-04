@@ -6,6 +6,7 @@ import {NextResponse} from "next/server";
 
 export async function POST(request: Request) {
 	const {pageParam} = await request.json();
+	console.log(pageParam);
 	const boardRef = collection(db, "board");
 	const boardSnapshot = pageParam === "" ? query(boardRef, orderBy('createAt', 'desc'), limit(10)) :
 		query(boardRef, orderBy('createAt', 'desc'), limit(10), startAt(await getDoc(doc(boardRef, pageParam))));

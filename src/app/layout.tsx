@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 export const metadata: Metadata = {
 	title: '매일매일',
 	description: '운동, 헬스, 기록, 성취감',
+	
 };
 
 

@@ -4,24 +4,17 @@ import Image from "next/image";
 import 'moment/locale/ko';
 import moment from "moment";
 import {apiBoardType} from "@/utils/types";
-import {useRouter} from "next/navigation";
 import {useInfinityPosts} from "@/hooks/querys/post.hooks";
-import {useSetRecoilState} from "recoil";
-import {selectPostState} from "@/recoil/atoms";
 import {useEffect, useRef, useState} from "react";
 // @ts-ignore
 import {useObserver} from "@/hooks/useObserver";
 import {toast} from "sonner";
-import Progress from "@/components/progress";
 import Link from "next/link";
 
 
 export default function BoardList({postsData}: { postsData: { boardList: apiBoardType[] } }) {
 	const [boardList, setBoardList] = useState<apiBoardType[]>(postsData.boardList);
-	const setPostData = useSetRecoilState(selectPostState);
-	const router = useRouter();
 	const bottomRef = useRef(null);
-
 
 	const {
 		data,

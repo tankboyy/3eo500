@@ -1,14 +1,6 @@
 import {useInfiniteQuery, useQuery} from "@tanstack/react-query";
 import {apiBoardType} from "@/utils/types";
 
-export const useGetPosts = () => {
-	return useQuery({
-		queryKey: ["posts"],
-		queryFn: async () => {
-			return fetch("api/board/write").then((res) => res.json());
-		}
-	});
-};
 
 type useInfinityPostsType = {
 	boardList: apiBoardType[];
@@ -22,7 +14,10 @@ export const useInfinityPosts = () => {
 		getNextPageParam: (prevPage, pages) => {
 			return prevPage.boardList.length === 0 ? "end" : prevPage.boardList[prevPage.boardList.length - 1].id;
 		},
-		staleTime: 300000,
+		staleTime: 60000,
+		// cacheTime: 60000,
+
+
 	});
 };
 

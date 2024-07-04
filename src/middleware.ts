@@ -4,7 +4,6 @@ import {cookies} from "next/headers";
 
 export async function middleware(request: NextRequest) {
 
-	const response = NextResponse.next();
 	const accessToken = request.cookies.get('accessToken')?.value;
 
 
