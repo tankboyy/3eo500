@@ -1,6 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
-import {adminApp, adminAuth} from "@/admin";
-import {cookies} from "next/headers";
+import {match} from "path-to-regexp";
 
 export async function middleware(request: NextRequest) {
 
@@ -24,12 +23,19 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL('/login', request.url));
 		}
 	}
+
+
+	// isMatch(request.nextUrl.pathname, config.matcher)
+
 }
 
-//
+function isMatch(pathname: string, urls: string[]) {
+	return urls.some(url => !!match(url)(pathname));
+}
+
 export const config = {
 	matcher: [
 		'/login/:path*',
-		'/main'
+		'/main',
 	]
 };

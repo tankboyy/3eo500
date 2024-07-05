@@ -85,3 +85,7 @@ export async function postBoard(_currentState: unknown, formData: FormData, ...p
 
 
 }
+
+export async function deleteCookie(name: string) {
+	cookies().get(name) && cookies().delete(name);
+}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import ThemeChanger from "@/components/ThemeChanger";
 import {cookies} from "next/headers";
 import SignOutButton from "@/components/signOutButton";
+import useGetUid from "@/hooks/server/useGetUid";
 
 
 export default async function Header() {
