@@ -7,7 +7,7 @@ import {redirect, RedirectType} from "next/navigation";
 import {cookies} from "next/headers";
 import {adminAuth} from "@/admin";
 
-export async function signIn(_currentState: unknown, formData: FormData) {
+export async function signInAction(_currentState: unknown, formData: FormData) {
 
 	const {id, pw} = {
 		id: formData.get('id') as string,
@@ -53,10 +53,6 @@ export async function signUp(_currentState: unknown, formData: FormData) {
 	else return "확인 후 다시 시도해주세요.";
 }
 
-export async function signOut() {
-	cookies().delete('accessToken');
-	redirect('/login', RedirectType.push);
-}
 
 export async function postBoard(_currentState: unknown, formData: FormData, ...props: any[]) {
 
@@ -89,3 +85,4 @@ export async function postBoard(_currentState: unknown, formData: FormData, ...p
 export async function deleteCookie(name: string) {
 	cookies().get(name) && cookies().delete(name);
 }
+

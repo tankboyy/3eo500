@@ -1,12 +1,12 @@
 'use client';
 
 import {Input} from "@/components/ui/input";
-import {signIn} from "@/app/actions";
+import {signInAction} from "@/app/actions";
 import {SubmitButton} from "@/components/signup/signup";
 import {useFormState} from "react-dom";
 
 export default function Login() {
-	const [errorMessage, dispatch] = useFormState(signIn, undefined);
+	const [errorMessage, dispatch] = useFormState(signInAction, undefined);
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
 			<span className="text-center text-[24px] text-bold">

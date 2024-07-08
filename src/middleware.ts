@@ -1,6 +1,5 @@
 import {NextRequest, NextResponse} from "next/server";
 import {match} from "path-to-regexp";
-import {getSession} from "next-auth/react";
 
 export async function middleware(request: NextRequest) {
 
@@ -37,6 +36,7 @@ export async function middleware(request: NextRequest) {
 	// isMatch(request.nextUrl.pathname, config.matcher)
 
 }
+
 
 function isMatch(pathname: string, urls: string[]) {
 	return urls.some(url => !!match(url)(pathname));

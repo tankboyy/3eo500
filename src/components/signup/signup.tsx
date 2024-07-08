@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {signIn, signUp} from "@/app/actions";
+import {signInAction, signUp} from "@/app/actions";
 import {useFormState, useFormStatus} from "react-dom";
 
 export default function Signup() {

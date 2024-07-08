@@ -2,18 +2,20 @@ import type {Metadata} from 'next';
 import './globals.css';
 import Provider from "@/components/Provider";
 import Header from "@/components/Header";
+import {auth} from "@/auth";
 
 
 export const metadata: Metadata = {
 	title: '매일매일',
 	description: '운동, 헬스, 기록, 성취감',
-	
+
 };
 
 
 export default async function RootLayout({children}: {
 	children: React.ReactNode
 }) {
+	console.log("zzz", await auth(), 'zzz');
 	return (
 		<html lang="ko">
 		<body className="">
