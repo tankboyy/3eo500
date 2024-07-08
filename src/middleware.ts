@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from "next/server";
 import {match} from "path-to-regexp";
+import {getSession} from "next-auth/react";
 
 export async function middleware(request: NextRequest) {
 
@@ -23,6 +24,14 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL('/login', request.url));
 		}
 	}
+
+	// if (isMatch(request.nextUrl.pathname, config.matcher)) {
+	// 	return (await getSession()) // 세션 정보 확인
+	// 		? NextResponse.next()
+	// 		: NextResponse.redirect(new URL('/signin', request.url));
+	// 	// : NextResponse.redirect(new URL(`/signin?callbackUrl=${request.url}`, request.url))
+	// }
+	// return NextResponse.next();
 
 
 	// isMatch(request.nextUrl.pathname, config.matcher)
