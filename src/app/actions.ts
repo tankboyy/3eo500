@@ -29,6 +29,7 @@ export async function signInAction(_currentState: unknown, formData: FormData) {
 		});
 	if (data.operationType === "signIn") redirect('/main', RedirectType.push);
 	else return "확인 후 다시 시도해주세요.";
+
 }
 
 export async function signUp(_currentState: unknown, formData: FormData) {

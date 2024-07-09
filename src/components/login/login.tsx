@@ -5,10 +5,10 @@ import {signInAction} from "@/app/actions";
 import {SubmitButton} from "@/components/signup/signup";
 import {useFormState} from "react-dom";
 import {signIn} from "@/auth";
-import {signInWithKakao, signInWithNaver} from "@/serverActions/auth";
+import {signInWithCredentials, signInWithKakao, signInWithNaver} from "@/serverActions/auth";
 
 export default function Login() {
-	const [errorMessage, dispatch] = useFormState(signInAction, undefined);
+	const [errorMessage, dispatch] = useFormState(signInWithCredentials, undefined);
 	return (
 		<div className="flex flex-col items-center justify-center m-auto">
 			<span className="text-center text-[24px] text-bold">

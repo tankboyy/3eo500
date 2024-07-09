@@ -5,10 +5,12 @@ import ThemeChanger from "@/components/ThemeChanger";
 import {cookies} from "next/headers";
 import SignOutButton from "@/components/signOutButton";
 import useGetUid from "@/hooks/server/useGetUid";
+import {auth, signOut} from "@/auth";
+import {signOutWithForm} from "@/serverActions/auth";
 
 
 export default async function Header() {
-	const accessToken = cookies().get('accessToken')?.value;
+	const session = await auth();
 	return (
 		<header
 			className="h-14 px-5 sticky top-0 z-50 w-full border-b flex justify-between items-center bg-background dark:border-border">
@@ -17,11 +19,16 @@ export default async function Header() {
 				<Nav/>
 			</div>
 			<div className="flex items-center gap-3">
-				{!accessToken ?
-					<Link href="/login" className={`${accessToken && "hidden"}  text-xs font-medium`}>
+				{!session ?
+					<Link href="/login" className={`${session && "hidden"}  text-xs font-medium`}>
 						로그인
 					</Link> :
-					<SignOutButton accessToken={accessToken}/>
+					<button className="text-xs font-medium" onClick={async () => {
+						'use server';
+						signOutWithForm;
+					}}>
+						로그아웃
+					</button>
 				}
 				<ThemeChanger/>
 			</div>
