@@ -8,13 +8,19 @@ export const signInWithCredentials = async (formData: FormData) => {
 	});
 	// ...
 };
-export const signInWithGoogle = async (formData: FormData) => {
+export const signInWith = async (formData: FormData) => {
 	await signIn('google', formData);
 	// ...
 };
 export const signInWithGitHub = async (formData: FormData) => {
 	await signIn('github', formData);
 	// ...
+};
+export const signInWithKakao = async () => {
+	await signIn("kakao");
+};
+export const signInWithNaver = async () => {
+	await signIn("naver");
 };
 export const signOutWithForm = async (formData: FormData) => {
 	await signOut();
