@@ -66,7 +66,7 @@ export default function Calendar() {
 						onClick={() => onDateClick(cloneDay)}
 					>
 						<span
-							className={`${!data?.[format(cloneDay, 'yyyy-MM-dd')] && 'hidden'} text-blue-600 absolute top-0 translate-y-[-30%]`}>•</span>
+							className={`${!data?.[format(cloneDay, 'yyyy-MM-dd')] && 'hidden'} text-[18px] text-blue-500 absolute top-0 translate-y-[-30%]`}>•</span>
 						<span className="z-10">{formattedDate}</span>
 					</div>
 				);
