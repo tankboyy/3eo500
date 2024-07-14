@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@firebase/auth": "^1.7.3",
+    "@jacobkim/oauth4webapi": "^2.10.4",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -62,5 +63,8 @@
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
+  },
+  "resolutions": {
+    "oauth4webapi": "npm:@jacobkim/oauth4webapi@^2.10.4"
   }
 }

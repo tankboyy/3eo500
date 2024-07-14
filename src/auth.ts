@@ -53,7 +53,8 @@ export const {
 						};
 					})
 					.catch((error) => {
-						return null;
+						console.log("error");
+						throw new Error("로그인 실패");
 					});
 			}
 		})
@@ -68,9 +69,13 @@ export const {
 	},
 
 	callbacks: {
-		signIn: async ({credentials}) => {
-			console.log('signIn');
-			return true;
+		signIn: async ({credentials, account, profile}) => {
+			console.log('signIn', credentials);
+			if (account?.provider) {
+				console.log('signIn', account.provider);
+				console.log(profile);
+			}
+			return "update";
 		},
 		jwt: async ({token, user}: {
 			user: ExtendedUser
@@ -83,6 +88,7 @@ export const {
 			return {...session, accessToken: token.accessToken};
 		},
 		redirect: async ({url, baseUrl}) => {
+			console.log('redirect', url, baseUrl);
 			console.log('redirect', url.startsWith(baseUrl) ? url : baseUrl);
 			return url.startsWith(baseUrl) ? url : baseUrl;
 		},

@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 import {match} from "path-to-regexp";
 
 export async function middleware(request: NextRequest) {
-
+	// console.log("url:: ", request.url);
 	const accessToken = request.cookies.get('accessToken')?.value;
 
 
@@ -22,6 +22,14 @@ export async function middleware(request: NextRequest) {
 		if (res.status === 401 || res.status === 201) {
 			return NextResponse.redirect(new URL('/login', request.url));
 		}
+	}
+
+	if (isMatch(request.nextUrl.pathname, ['/api/auth/callback/naver'])) {
+		console.log(request);
+		console.log('naver login');
+		// if (!accessToken) {
+		// 	return NextResponse.redirect(new URL('/login', request.url));
+		// }
 	}
 
 	// if (isMatch(request.nextUrl.pathname, config.matcher)) {
@@ -44,7 +52,9 @@ function isMatch(pathname: string, urls: string[]) {
 
 export const config = {
 	matcher: [
-		'/login/:path*',
-		'/main',
+		// '/login/:path*',
+		// '/main',
+		// 모든 페이지
+		'/:path*'
 	]
 };
